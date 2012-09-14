@@ -5,7 +5,7 @@ module Coveralls
 		require 'rest_client'
 
 		# API_BASE = "http://coveralls.dev/api/ruby"
-		API_BASE = "http://coveralls.herokuapp.com/ruby"
+		API_BASE = "http://coveralls.herokuapp.com/api/ruby"
 
 		def self.post_json(endpoint, hash)
 			url = endpoint_to_url(endpoint)
