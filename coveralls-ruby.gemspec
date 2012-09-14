@@ -15,5 +15,5 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Coveralls::VERSION
 
-  gem.add_dependency 'httparty'
+  gem.add_dependency 'rest-client'
 end
