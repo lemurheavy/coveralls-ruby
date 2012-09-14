@@ -14,4 +14,6 @@ Gem::Specification.new do |gem|
   gem.name          = "coveralls"
   gem.require_paths = ["lib"]
   gem.version       = Coveralls::VERSION
+
+  gem.add_dependency 'httparty'
 end

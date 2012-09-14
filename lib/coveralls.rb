@@ -1,5 +1,3 @@
 require "coveralls/version"
-
-module Coveralls
-
-end
+require "coveralls/api"
+require "coveralls/simplecov"
