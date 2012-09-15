@@ -16,4 +16,7 @@ Gem::Specification.new do |gem|
   gem.version       = Coveralls::VERSION
 
   gem.add_dependency 'rest-client'
+
+  gem.add_development_dependency 'rspec'
+
 end
