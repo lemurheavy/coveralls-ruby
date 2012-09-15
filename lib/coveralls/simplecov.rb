@@ -7,7 +7,7 @@ module Coveralls
         # Fail early if we're not on Travis
         unless ENV["TRAVIS"]
           puts "Coveralls currently only supports the Travis CI environment.".yellow
-          return
+          return false
         end
 
         # Gather the source files.
@@ -21,6 +21,8 @@ module Coveralls
 
         # Tell the world!
         puts output_message(result).green
+
+        true
 
       rescue Exception => e 
         puts "Coveralls encountered an exception:".red
