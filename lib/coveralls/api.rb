@@ -9,9 +9,7 @@ module Coveralls
 
 		def self.post_json(endpoint, hash)
 			url = endpoint_to_url(endpoint)
-			puts "Coveralls posting to url: #{url}"
 			RestClient.post(url, :json_file => hash_to_file(hash))
-			puts "...posted."
 		end
 
 		private
