@@ -26,7 +26,7 @@ module Coveralls
 		end
 
 		def self.apified_hash hash
-			hash.merge(travis_job_id: ENV['TRAVIS_JOB_ID'])
+			hash.merge(configuration: Coveralls::Configuration.configuration)
 		end
 	
 	end
