@@ -17,7 +17,7 @@ module Coveralls
     end
 
     def self.root
-      rails_root || pwd
+      pwd
     end
 
     def self.pwd
@@ -29,7 +29,7 @@ module Coveralls
     end
 
     def self.rails_root
-      Rails.root
+      Rails.root.to_s
     rescue
       nil
     end
