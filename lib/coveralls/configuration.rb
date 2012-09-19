@@ -2,7 +2,6 @@ module Coveralls
   module Configuration
 
     require 'yaml'
-    require 'grit'
 
     def self.configuration
       hash = nil
@@ -35,34 +34,34 @@ module Coveralls
     end
 
     def self.git
-      repo = Grit::Repo.new(root)
-      head = Grit::Head.current(repo)
-
       hash = {}
+ 
+      Dir.chdir(root) do
 
-      if head
-        hash[:head] = {id: head.commit.id, message: head.commit.message}
-        hash[:branch] = head.name
-      end
+        hash[:head] = {
+          id: `git log -1 --pretty=format:'%H'`, 
+          author_name: `git log -1 --pretty=format:'%aN'`,
+          author_email: `git log -1 --pretty=format:'%ae'`,
+          committer_name: `git log -1 --pretty=format:'%cN'`,
+          committer_email: `git log -1 --pretty=format:'%ce'`,
+          message: `git log -1 --pretty=format:'%s'`
+        }
 
-      #remotes
-      remotes = nil
-      begin
-        Dir.chdir(root) do
-          remotes = `git remote -v`.split(/\n/).map do |remote|
-            splits = remote.split(" ").compact
-            {name: splits[0], url: splits[1]}
-          end.uniq
+        # Branch
+        branch = `git branch`.split("\n").delete_if { |i| i[0] != "*" }
+        hash[:branch] = [branch].flatten.first.gsub("* ","")
+
+        # Remotes
+        remotes = nil
+        begin
+            remotes = `git remote -v`.split(/\n/).map do |remote|
+              splits = remote.split(" ").compact
+              {name: splits[0], url: splits[1]}
+            end.uniq
+        rescue
         end
-      rescue
-      end
-      hash[:remotes] = remotes
+        hash[:remotes] = remotes
 
-      begin
-        Dir.chdir(root) do
-          hash[:show_refs] = `git show-ref`.split(/\n/)
-        end 
-      rescue
       end
 
       hash
@@ -74,7 +73,7 @@ module Coveralls
     end
 
     def self.relevant_env
-      {travis_job_id: ENV['TRAVIS_JOB_ID'], pwd: self.pwd, rails_root: self.rails_root, simplecov_root: simplecov_root, gem_version: VERSION, dump: ENV.to_hash}
+      {travis_job_id: ENV['TRAVIS_JOB_ID'], travis_pull_request: ENV['TRAVIS_PULL_REQUEST'], pwd: self.pwd, rails_root: self.rails_root, simplecov_root: simplecov_root, gem_version: VERSION}
     end
 
   end
