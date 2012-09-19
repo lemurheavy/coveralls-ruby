@@ -38,10 +38,17 @@ module Coveralls
       repo = Grit::Repo.new(root)
       head = Grit::Head.current(repo)
 
+      hash = {}
+
+      if head
+        hash[:head] = {id: head.commit.id, message: head.commit.message}
+        hash[:branch] = head.name
+      end
+
       #remotes
       remotes = nil
       begin
-        Dir.chdir(repo.git.git_dir) do
+        Dir.chdir(root) do
           remotes = `git remote -v`.split(/\n/).map do |remote|
             splits = remote.split(" ").compact
             {name: splits[0], url: splits[1]}
@@ -49,8 +56,17 @@ module Coveralls
         end
       rescue
       end
+      hash[:remotes] = remotes
 
-      {head: {id: head.commit.id, message: head.commit.message}, branch: head.name, remotes: remotes}
+      begin
+        Dir.chdir(root) do
+          hash[:show_refs] = `git show-ref`.split(/\n/)
+        end 
+      rescue
+      end
+
+      hash
+
     rescue Exception => e
       puts "Coveralls git error:".red
       puts e.to_s.red
@@ -58,7 +74,7 @@ module Coveralls
     end
 
     def self.relevant_env
-      {travis_job_id: ENV['TRAVIS_JOB_ID'], pwd: self.pwd, rails_root: self.rails_root, simplecov_root: simplecov_root, gem_version: VERSION}
+      {travis_job_id: ENV['TRAVIS_JOB_ID'], pwd: self.pwd, rails_root: self.rails_root, simplecov_root: simplecov_root, gem_version: VERSION, dump: ENV.to_hash}
     end
 
   end
