@@ -21,12 +21,14 @@ module Coveralls
 		def self.hash_to_file(hash)
 			hash = apified_hash hash
 			file = Tempfile.new(['coveralls-upload', 'json'])
+			puts hash.to_json
+			raise
 			file.write hash.to_json
 			File.new(file.path, 'rb')
 		end
 
 		def self.apified_hash hash
-			hash.merge(configuration: Coveralls::Configuration.configuration)
+			hash.merge(Coveralls::Configuration.configuration)
 		end
 	
 	end
