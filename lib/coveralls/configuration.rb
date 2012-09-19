@@ -5,19 +5,33 @@ module Coveralls
     require 'grit'
 
     def self.configuration
-      hash = {}
-      if File.exists?(self.configuration_path)
+      hash = nil
+      if self.configuration_path && File.exists?(self.configuration_path)
         hash = YAML::load_file(self.configuration_path)
       end
-      {configuration: hash.merge(root: self.root, gem_version: VERSION, env: self.relevant_env), git: git}
+      {environment: self.relevant_env, configuration: hash, git: git}
     end
 
     def self.configuration_path
-      File.expand_path File.join self.root, ".coveralls.yml"
+      File.expand_path(File.join(self.root, ".coveralls.yml")) if self.root
     end
 
     def self.root
+      rails_root || pwd
+    end
+
+    def self.pwd
+      Dir.pwd
+    end
+
+    def self.simplecov_root
       ::SimpleCov.root
+    end
+
+    def self.rails_root
+      Rails.root
+    rescue
+      nil
     end
 
     def self.git
@@ -44,7 +58,7 @@ module Coveralls
     end
 
     def self.relevant_env
-      {travis_job_id: ENV['TRAVIS_JOB_ID']}
+      {travis_job_id: ENV['TRAVIS_JOB_ID'], pwd: self.pwd, rails_root: self.rails_root, simplecov_root: simplecov_root, gem_version: VERSION}
     end
 
   end
