@@ -4,11 +4,7 @@ module Coveralls
 
       def format(result)
 
-        # Fail early if we're not on Travis
-        unless ENV["TRAVIS"]
-          puts "Coveralls currently only supports the Travis CI environment.".yellow
-          return false
-        end
+        return unless Coveralls.should_run?
 
         # Gather the source files.
         sources = {}

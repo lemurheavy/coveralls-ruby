@@ -18,6 +18,10 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'rest-client'
   gem.add_dependency 'colorize'
 
+  if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new("1.9")
+    gem.add_dependency 'simplecov'
+  end
+
   gem.add_development_dependency 'rspec'
   gem.add_development_dependency 'rake'
 
