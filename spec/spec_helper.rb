@@ -1,5 +1,6 @@
-require_relative "../lib/coveralls"
+require 'coveralls'
 
+# Inception!
 Coveralls.wear!
 
 RSpec.configure do |config|
