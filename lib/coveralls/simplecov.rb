@@ -27,6 +27,9 @@ module Coveralls
       rescue Exception => e 
         puts "Coveralls encountered an exception:".red
         puts e.to_s.red
+        if e.response
+          puts e.response.to_s.red
+        end
       end
 
       def output_message(result)
