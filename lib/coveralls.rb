@@ -8,28 +8,38 @@ require "coveralls/simplecov"
 module Coveralls
 
   def self.wear!
+    setup!
+    start!
+  end
+
+  def self.setup!
 
     # Try to load up SimpleCov.
-    adapter = nil
+    @@adapter = nil
     if defined?(::SimpleCov)
       adapter = :simplecov
     else
       begin
         require 'simplecov'
-        adapter = :simplecov if defined?(::SimpleCov)
+        @@adapter = :simplecov if defined?(::SimpleCov)
       rescue
       end
     end
 
     # Load the appropriate adapter.
-    if adapter == :simplecov
-      ::SimpleCov.start
+    if @@adapter == :simplecov
       ::SimpleCov.formatter = Coveralls::SimpleCov::Formatter
       puts "Coveralls is using the SimpleCov formatter.".green
     else
       puts "Coveralls couldn't find an appropriate adapter.".red
     end
 
+  end
+
+  def self.start!
+    if @@adapter == :simplecov
+      ::SimpleCov.start
+    end
   end
 
   def self.should_run?
