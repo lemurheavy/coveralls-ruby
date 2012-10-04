@@ -1,8 +1,6 @@
-require 'simplecov'
 require_relative "../lib/coveralls"
 
-SimpleCov.start
-SimpleCov.formatter = Coveralls::SimpleCov::Formatter
+Coveralls.wear!
 
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
