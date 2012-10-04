@@ -13,7 +13,7 @@ module Coveralls
         end
 
         # Post to Coveralls.
-        API.post_json "simplecov", {simplecov: result.to_hash, sources: sources}
+        API.post_json "simplecov", {:simplecov => result.to_hash, :sources => sources}
 
         # Tell the world!
         puts output_message(result).green

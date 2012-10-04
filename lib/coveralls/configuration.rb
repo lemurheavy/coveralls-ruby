@@ -8,7 +8,7 @@ module Coveralls
       if self.configuration_path && File.exists?(self.configuration_path)
         hash = YAML::load_file(self.configuration_path)
       end
-      {environment: self.relevant_env, configuration: hash, git: git}
+      {:environment => self.relevant_env, :configuration => hash, :git => git}
     end
 
     def self.configuration_path
@@ -39,12 +39,12 @@ module Coveralls
       Dir.chdir(root) do
 
         hash[:head] = {
-          id: `git log -1 --pretty=format:'%H'`, 
-          author_name: `git log -1 --pretty=format:'%aN'`,
-          author_email: `git log -1 --pretty=format:'%ae'`,
-          committer_name: `git log -1 --pretty=format:'%cN'`,
-          committer_email: `git log -1 --pretty=format:'%ce'`,
-          message: `git log -1 --pretty=format:'%s'`
+          :id => `git log -1 --pretty=format:'%H'`, 
+          :author_name => `git log -1 --pretty=format:'%aN'`,
+          :author_email => `git log -1 --pretty=format:'%ae'`,
+          :committer_name => `git log -1 --pretty=format:'%cN'`,
+          :committer_email => `git log -1 --pretty=format:'%ce'`,
+          :message => `git log -1 --pretty=format:'%s'`
         }
 
         # Branch
@@ -54,10 +54,10 @@ module Coveralls
         # Remotes
         remotes = nil
         begin
-            remotes = `git remote -v`.split(/\n/).map do |remote|
-              splits = remote.split(" ").compact
-              {name: splits[0], url: splits[1]}
-            end.uniq
+          remotes = `git remote -v`.split(/\n/).map do |remote|
+            splits = remote.split(" ").compact
+            {:name => splits[0], :url => splits[1]}
+          end.uniq
         rescue
         end
         hash[:remotes] = remotes
@@ -73,7 +73,14 @@ module Coveralls
     end
 
     def self.relevant_env
-      {travis_job_id: ENV['TRAVIS_JOB_ID'], travis_pull_request: ENV['TRAVIS_PULL_REQUEST'], pwd: self.pwd, rails_root: self.rails_root, simplecov_root: simplecov_root, gem_version: VERSION}
+      {
+        :travis_job_id => ENV['TRAVIS_JOB_ID'], 
+        :travis_pull_request => ENV['TRAVIS_PULL_REQUEST'], 
+        :pwd => self.pwd, 
+        :rails_root => self.rails_root, 
+        :simplecov_root => simplecov_root,
+        :gem_version => VERSION
+      }
     end
 
   end
