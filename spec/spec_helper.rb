@@ -1,7 +1,7 @@
 require 'simplecov'
 require_relative "../lib/coveralls"
 
-SimpleCov.start 'rails'
+SimpleCov.start
 SimpleCov.formatter = Coveralls::SimpleCov::Formatter
 
 RSpec.configure do |config|

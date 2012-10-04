@@ -20,8 +20,11 @@ module Coveralls
 
 		def self.hash_to_file(hash)
 			hash = apified_hash hash
-			file = Tempfile.new(['coveralls-upload', 'json'])
-			file.write hash.to_json
+			file = nil
+			Tempfile.open(['coveralls-upload', 'json']) do |f|
+				f.write(hash.to_json.to_s)
+				file = f
+			end
 			File.new(file.path, 'rb')
 		end
 
