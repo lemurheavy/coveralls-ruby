@@ -17,7 +17,7 @@ module Coveralls
     # Try to load up SimpleCov.
     @@adapter = nil
     if defined?(::SimpleCov)
-      adapter = :simplecov
+      @@adapter = :simplecov
     else
       begin
         require 'simplecov'
