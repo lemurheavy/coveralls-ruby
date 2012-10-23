@@ -7,16 +7,42 @@ module Coveralls
         return unless Coveralls.should_run?
 
         # Gather the source files.
-        sources = {}
+        source_files = []
         result.files.each do |file|
-          sources[file.filename] = File.open(file.filename, "rb").read
+          properties = {}
+
+          # Get Source
+          properties[:source] = File.open(file.filename, "rb").read
+
+          # Get the root-relative filename
+          filename = file.filename
+          filename = filename.gsub(::SimpleCov.root, '.').gsub(/^\.\//, '') if ::SimpleCov.root
+          properties[:name] = filename
+
+          # Get the coverage
+          properties[:coverage] = file.coverage
+
+          # Get the group
+          # puts "result groups: #{result.groups}"
+          # result.groups.each do |group_name, grouped_files|
+          #   puts "Checking #{grouped_files.map(&:filename)} for #{file.filename}"
+          #   if grouped_files.map(&:filename).include?(file.filename)
+          #     properties[:group] = group_name
+          #     break
+          #   end
+          # end
+
+          source_files << properties
         end
 
-        # Post to Coveralls.
-        API.post_json "simplecov", {:simplecov => result.to_hash, :sources => sources}
+        # Log which files are being submitted.
+        # puts "Submitting #{source_files.length} file#{source_files.length == 1 ? '' : 's'}:"
+        # source_files.each do |f|
+        #   puts "  => #{f[:name]}"
+        # end
 
-        # Tell the world!
-        puts output_message(result).green
+        # Post to Coveralls.
+        API.post_json "jobs", {:source_files => source_files, :test_framework => result.command_name.downcase, :run_at => result.created_at}
 
         true
 

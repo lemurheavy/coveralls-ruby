@@ -38,7 +38,11 @@ module Coveralls
 
   def self.start!
     if @@adapter == :simplecov
-      ::SimpleCov.start
+      if defined?(::Rails)
+        ::SimpleCov.start('rails')
+      else
+        ::SimpleCov.start
+      end
     end
   end
 

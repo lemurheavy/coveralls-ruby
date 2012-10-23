@@ -4,11 +4,13 @@ module Coveralls
 		require 'json'
 		require 'rest_client'
 
-		# API_BASE = "http://coveralls.dev/api/ruby"
-		API_BASE = "http://coveralls.herokuapp.com/api/ruby"
+		# API_BASE = "http://coveralls.dev/api/v1"
+		API_BASE = "http://coveralls.herokuapp.com/api/v1"
 
 		def self.post_json(endpoint, hash)
 			url = endpoint_to_url(endpoint)
+			# puts JSON.pretty_generate(hash).green
+			hash = apified_hash hash
 			RestClient.post(url, :json_file => hash_to_file(hash))
 		end
 
@@ -19,7 +21,6 @@ module Coveralls
 		end
 
 		def self.hash_to_file(hash)
-			hash = apified_hash hash
 			file = nil
 			Tempfile.open(['coveralls-upload', 'json']) do |f|
 				f.write(hash.to_json.to_s)

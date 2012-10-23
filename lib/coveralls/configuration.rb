@@ -4,11 +4,21 @@ module Coveralls
     require 'yaml'
 
     def self.configuration
-      hash = nil
+      yaml_config = nil
       if self.configuration_path && File.exists?(self.configuration_path)
-        hash = YAML::load_file(self.configuration_path)
+        yaml_config = YAML::load_file(self.configuration_path)
       end
-      {:environment => self.relevant_env, :configuration => hash, :git => git}
+      config = {
+        :environment => self.relevant_env, 
+        :configuration => yaml_config, 
+        :repo_token => yaml_config['repo_secret_token'],
+        :git => git
+      }
+      if ENV['TRAVIS']
+        config[:service_job_id] = ENV['TRAVIS_JOB_ID']
+        config[:service_name]   = yaml_config['service_name'] || 'travis-ci'
+      end
+      config
     end
 
     def self.configuration_path
