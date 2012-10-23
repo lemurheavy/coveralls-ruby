@@ -11,12 +11,12 @@ module Coveralls
       config = {
         :environment => self.relevant_env, 
         :configuration => yaml_config, 
-        :repo_token => yaml_config['repo_secret_token'],
+        :repo_token => yaml_config ? yaml_config['repo_secret_token'] : nil,
         :git => git
       }
       if ENV['TRAVIS']
         config[:service_job_id] = ENV['TRAVIS_JOB_ID']
-        config[:service_name]   = yaml_config['service_name'] || 'travis-ci'
+        config[:service_name]   = (yaml_config ? yaml_config['service_name'] : nil) || 'travis-ci'
       end
       config
     end
