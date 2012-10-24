@@ -7,9 +7,9 @@ require "coveralls/simplecov"
 
 module Coveralls
 
-  def self.wear!
+  def self.wear!(simplecov_setting = nil)
     setup!
-    start!
+    start!(simplecov_setting)
   end
 
   def self.setup!
@@ -36,11 +36,11 @@ module Coveralls
 
   end
 
-  def self.start!
+  def self.start!(simplecov_setting = nil)
     if @@adapter == :simplecov
-      if defined?(::Rails)
-        puts "[Coveralls] Using SimpleCov's Rails settings.".green
-        ::SimpleCov.start('rails')
+      if simplecov_setting
+        puts "[Coveralls] Using SimpleCov's '#{simplecov_setting}' settings.".green
+        ::SimpleCov.start(simplecov_setting)
       else
         ::SimpleCov.start
       end
