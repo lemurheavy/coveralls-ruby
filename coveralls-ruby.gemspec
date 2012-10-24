@@ -20,7 +20,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'json'
 
   if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new("1.9")
-    gem.add_dependency 'simplecov'
+    gem.add_dependency 'simplecov', ">= 0.7"
   end
 
   gem.add_runtime_dependency('jruby-openssl') if RUBY_PLATFORM == 'java'
