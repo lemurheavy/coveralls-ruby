@@ -50,7 +50,9 @@ module Coveralls
         puts "Coveralls encountered an exception:".red
         puts e.class.to_s.red
         puts e.message.red
-        puts e.backtrace.join("\n").red
+        e.backtrace.each do |line|
+          puts line.red
+        end
         if e.respond_to?(:response) && e.response
           puts e.response.to_s.red
         end
