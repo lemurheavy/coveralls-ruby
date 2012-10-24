@@ -4,7 +4,29 @@ module Coveralls
 
       def format(result)
 
-        return unless Coveralls.should_run?
+        unless Coveralls.should_run?
+          # Log which files would be submitted.
+          if result.files.length > 0
+            puts "[Coveralls] We suspect you're in a development environment, here's some handy coverage stats:"
+          else
+            puts "[Coveralls] There are no covered files.".yellow
+          end
+          result.files.each do |f|
+            print "  * "
+            print "#{short_filename(f.filename)}".cyan
+            print " => ".white
+            cov = "#{f.covered_percent.round}%"
+            if f.covered_percent > 90
+              print cov.green
+            elsif f.covered_percent > 80
+              print cov.yellow
+            else
+              print cov.red
+            end
+            puts ""
+          end
+          return
+        end
 
         # Gather the source files.
         source_files = []
@@ -15,9 +37,7 @@ module Coveralls
           properties[:source] = File.open(file.filename, "rb").read
 
           # Get the root-relative filename
-          filename = file.filename
-          filename = filename.gsub(::SimpleCov.root, '.').gsub(/^\.\//, '') if ::SimpleCov.root
-          properties[:name] = filename
+          properties[:name] = short_filename(file.filename)
 
           # Get the coverage
           properties[:coverage] = file.coverage
@@ -60,6 +80,11 @@ module Coveralls
 
       def output_message(result)
         "Coverage is at #{result.covered_percent.round(2)}%.\nCoverage report sent to Coveralls."
+      end
+
+      def short_filename(filename)
+        filename = filename.gsub(::SimpleCov.root, '.').gsub(/^\.\//, '') if ::SimpleCov.root
+        filename
       end
 
     end
