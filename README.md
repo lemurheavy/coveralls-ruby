@@ -4,7 +4,19 @@ Add the following to your Gemfile
     group :test do
       gem 'coveralls', require: false, github: 'lemurheavy/coveralls-ruby'
     end
-    
+
+If you use RSpec and SimpleCov, add the following to `spec/spec_helper.rb`
+
+    require 'simplecov'
+    require 'coveralls'
+
+    SimpleCov.start 'rails'
+    SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+      SimpleCov::Formatter::HTMLFormatter,
+      Coveralls::SimpleCov::Formatter
+    ]
+
+
 <!---
 TODO: Write a gem description
 
