@@ -4,9 +4,9 @@ require File.expand_path('../lib/coveralls/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["Wil Gieseler"]
   gem.email         = ["supapuerco@gmail.com"]
-  gem.description   = %q{Write a gem description}
-  gem.summary       = %q{Write a gem summary}
-  gem.homepage      = ""
+  gem.description   = "A Ruby implementation of the Coveralls API."
+  gem.summary       = "A Ruby implementation of the Coveralls API."
+  gem.homepage      = "http://coveralls.io"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
