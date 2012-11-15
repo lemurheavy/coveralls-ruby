@@ -2,7 +2,7 @@
 Add the following to your Gemfile
 
     group :test do
-      gem 'coveralls', require: false, github: 'lemurheavy/coveralls-ruby'
+      gem 'coveralls', require: false
     end
     
 <!---
