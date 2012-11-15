@@ -1,9 +1,4 @@
-# Coveralls for Ruby
-Add the following to your Gemfile
-
-    group :test do
-      gem 'coveralls', require: false, github: 'lemurheavy/coveralls-ruby'
-    end
+Whatever
     
 <!---
 TODO: Write a gem description
