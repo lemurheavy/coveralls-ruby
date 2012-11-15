@@ -34,7 +34,9 @@ module Coveralls
     end
 
     def self.simplecov_root
-      ::SimpleCov.root
+      if defined?(::SimpleCov)
+        ::SimpleCov.root
+      end
     end
 
     def self.rails_root

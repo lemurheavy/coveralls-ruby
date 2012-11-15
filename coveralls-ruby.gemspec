@@ -18,6 +18,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'rest-client'
   gem.add_dependency 'colorize'
   gem.add_dependency 'json'
+  gem.add_dependency 'thor'
 
   if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new("1.9")
     gem.add_dependency 'simplecov', ">= 0.7"

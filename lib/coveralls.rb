@@ -50,9 +50,13 @@ module Coveralls
   def self.should_run?
 
     # Fail early if we're not on Travis
-    unless ENV["TRAVIS"]
+    unless ENV["TRAVIS"] || ENV["COVERALLS_RUN_LOCALLY"]
       puts "[Coveralls] Not saving coverage run because we aren't on Travis CI.".yellow
       return false
+    end
+
+    if ENV["COVERALLS_RUN_LOCALLY"] == "true"
+      puts "[Coveralls] Creating a new job on Coveralls from local coverage results.".cyan
     end
 
     true
