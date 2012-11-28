@@ -18,6 +18,11 @@ module Coveralls
         config[:service_job_id] = ENV['TRAVIS_JOB_ID']
         config[:service_name]   = (yaml_config ? yaml_config['service_name'] : nil) || 'travis-ci'
       end
+      if ENV["COVERALLS_RUN_LOCALLY"]
+        config[:service_job_id] = nil
+        config[:service_name]   = 'coveralls-ruby'
+        config[:service_event_type] = 'manual'
+      end
       config
     end
 
