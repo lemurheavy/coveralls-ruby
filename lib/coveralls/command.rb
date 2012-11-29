@@ -3,11 +3,11 @@ module Coveralls
 
   class CommandLine < Thor
 
-    desc "rspec", "Runs your specs and pushes the coverage results to Coveralls."
-    def rspec
+    desc "push", "Runs your specs and pushes the coverage results to Coveralls."
+    def push
       return unless ensure_can_run_locally!
       ENV["COVERALLS_RUN_LOCALLY"] = "true"
-      exec "bundle exec rspec"
+      exec "bundle exec rake"
       ENV["COVERALLS_RUN_LOCALLY"] = nil
     end
 
