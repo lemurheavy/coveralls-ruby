@@ -18,7 +18,32 @@ module Coveralls
       ENV["COVERALLS_NOISY"] = nil
     end
 
+    desc "open", "View this repository on Coveralls."
+    def open
+      open_token_based_url "https://coveralls.io/repos/%@"
+    end
+
+    desc "service", "View this repository on your CI service's website."
+    def service
+      open_token_based_url "https://coveralls.io/repos/%@/service"
+    end
+
+    desc "last", "View the last build for this repository on Coveralls."
+    def last
+      open_token_based_url "https://coveralls.io/repos/%@/last_build"
+    end
+
     private
+
+    def open_token_based_url url
+      config = Coveralls::Configuration.configuration
+      if config[:repo_token]
+        url = url.gsub("%@", config[:repo_token])
+        `open #{url}`
+      else
+        puts "No repo_token configured."
+      end
+    end
 
     def ensure_can_run_locally!
       config = Coveralls::Configuration.configuration

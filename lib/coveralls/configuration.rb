@@ -4,19 +4,18 @@ module Coveralls
     require 'yaml'
 
     def self.configuration
-      yaml_config = nil
-      if self.configuration_path && File.exists?(self.configuration_path)
-        yaml_config = YAML::load_file(self.configuration_path)
-      end
       config = {
         :environment => self.relevant_env, 
-        :configuration => yaml_config, 
-        :repo_token => yaml_config ? yaml_config['repo_secret_token'] : nil,
         :git => git
       }
+      yml = self.yaml_config
+      if yml
+        config[:configuration] = yml
+        config[:repo_token] = yml['repo_token'] || yml['repo_secret_token']
+      end
       if ENV['TRAVIS']
         config[:service_job_id] = ENV['TRAVIS_JOB_ID']
-        config[:service_name]   = (yaml_config ? yaml_config['service_name'] : nil) || 'travis-ci'
+        config[:service_name]   = (yml ? yml['service_name'] : nil) || 'travis-ci'
       end
       if ENV["COVERALLS_RUN_LOCALLY"]
         config[:service_job_id] = nil
@@ -24,6 +23,12 @@ module Coveralls
         config[:service_event_type] = 'manual'
       end
       config
+    end
+
+    def self.yaml_config
+      if self.configuration_path && File.exists?(self.configuration_path)
+        YAML::load_file(self.configuration_path)
+      end
     end
 
     def self.configuration_path
