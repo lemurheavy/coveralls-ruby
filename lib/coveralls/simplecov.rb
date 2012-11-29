@@ -5,25 +5,27 @@ module Coveralls
       def format(result)
 
         unless Coveralls.should_run?
-          # Log which files would be submitted.
-          if result.files.length > 0
-            puts "[Coveralls] We suspect you're in a development environment, here's some handy coverage stats:"
-          else
-            puts "[Coveralls] There are no covered files.".yellow
-          end
-          result.files.each do |f|
-            print "  * "
-            print "#{short_filename(f.filename)}".cyan
-            print " => ".white
-            cov = "#{f.covered_percent.round}%"
-            if f.covered_percent > 90
-              print cov.green
-            elsif f.covered_percent > 80
-              print cov.yellow
+          if ENV["COVERALLS_NOISY"]
+            # Log which files would be submitted.
+            if result.files.length > 0
+              puts "[Coveralls] Some handy coverage stats:"
             else
-              print cov.red
+              puts "[Coveralls] There are no covered files.".yellow
             end
-            puts ""
+            result.files.each do |f|
+              print "  * "
+              print "#{short_filename(f.filename)}".cyan
+              print " => ".white
+              cov = "#{f.covered_percent.round}%"
+              if f.covered_percent > 90
+                print cov.green
+              elsif f.covered_percent > 80
+                print cov.yellow
+              else
+                print cov.red
+              end
+              puts ""
+            end
           end
           return
         end

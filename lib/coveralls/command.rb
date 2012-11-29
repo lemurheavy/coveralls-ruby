@@ -3,12 +3,19 @@ module Coveralls
 
   class CommandLine < Thor
 
-    desc "push", "Runs your specs and pushes the coverage results to Coveralls."
+    desc "push", "Runs your test suite and pushes the coverage results to Coveralls."
     def push
       return unless ensure_can_run_locally!
       ENV["COVERALLS_RUN_LOCALLY"] = "true"
       exec "bundle exec rake"
       ENV["COVERALLS_RUN_LOCALLY"] = nil
+    end
+
+    desc "report", "Runs your test suite locally and displays coverage statistics."
+    def report
+      ENV["COVERALLS_NOISY"] = "true"
+      exec "bundle exec rake"
+      ENV["COVERALLS_NOISY"] = nil
     end
 
     private
