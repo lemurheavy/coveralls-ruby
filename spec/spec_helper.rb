@@ -7,9 +7,7 @@ class InceptionFormatter
 end
 
 SimpleCov.formatter = InceptionFormatter
-SimpleCov.start do
-  add_filter 'spec'
-end
+SimpleCov.start 'test_frameworks'
 
 require 'coveralls'
 

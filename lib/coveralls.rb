@@ -7,9 +7,9 @@ require "coveralls/simplecov"
 
 module Coveralls
 
-  def self.wear!(simplecov_setting = nil)
+  def self.wear!(*args)
     setup!
-    start!(simplecov_setting)
+    start!(*args)
   end
 
   def self.setup!
@@ -29,7 +29,7 @@ module Coveralls
     # Load the appropriate adapter.
     if @@adapter == :simplecov
       ::SimpleCov.formatter = Coveralls::SimpleCov::Formatter
-      puts "[Coveralls] Using the SimpleCov formatter.".green
+      puts "[Coveralls] Set up the SimpleCov formatter.".green
     else
       puts "[Coveralls] Couldn't find an appropriate adapter.".red
     end
@@ -42,6 +42,7 @@ module Coveralls
         puts "[Coveralls] Using SimpleCov's '#{simplecov_setting}' settings.".green
         ::SimpleCov.start(simplecov_setting)
       else
+        puts "[Coveralls] Using SimpleCov's default settings.".green
         ::SimpleCov.start
       end
     end
@@ -51,7 +52,7 @@ module Coveralls
 
     # Fail early if we're not on Travis
     unless ENV["TRAVIS"] || ENV["COVERALLS_RUN_LOCALLY"]
-      puts "[Coveralls] Not saving coverage run because we aren't on Travis CI.".yellow
+      puts "[Coveralls] Outside the Travis environment, not sending data.".yellow
       return false
     end
 
