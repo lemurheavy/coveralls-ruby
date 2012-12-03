@@ -36,7 +36,7 @@ module Coveralls
 
   end
 
-  def self.start!(simplecov_setting = nil)
+  def self.start!(simplecov_setting = 'test_frameworks')
     if @@adapter == :simplecov
       if simplecov_setting
         puts "[Coveralls] Using SimpleCov's '#{simplecov_setting}' settings.".green
