@@ -39,7 +39,8 @@ module Coveralls
 			config = Coveralls::Configuration.configuration
 			if ENV['TRAVIS'] || ENV['COVERALLS_DEBUG']
 				puts "[Coveralls] Submiting with config:".yellow
-				puts JSON.pretty_generate(config).yellow
+				puts JSON.pretty_generate(config).
+					gsub(/"repo_token": "(.*?)"/,'"repo_token": "[secure]"').yellow
 			end
 			hash.merge(config)
 		end
