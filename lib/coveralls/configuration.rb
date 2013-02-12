@@ -11,8 +11,10 @@ module Coveralls
       yml = self.yaml_config
       if yml
         config[:configuration] = yml
-        config[:repo_token] = yml['repo_token'] || yml['repo_secret_token'] || 
-          ENV['COVERALLS_REPO_TOKEN']
+        config[:repo_token] = yml['repo_token'] || yml['repo_secret_token']
+      end
+      if ENV['COVERALLS_REPO_TOKEN']
+        config[:repo_token] = ENV['COVERALLS_REPO_TOKEN']
       end
       if ENV['TRAVIS']
         config[:service_job_id] = ENV['TRAVIS_JOB_ID']
