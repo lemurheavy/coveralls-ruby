@@ -50,17 +50,21 @@ module Coveralls
 
   def self.should_run?
 
-    # Fail early if we're not on Travis
-    unless ENV["TRAVIS"] || ENV["COVERALLS_RUN_LOCALLY"]
+    # Fail early if we're not on a CI
+    unless Coveralls::ServiceBase::ci?
       puts "[Coveralls] Outside the Travis environment, not sending data.".yellow
       return false
     end
 
-    if ENV["COVERALLS_RUN_LOCALLY"] == "true"
+    if running_locally?
       puts "[Coveralls] Creating a new job on Coveralls from local coverage results.".cyan
     end
 
     true
+  end
+
+  def running_locally?
+    ENV["COVERALLS_RUN_LOCALLY"] == "true"
   end
 
 end

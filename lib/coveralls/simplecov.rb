@@ -27,6 +27,8 @@ module Coveralls
               puts ""
             end
           end
+
+          # not on CI and not showing stats locally
           return
         end
 
@@ -64,7 +66,10 @@ module Coveralls
         # end
 
         # Post to Coveralls.
-        API.post_json "jobs", {:source_files => source_files, :test_framework => result.command_name.downcase, :run_at => result.created_at}
+        API.post_json "jobs",
+          :source_files => source_files, 
+          :test_framework => result.command_name.downcase, 
+          :run_at => result.created_at
 
         true
 

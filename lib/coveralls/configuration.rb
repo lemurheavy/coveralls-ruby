@@ -20,6 +20,10 @@ module Coveralls
         config[:service_job_id] = ENV['TRAVIS_JOB_ID']
         config[:service_name]   = (yml ? yml['service_name'] : nil) || 'travis-ci'
       end
+      if ENV['SEMAPHORE']
+        config[:service_job_id] = ENV['TRAVIS_JOB_ID']
+        config[:service_name]   = (yml ? yml['service_name'] : nil) || 'semaphore'
+      end
       if ENV["COVERALLS_RUN_LOCALLY"]
         config[:service_job_id] = nil
         config[:service_name]   = 'coveralls-ruby'

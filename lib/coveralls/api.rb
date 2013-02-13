@@ -37,7 +37,7 @@ module Coveralls
 
 		def self.apified_hash hash
 			config = Coveralls::Configuration.configuration
-			if ENV['TRAVIS'] || ENV['COVERALLS_DEBUG']
+			if Coveralls::ServiceBase::ci? || ENV['COVERALLS_DEBUG']
 				puts "[Coveralls] Submiting with config:".yellow
 				puts JSON.pretty_generate(config).
 					gsub(/"repo_token": "(.*?)"/,'"repo_token": "[secure]"').yellow
