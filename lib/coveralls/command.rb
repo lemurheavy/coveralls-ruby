@@ -7,7 +7,11 @@ module Coveralls
     def push
       return unless ensure_can_run_locally!
       ENV["COVERALLS_RUN_LOCALLY"] = "true"
-      exec "bundle exec rake"
+      cmd = "bundle exec rake"
+      if File.exists?('.travis.yml')
+        cmd = YAML.load_file('.travis.yml')["script"] || cmd rescue cmd
+      end
+      exec cmd
       ENV["COVERALLS_RUN_LOCALLY"] = nil
     end
 
@@ -31,6 +35,11 @@ module Coveralls
     desc "last", "View the last build for this repository on Coveralls."
     def last
       open_token_based_url "https://coveralls.io/repos/%@/last_build"
+    end
+
+    desc "version", "See version"
+    def version
+      puts Coveralls::VERSION
     end
 
     private

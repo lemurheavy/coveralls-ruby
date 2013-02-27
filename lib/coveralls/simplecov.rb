@@ -36,7 +36,7 @@ module Coveralls
           properties = {}
 
           # Get Source
-          properties[:source] = File.open(file.filename, "rb").read
+          properties[:source] = File.open(file.filename, "rb:utf-8").read
 
           # Get the root-relative filename
           properties[:name] = short_filename(file.filename)
@@ -68,7 +68,7 @@ module Coveralls
 
         true
 
-      rescue Exception => e 
+      rescue Exception => e
         puts "Coveralls encountered an exception:".red
         puts e.class.to_s.red
         puts e.message.red

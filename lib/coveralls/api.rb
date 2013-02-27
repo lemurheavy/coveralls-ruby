@@ -18,6 +18,8 @@ module Coveralls
 			if response_hash['message']
 				puts ("[Coveralls] " + response_hash['url'].underline).cyan
 			end
+		rescue RestClient::ServiceUnavailable
+			puts ("[Coveralls] API timeout occured, but data should still be processed").red
 		end
 
 		private
@@ -44,6 +46,5 @@ module Coveralls
 			end
 			hash.merge(config)
 		end
-	
 	end
 end
