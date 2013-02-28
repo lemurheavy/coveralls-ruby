@@ -4,10 +4,13 @@ module Coveralls
 		require 'json'
 		require 'rest_client'
 
-		# API_BASE = "http://coveralls.dev/api/v1"
-		API_BASE = "https://coveralls.io/api/v1"
+		API_HOST = ENV['COVERALLS_DEVELOPMENT'] ? "localhost:3000" : "coveralls.io"
+		API_PROTOCOL = ENV['COVERALLS_DEVELOPMENT'] ? "http" : "https"
+		API_DOMAIN = "#{API_PROTOCOL}://#{API_HOST}"
+		API_BASE = "#{API_DOMAIN}/api/v1"
 
 		def self.post_json(endpoint, hash)
+			disable_net_blockers!
 			url = endpoint_to_url(endpoint)
 			puts JSON.pretty_generate(hash).green if ENV['COVERALLS_DEBUG']
 			hash = apified_hash hash
@@ -20,9 +23,25 @@ module Coveralls
 			end
 		rescue RestClient::ServiceUnavailable
 			puts ("[Coveralls] API timeout occured, but data should still be processed").red
+		rescue RestClient::InternalServerError
+			puts ("[Coveralls] API internal error occured, we're on it!").red
 		end
 
 		private
+
+		def self.disable_net_blockers!
+			if defined?(WebMock)
+			  (WebMock::Config.instance.allow ||= []).push API_HOST
+			end
+
+			if defined?(VCR)
+				VCR.configure do |c|
+				  c.ignore_request do |request|
+				    URI(request.uri).host == API_HOST
+				  end
+				end
+			end
+		end
 
 		def self.endpoint_to_url(endpoint)
 			"#{API_BASE}/#{endpoint}"

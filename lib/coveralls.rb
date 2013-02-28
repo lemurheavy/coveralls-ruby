@@ -56,7 +56,7 @@ module Coveralls
       return false
     end
 
-    if ENV["COVERALLS_RUN_LOCALLY"] == "true"
+    if ENV["COVERALLS_RUN_LOCALLY"]
       puts "[Coveralls] Creating a new job on Coveralls from local coverage results.".cyan
     end
 
