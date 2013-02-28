@@ -1,7 +1,7 @@
 module Coveralls
 	class API
 
-		require 'json'
+		require 'multi_json'
 		require 'rest_client'
 
 		API_HOST = ENV['COVERALLS_DEVELOPMENT'] ? "localhost:3000" : "coveralls.io"
@@ -12,11 +12,11 @@ module Coveralls
 		def self.post_json(endpoint, hash)
 			disable_net_blockers!
 			url = endpoint_to_url(endpoint)
-			puts JSON.pretty_generate(hash).green if ENV['COVERALLS_DEBUG']
+			puts MultiJson.dump(hash, :pretty => true).green if ENV['COVERALLS_DEBUG']
 			hash = apified_hash hash
 			puts "[Coveralls] Submitting to #{API_BASE}".cyan
 			response = RestClient.post(url, :json_file => hash_to_file(hash))
-			response_hash = JSON.parse response.to_str
+			response_hash = MultiJson.load(response.to_str)
 			puts ("[Coveralls] " + response_hash['message']).cyan
 			if response_hash['message']
 				puts ("[Coveralls] " + response_hash['url'].underline).cyan
@@ -60,7 +60,7 @@ module Coveralls
 			config = Coveralls::Configuration.configuration
 			if ENV['TRAVIS'] || ENV['COVERALLS_DEBUG']
 				puts "[Coveralls] Submiting with config:".yellow
-				puts JSON.pretty_generate(config).
+				puts MultiJson.dump(config, :pretty => true).
 					gsub(/"repo_token": "(.*?)"/,'"repo_token": "[secure]"').yellow
 			end
 			hash.merge(config)
