@@ -31,7 +31,9 @@ module Coveralls
 
 		def self.disable_net_blockers!
 			if defined?(WebMock)
-			  (WebMock::Config.instance.allow ||= []).push API_HOST
+			  allow = WebMock::Config.instance.allow || []
+			  [*allow].push API_HOST
+			  WebMock::Config.instance.allow = allow
 			end
 
 			if defined?(VCR)
