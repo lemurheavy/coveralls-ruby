@@ -32,8 +32,7 @@ module Coveralls
 		def self.disable_net_blockers!
 			if defined?(WebMock)
 			  allow = WebMock::Config.instance.allow || []
-			  [*allow].push API_HOST
-			  WebMock::Config.instance.allow = allow
+			  WebMock::Config.instance.allow = [*allow].push API_HOST
 			end
 
 			if defined?(VCR)
@@ -52,7 +51,7 @@ module Coveralls
 		def self.hash_to_file(hash)
 			file = nil
 			Tempfile.open(['coveralls-upload', 'json']) do |f|
-				f.write(hash.to_json.to_s)
+				f.write(MultiJson.dump hash)
 				file = f
 			end
 			File.new(file.path, 'rb')
