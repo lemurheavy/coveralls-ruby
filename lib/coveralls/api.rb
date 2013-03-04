@@ -30,7 +30,7 @@ module Coveralls
 		private
 
 		def self.disable_net_blockers!
-			if defined?(WebMock)
+			if defined?(WebMock) &&
 			  allow = WebMock::Config.instance.allow || []
 			  WebMock::Config.instance.allow = [*allow].push API_HOST
 			end
@@ -59,7 +59,7 @@ module Coveralls
 
 		def self.apified_hash hash
 			config = Coveralls::Configuration.configuration
-			if ENV['TRAVIS'] || ENV['COVERALLS_DEBUG']
+			if ENV['TRAVIS'] || ENV['COVERALLS_DEBUG'] || Coveralls.testing
 				puts "[Coveralls] Submiting with config:".yellow
 				puts MultiJson.dump(config, :pretty => true).
 					gsub(/"repo_token": "(.*?)"/,'"repo_token": "[secure]"').yellow

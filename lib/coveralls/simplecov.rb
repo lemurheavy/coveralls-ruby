@@ -5,7 +5,7 @@ module Coveralls
       def format(result)
 
         unless Coveralls.should_run?
-          if ENV["COVERALLS_NOISY"]
+          if Coveralls.noisy?
             # Log which files would be submitted.
             if result.files.length > 0
               puts "[Coveralls] Some handy coverage stats:"
@@ -65,6 +65,7 @@ module Coveralls
 
         # Post to Coveralls.
         API.post_json "jobs", {:source_files => source_files, :test_framework => result.command_name.downcase, :run_at => result.created_at}
+        puts output_message result
 
         true
 

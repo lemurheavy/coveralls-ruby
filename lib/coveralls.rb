@@ -6,14 +6,16 @@ require "coveralls/api"
 require "coveralls/simplecov"
 
 module Coveralls
+  extend self
 
-  def self.wear!(*args)
+  attr_accessor :testing, :noisy, :adapter, :run_locally
+
+  def wear!(simplecov_setting=nil, &block)
     setup!
-    start!(*args)
+    start! simplecov_setting, &block
   end
 
-  def self.setup!
-
+  def setup!
     # Try to load up SimpleCov.
     @@adapter = nil
     if defined?(::SimpleCov)
@@ -36,11 +38,17 @@ module Coveralls
 
   end
 
-  def self.start!(simplecov_setting = 'test_frameworks')
+  def start!(simplecov_setting = 'test_frameworks', &block)
     if @@adapter == :simplecov
       if simplecov_setting
         puts "[Coveralls] Using SimpleCov's '#{simplecov_setting}' settings.".green
-        ::SimpleCov.start(simplecov_setting)
+        if block
+        else
+          ::SimpleCov.start(simplecov_setting)
+        end
+      elsif block
+        puts "[Coveralls] Using SimpleCov settings defined in block.".green
+        ::SimpleCov.start { instance_eval &block }
       else
         puts "[Coveralls] Using SimpleCov's default settings.".green
         ::SimpleCov.start
@@ -48,19 +56,22 @@ module Coveralls
     end
   end
 
-  def self.should_run?
+  def should_run?
 
     # Fail early if we're not on Travis
-    unless ENV["TRAVIS"] || ENV["COVERALLS_RUN_LOCALLY"]
+    unless ENV["TRAVIS"] || ENV["COVERALLS_RUN_LOCALLY"] || @testing
       puts "[Coveralls] Outside the Travis environment, not sending data.".yellow
       return false
     end
 
-    if ENV["COVERALLS_RUN_LOCALLY"]
+    if ENV["COVERALLS_RUN_LOCALLY"] || @run_locally
       puts "[Coveralls] Creating a new job on Coveralls from local coverage results.".cyan
     end
 
     true
   end
 
+  def noisy?
+    ENV["COVERALLS_NOISY"] || @noisy
+  end
 end

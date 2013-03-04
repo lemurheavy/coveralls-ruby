@@ -5,7 +5,7 @@ module Coveralls
 
     def self.configuration
       config = {
-        :environment => self.relevant_env, 
+        :environment => self.relevant_env,
         :git => git
       }
       yml = self.yaml_config
@@ -19,8 +19,7 @@ module Coveralls
       if ENV['TRAVIS']
         config[:service_job_id] = ENV['TRAVIS_JOB_ID']
         config[:service_name]   = (yml ? yml['service_name'] : nil) || 'travis-ci'
-      end
-      if ENV["COVERALLS_RUN_LOCALLY"]
+      elsif ENV["COVERALLS_RUN_LOCALLY"] || Coveralls.testing
         config[:service_job_id] = nil
         config[:service_name]   = 'coveralls-ruby'
         config[:service_event_type] = 'manual'
@@ -60,11 +59,11 @@ module Coveralls
 
     def self.git
       hash = {}
- 
+
       Dir.chdir(root) do
 
         hash[:head] = {
-          :id => `git log -1 --pretty=format:'%H'`, 
+          :id => `git log -1 --pretty=format:'%H'`,
           :author_name => `git log -1 --pretty=format:'%aN'`,
           :author_email => `git log -1 --pretty=format:'%ae'`,
           :committer_name => `git log -1 --pretty=format:'%cN'`,
@@ -99,10 +98,10 @@ module Coveralls
 
     def self.relevant_env
       {
-        :travis_job_id => ENV['TRAVIS_JOB_ID'], 
-        :travis_pull_request => ENV['TRAVIS_PULL_REQUEST'], 
-        :pwd => self.pwd, 
-        :rails_root => self.rails_root, 
+        :travis_job_id => ENV['TRAVIS_JOB_ID'],
+        :travis_pull_request => ENV['TRAVIS_PULL_REQUEST'],
+        :pwd => self.pwd,
+        :rails_root => self.rails_root,
         :simplecov_root => simplecov_root,
         :gem_version => VERSION
       }
