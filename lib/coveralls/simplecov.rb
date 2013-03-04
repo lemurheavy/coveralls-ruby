@@ -2,30 +2,35 @@ module Coveralls
   module SimpleCov
     class Formatter
 
+      def display_result(result)
+        # Log which files would be submitted.
+        if result.files.length > 0
+          puts "[Coveralls] Some handy coverage stats:"
+        else
+          puts "[Coveralls] There are no covered files.".yellow
+        end
+        result.files.each do |f|
+          print "  * "
+          print "#{short_filename(f.filename)}".cyan
+          print " => ".white
+          cov = "#{f.covered_percent.round}%"
+          if f.covered_percent > 90
+            print cov.green
+          elsif f.covered_percent > 80
+            print cov.yellow
+          else
+            print cov.red
+          end
+          puts ""
+        end
+        true
+      end
+
       def format(result)
 
         unless Coveralls.should_run?
           if Coveralls.noisy?
-            # Log which files would be submitted.
-            if result.files.length > 0
-              puts "[Coveralls] Some handy coverage stats:"
-            else
-              puts "[Coveralls] There are no covered files.".yellow
-            end
-            result.files.each do |f|
-              print "  * "
-              print "#{short_filename(f.filename)}".cyan
-              print " => ".white
-              cov = "#{f.covered_percent.round}%"
-              if f.covered_percent > 90
-                print cov.green
-              elsif f.covered_percent > 80
-                print cov.yellow
-              else
-                print cov.red
-              end
-              puts ""
-            end
+            display_result result
           end
           return
         end
@@ -70,15 +75,20 @@ module Coveralls
         true
 
       rescue Exception => e
+        dispay_error e
+      end
+
+      def display_error(e)
         puts "Coveralls encountered an exception:".red
         puts e.class.to_s.red
         puts e.message.red
         e.backtrace.each do |line|
           puts line.red
-        end
+        end if e.backtrace
         if e.respond_to?(:response) && e.response
           puts e.response.to_s.red
         end
+        false
       end
 
       def output_message(result)

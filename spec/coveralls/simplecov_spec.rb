@@ -38,14 +38,9 @@ describe Coveralls::SimpleCov::Formatter do
     end
 
     context "should not run, noisy" do
-      before do
-        Coveralls.testing = false
-        Coveralls.noisy = true
-      end
-
-      it "posts json" do
+      it "only displays result" do
         silence do
-          Coveralls::SimpleCov::Formatter.new.format(result).should be_nil
+          Coveralls::SimpleCov::Formatter.new.display_result(result).should be_true
         end
       end
     end
@@ -63,15 +58,10 @@ describe Coveralls::SimpleCov::Formatter do
     end
 
     context "with api error" do
-      before do
-        Coveralls.testing = true
-        e = RestClient::ResourceNotFound.new mock('HTTP Response', :code => '502')
-        Coveralls::API.stub(:post_json).and_raise e
-      end
-
       it "rescues" do
+        e = RestClient::ResourceNotFound.new mock('HTTP Response', :code => '502')
         silence do
-          Coveralls::SimpleCov::Formatter.new.format(result).should be_nil
+          Coveralls::SimpleCov::Formatter.new.display_error(e).should be_false
         end
       end
     end
