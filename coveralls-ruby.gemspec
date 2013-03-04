@@ -22,13 +22,12 @@ Gem::Specification.new do |gem|
 
   if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new("1.9")
     gem.add_dependency 'simplecov', ">= 0.7"
+    gem.add_development_dependency 'debugger'
   end
 
   gem.add_runtime_dependency('jruby-openssl') if RUBY_PLATFORM == 'java'
 
   gem.add_development_dependency 'rspec'
   gem.add_development_dependency 'rake'
-  gem.add_development_dependency 'debugger'
   gem.add_development_dependency 'webmock'
-
 end
