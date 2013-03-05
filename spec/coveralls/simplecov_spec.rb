@@ -52,7 +52,9 @@ describe Coveralls::SimpleCov::Formatter do
         Coveralls.testing = false
 
         silence do
-          Coveralls::SimpleCov::Formatter.new.format(result).should be_nil
+          expect do
+            Coveralls::SimpleCov::Formatter.new.format(result)
+          end.not_to raise_error
         end
       end
     end
