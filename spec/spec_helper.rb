@@ -8,7 +8,7 @@ class InceptionFormatter
 end
 
 def setup_formatter
-  SimpleCov.formatter = if ENV['TRAVIS']
+  SimpleCov.formatter = if ENV['TRAVIS'] || ENV['COVERALLS_REPO_TOKEN']
     InceptionFormatter
   else
     SimpleCov::Formatter::HTMLFormatter
@@ -31,6 +31,9 @@ RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
   config.filter_run :focus
   config.include WebMock::API
+  config.after(:suite) do
+    WebMock.disable!
+  end
 end
 
 def stub_api_post
