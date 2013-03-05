@@ -75,7 +75,7 @@ module Coveralls
         true
 
       rescue Exception => e
-        dispay_error e
+        display_error e
       end
 
       def display_error(e)
