@@ -19,6 +19,9 @@ module Coveralls
       if ENV['TRAVIS']
         config[:service_job_id] = ENV['TRAVIS_JOB_ID']
         config[:service_name]   = (yml ? yml['service_name'] : nil) || 'travis-ci'
+      elsif ENV['CIRCLECI']
+        config[:service_job_id] = ENV['CIRCLE_BUILD_NUM']
+        config[:service_name]   = 'circleci'
       elsif ENV["COVERALLS_RUN_LOCALLY"] || Coveralls.testing
         config[:service_job_id] = nil
         config[:service_name]   = 'coveralls-ruby'
@@ -97,14 +100,31 @@ module Coveralls
     end
 
     def self.relevant_env
-      {
-        :travis_job_id => ENV['TRAVIS_JOB_ID'],
-        :travis_pull_request => ENV['TRAVIS_PULL_REQUEST'],
+      hash = {
         :pwd => self.pwd,
         :rails_root => self.rails_root,
         :simplecov_root => simplecov_root,
         :gem_version => VERSION
       }
+
+      hash.merge! begin
+        if ENV['TRAVIS']
+          {
+            :travis_job_id => ENV['TRAVIS_JOB_ID'],
+            :travis_pull_request => ENV['TRAVIS_PULL_REQUEST']
+          }
+        elsif ENV['CIRCLECI']
+          {
+            :circleci_build_num => ENV['CIRCLE_BUILD_NUM'],
+            :branch => ENV['CIRCLE_BRANCH'],
+            :commit_sha => ENV['CIRCLE_SHA1']
+          }
+        else
+          {}
+        end
+      end
+
+      hash
     end
 
   end

@@ -22,6 +22,9 @@ Gem::Specification.new do |gem|
 
   if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new("1.9")
     gem.add_dependency 'simplecov', ">= 0.7"
+  end
+
+  unless ENV["CI"]
     gem.add_development_dependency 'debugger'
   end
 
