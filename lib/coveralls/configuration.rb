@@ -22,6 +22,8 @@ module Coveralls
       elsif ENV['CIRCLECI']
         config[:service_job_id] = ENV['CIRCLE_BUILD_NUM']
         config[:service_name]   = 'circleci'
+      elsif ENV['SEMAPHORE']
+        config[:service_name]   = 'semaphore'
       elsif ENV["COVERALLS_RUN_LOCALLY"] || Coveralls.testing
         config[:service_job_id] = nil
         config[:service_name]   = 'coveralls-ruby'
