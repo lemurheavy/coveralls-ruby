@@ -15,6 +15,19 @@ module Coveralls
     start! simplecov_setting, &block
   end
 
+  def wear_merged!(simplecov_setting=nil, &block)
+    require 'simplecov'
+    @@adapter = :simplecov
+    ::SimpleCov.formatter = nil
+    start! simplecov_setting, &block
+  end
+
+  def push!
+    require 'simplecov'
+    result = ::SimpleCov::ResultMerger.merged_result
+    Coveralls::SimpleCov::Formatter.new.format result
+  end
+
   def setup!
     # Try to load up SimpleCov.
     @@adapter = nil

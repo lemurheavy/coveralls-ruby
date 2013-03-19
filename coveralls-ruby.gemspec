@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["nick@lemurheavy.com", "supapuerco@gmail.com"]
   gem.description   = "A Ruby implementation of the Coveralls API."
   gem.summary       = "A Ruby implementation of the Coveralls API."
-  gem.homepage      = "http://coveralls.io"
+  gem.homepage      = "https://coveralls.io"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }

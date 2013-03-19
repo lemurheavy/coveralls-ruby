@@ -42,6 +42,26 @@ describe Coveralls do
     end
   end
 
+  describe "#wear_merged!" do
+    it "sets formatter to nil" do
+      ::SimpleCov.should_receive(:start).with
+      silence do
+        subject.wear_merged!
+      end
+      ::SimpleCov.formatter.should be_nil
+    end
+  end
+
+  describe "#push!" do
+    it "sends existings test results" do
+      result = false
+      silence do
+        result = subject.push!
+      end
+      result.should be_true
+    end
+  end
+
   describe "#setup!" do
     it "sets SimpleCov adapter" do
       SimpleCovTmp = SimpleCov
