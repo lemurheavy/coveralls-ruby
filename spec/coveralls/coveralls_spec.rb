@@ -39,6 +39,7 @@ describe Coveralls do
       silence do
         subject.wear!
       end
+      ::SimpleCov.filters.map(&:filter_argument).should include 'vendor'
     end
   end
 

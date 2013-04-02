@@ -24,6 +24,9 @@ module Coveralls
         config[:service_name]   = 'circleci'
       elsif ENV['SEMAPHORE']
         config[:service_name]   = 'semaphore'
+      elsif ENV['JENKINS_URL']
+        config[:service_job_id] = ENV['BUILD_NUMBER']
+        config[:service_name]   = 'jenkins'
       elsif ENV["COVERALLS_RUN_LOCALLY"] || Coveralls.testing
         config[:service_job_id] = nil
         config[:service_name]   = 'coveralls-ruby'
@@ -120,6 +123,13 @@ module Coveralls
             :circleci_build_num => ENV['CIRCLE_BUILD_NUM'],
             :branch => ENV['CIRCLE_BRANCH'],
             :commit_sha => ENV['CIRCLE_SHA1']
+          }
+        elsif ENV['JENKINS_URL']
+          {
+            :jenkins_build_num => ENV['BUILD_NUMBER'],
+            :jenkins_build_url => ENV['BUILD_URL'],
+            :branch => ENV['GIT_BRANCH'],
+            :commit_sha => ENV['GIT_COMMIT']
           }
         else
           {}

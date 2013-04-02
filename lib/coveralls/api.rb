@@ -36,10 +36,8 @@ module Coveralls
 			end
 
 			if defined?(VCR)
-				VCR.configure do |c|
-				  c.ignore_request do |request|
-				    URI(request.uri).host == API_HOST
-				  end
+				VCR.send(VCR.version.major < 2 ? :config : :configure) do |c|
+          c.ignore_hosts API_HOST
 				end
 			end
 		end

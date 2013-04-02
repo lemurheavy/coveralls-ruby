@@ -53,6 +53,8 @@ module Coveralls
 
   def start!(simplecov_setting = 'test_frameworks', &block)
     if @@adapter == :simplecov
+      ::SimpleCov.add_filter 'vendor'
+
       if simplecov_setting
         puts "[Coveralls] Using SimpleCov's '#{simplecov_setting}' settings.".green
         if block

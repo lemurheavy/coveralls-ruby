@@ -1,5 +1,6 @@
 require 'simplecov'
 require 'webmock'
+require 'vcr'
 
 class InceptionFormatter
   def format(result)
@@ -25,6 +26,11 @@ end
 setup_formatter
 
 require 'coveralls'
+
+VCR.config do |c|
+  c.cassette_library_dir = 'fixtures/vcr_cassettes'
+  c.stub_with :webmock
+end
 
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
