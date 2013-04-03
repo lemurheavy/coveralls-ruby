@@ -72,9 +72,9 @@ module Coveralls
   end
 
   def should_run?
-
-    # Fail early if we're not on Travis
-    unless ENV["CI"] || ENV["COVERALLS_RUN_LOCALLY"] || @testing
+    # Fail early if we're not on a CI
+    unless ENV["CI"] || ENV["JENKINS_URL"] ||
+      ENV["COVERALLS_RUN_LOCALLY"] || @testing
       puts "[Coveralls] Outside the Travis environment, not sending data.".yellow
       return false
     end
