@@ -20,13 +20,14 @@ module Coveralls
         config[:service_job_id] = ENV['TRAVIS_JOB_ID']
         config[:service_name]   = (yml ? yml['service_name'] : nil) || 'travis-ci'
       elsif ENV['CIRCLECI']
-        config[:service_job_id] = ENV['CIRCLE_BUILD_NUM']
         config[:service_name]   = 'circleci'
+        config[:service_number] = ENV['CIRCLE_BUILD_NUM']
       elsif ENV['SEMAPHORE']
         config[:service_name]   = 'semaphore'
+        config[:service_number] = ENV['SEMAPHORE_BUILD_NUMBER']
       elsif ENV['JENKINS_URL']
-        config[:service_job_id] = ENV['BUILD_NUMBER']
         config[:service_name]   = 'jenkins'
+        config[:service_number] = ENV['BUILD_NUMBER']
       elsif ENV["COVERALLS_RUN_LOCALLY"] || Coveralls.testing
         config[:service_job_id] = nil
         config[:service_name]   = 'coveralls-ruby'
