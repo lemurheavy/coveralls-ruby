@@ -8,6 +8,11 @@ require "coveralls/simplecov"
 module Coveralls
   extend self
 
+  class NilFormatter
+    def format( result )
+    end
+  end
+
   attr_accessor :testing, :noisy, :adapter, :run_locally
 
   def wear!(simplecov_setting=nil, &block)
@@ -18,7 +23,7 @@ module Coveralls
   def wear_merged!(simplecov_setting=nil, &block)
     require 'simplecov'
     @@adapter = :simplecov
-    ::SimpleCov.formatter = nil
+    ::SimpleCov.formatter = NilFormatter
     start! simplecov_setting, &block
   end
 
@@ -57,11 +62,12 @@ module Coveralls
 
       if simplecov_setting
         puts "[Coveralls] Using SimpleCov's '#{simplecov_setting}' settings.".green
-        if block
+        if block_given?
+          ::SimpleCov.start(simplecov_setting) { instance_eval &block }
         else
           ::SimpleCov.start(simplecov_setting)
         end
-      elsif block
+      elsif block_given?
         puts "[Coveralls] Using SimpleCov settings defined in block.".green
         ::SimpleCov.start { instance_eval &block }
       else

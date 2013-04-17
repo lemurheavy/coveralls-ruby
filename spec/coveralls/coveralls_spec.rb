@@ -44,12 +44,14 @@ describe Coveralls do
   end
 
   describe "#wear_merged!" do
-    it "sets formatter to nil" do
-      ::SimpleCov.should_receive(:start).with
+    it "sets formatter to NilFormatter" do
+      ::SimpleCov.should_receive(:start).with 'rails'
       silence do
-        subject.wear_merged!
+        subject.wear_merged! 'rails' do
+          add_filter "/spec/"
+        end
       end
-      ::SimpleCov.formatter.should be_nil
+      ::SimpleCov.formatter.should be Coveralls::NilFormatter
     end
   end
 

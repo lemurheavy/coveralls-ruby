@@ -28,6 +28,8 @@ module Coveralls
       elsif ENV['JENKINS_URL']
         config[:service_name]   = 'jenkins'
         config[:service_number] = ENV['BUILD_NUMBER']
+      elsif ENV['CODESHIP']
+        config[:service_name]   = 'codeship'
       elsif ENV["COVERALLS_RUN_LOCALLY"] || Coveralls.testing
         config[:service_job_id] = nil
         config[:service_name]   = 'coveralls-ruby'
