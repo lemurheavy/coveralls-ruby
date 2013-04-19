@@ -30,6 +30,8 @@ module Coveralls
         config[:service_number] = ENV['BUILD_NUMBER']
       elsif ENV['CODESHIP']
         config[:service_name]   = 'codeship'
+        config[:service_number] = ENV['CI_BUILD_NUMBER']
+
       elsif ENV["COVERALLS_RUN_LOCALLY"] || Coveralls.testing
         config[:service_job_id] = nil
         config[:service_name]   = 'coveralls-ruby'
@@ -133,6 +135,11 @@ module Coveralls
             :jenkins_build_url => ENV['BUILD_URL'],
             :branch => ENV['GIT_BRANCH'],
             :commit_sha => ENV['GIT_COMMIT']
+          }
+        elsif ENV['CODESHIP']
+          {
+            :pull_request => ENV['CI_PULL_REQUEST'],
+            :branch => ENV['CI_BRANCH']
           }
         else
           {}
