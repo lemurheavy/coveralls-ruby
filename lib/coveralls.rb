@@ -63,13 +63,13 @@ module Coveralls
       if simplecov_setting
         puts "[Coveralls] Using SimpleCov's '#{simplecov_setting}' settings.".green
         if block_given?
-          ::SimpleCov.start(simplecov_setting) { instance_eval &block }
+          ::SimpleCov.start(simplecov_setting) { instance_eval(&block)}
         else
           ::SimpleCov.start(simplecov_setting)
         end
       elsif block_given?
         puts "[Coveralls] Using SimpleCov settings defined in block.".green
-        ::SimpleCov.start { instance_eval &block }
+        ::SimpleCov.start { instance_eval(&block) }
       else
         puts "[Coveralls] Using SimpleCov's default settings.".green
         ::SimpleCov.start
@@ -80,12 +80,12 @@ module Coveralls
   def should_run?
     # Fail early if we're not on a CI
     unless ENV["CI"] || ENV["JENKINS_URL"] ||
-      ENV["COVERALLS_RUN_LOCALLY"] || @testing
+      ENV["COVERALLS_RUN_LOCALLY"] || (defined?(@testing) && @testing)
       puts "[Coveralls] Outside the Travis environment, not sending data.".yellow
       return false
     end
 
-    if ENV["COVERALLS_RUN_LOCALLY"] || @run_locally
+    if ENV["COVERALLS_RUN_LOCALLY"] || (defined?(@run_locally) && @run_locally)
       puts "[Coveralls] Creating a new job on Coveralls from local coverage results.".cyan
     end
 
@@ -93,6 +93,6 @@ module Coveralls
   end
 
   def noisy?
-    ENV["COVERALLS_NOISY"] || @noisy
+    ENV["COVERALLS_NOISY"] || (defined?(@noisy) && @noisy)
   end
 end
