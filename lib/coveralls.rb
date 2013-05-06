@@ -69,7 +69,7 @@ module Coveralls
         end
       elsif block_given?
         puts "[Coveralls] Using SimpleCov settings defined in block.".green
-        ::SimpleCov.start { instance_eval &block }
+        ::SimpleCov.start { instance_eval(&block) }
       else
         puts "[Coveralls] Using SimpleCov's default settings.".green
         ::SimpleCov.start
