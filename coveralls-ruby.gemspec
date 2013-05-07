@@ -16,7 +16,7 @@ Gem::Specification.new do |gem|
   gem.version       = Coveralls::VERSION
 
   gem.add_dependency 'rest-client'
-  gem.add_dependency 'colorize'
+  gem.add_dependency 'term-ansicolor'
   gem.add_dependency 'multi_json', '~> 1.3'
   gem.add_dependency 'thor'
 

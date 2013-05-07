@@ -1,4 +1,4 @@
-require 'colorize'
+require 'term/ansicolor'
 
 require "coveralls/version"
 require "coveralls/configuration"
@@ -11,6 +11,10 @@ module Coveralls
   class NilFormatter
     def format( result )
     end
+  end
+
+  class ColorFormat
+    extend Term::ANSIColor
   end
 
   attr_accessor :testing, :noisy, :adapter, :run_locally
@@ -49,9 +53,9 @@ module Coveralls
     # Load the appropriate adapter.
     if @@adapter == :simplecov
       ::SimpleCov.formatter = Coveralls::SimpleCov::Formatter
-      puts "[Coveralls] Set up the SimpleCov formatter.".green
+      puts ColorFormat.green("[Coveralls] Set up the SimpleCov formatter.")
     else
-      puts "[Coveralls] Couldn't find an appropriate adapter.".red
+      puts ColorFormat.red("[Coveralls] Couldn't find an appropriate adapter.")
     end
 
   end
@@ -61,17 +65,17 @@ module Coveralls
       ::SimpleCov.add_filter 'vendor'
 
       if simplecov_setting
-        puts "[Coveralls] Using SimpleCov's '#{simplecov_setting}' settings.".green
+        puts ColorFormat.green("[Coveralls] Using SimpleCov's '#{simplecov_setting}' settings.")
         if block_given?
           ::SimpleCov.start(simplecov_setting) { instance_eval &block }
         else
           ::SimpleCov.start(simplecov_setting)
         end
       elsif block_given?
-        puts "[Coveralls] Using SimpleCov settings defined in block.".green
+        puts ColorFormat.green("[Coveralls] Using SimpleCov settings defined in block.")
         ::SimpleCov.start { instance_eval &block }
       else
-        puts "[Coveralls] Using SimpleCov's default settings.".green
+        puts ColorFormat.green("[Coveralls] Using SimpleCov's default settings.")
         ::SimpleCov.start
       end
     end
@@ -81,12 +85,12 @@ module Coveralls
     # Fail early if we're not on a CI
     unless ENV["CI"] || ENV["JENKINS_URL"] ||
       ENV["COVERALLS_RUN_LOCALLY"] || @testing
-      puts "[Coveralls] Outside the Travis environment, not sending data.".yellow
+      puts ColorFormat.yellow("[Coveralls] Outside the Travis environment, not sending data.")
       return false
     end
 
     if ENV["COVERALLS_RUN_LOCALLY"] || @run_locally
-      puts "[Coveralls] Creating a new job on Coveralls from local coverage results.".cyan
+      puts ColorFormat.cyan("[Coveralls] Creating a new job on Coveralls from local coverage results.")
     end
 
     true

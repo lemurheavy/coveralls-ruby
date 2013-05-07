@@ -12,19 +12,19 @@ module Coveralls
 		def self.post_json(endpoint, hash)
 			disable_net_blockers!
 			url = endpoint_to_url(endpoint)
-			puts MultiJson.dump(hash, :pretty => true).green if ENV['COVERALLS_DEBUG']
+			puts ColorFormat.green("#{ MultiJson.dump(hash, :pretty => true) }") if ENV['COVERALLS_DEBUG']
 			hash = apified_hash hash
-			puts "[Coveralls] Submitting to #{API_BASE}".cyan
+			puts ColorFormat.cyan("[Coveralls] Submitting to #{API_BASE}")
 			response = RestClient.post(url, :json_file => hash_to_file(hash))
 			response_hash = MultiJson.load(response.to_str)
-			puts ("[Coveralls] " + response_hash['message']).cyan
+			puts ColorFormat.cyan("[Coveralls] " + response_hash['message'])
 			if response_hash['message']
-				puts ("[Coveralls] " + response_hash['url'].underline).cyan
+				puts ColorFormat.cyan("[Coveralls] " + ColorFormat.underline(response_hash['url']))
 			end
 		rescue RestClient::ServiceUnavailable
-			puts ("[Coveralls] API timeout occured, but data should still be processed").red
+			puts ColorFormat.red("[Coveralls] API timeout occured, but data should still be processed")
 		rescue RestClient::InternalServerError
-			puts ("[Coveralls] API internal error occured, we're on it!").red
+			puts ColorFormat.red("[Coveralls] API internal error occured, we're on it!")
 		end
 
 		private
@@ -58,9 +58,9 @@ module Coveralls
 		def self.apified_hash hash
 			config = Coveralls::Configuration.configuration
 			if ENV['CI'] || ENV['COVERALLS_DEBUG'] || Coveralls.testing
-				puts "[Coveralls] Submiting with config:".yellow
-				puts MultiJson.dump(config, :pretty => true).
-					gsub(/"repo_token": "(.*?)"/,'"repo_token": "[secure]"').yellow
+				puts ColorFormat.yellow("[Coveralls] Submiting with config:")
+				puts ColorFormat.yellow(MultiJson.dump(config, :pretty => true).
+					gsub(/"repo_token": "(.*?)"/,'"repo_token": "[secure]"'))
 			end
 			hash.merge(config)
 		end
