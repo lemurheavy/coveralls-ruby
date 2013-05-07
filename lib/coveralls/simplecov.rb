@@ -11,7 +11,7 @@ module Coveralls
         end
         result.files.each do |f|
           print "  * "
-          print ColorFormat.cyan(short_filename(f.filename))
+          print ColorFormat.cyan(short_filename(f.filename).to_s)
           print ColorFormat.white(" => ")
           cov = "#{f.covered_percent.round}%"
           if f.covered_percent > 90

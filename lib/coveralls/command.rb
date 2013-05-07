@@ -57,8 +57,9 @@ module Coveralls
     def ensure_can_run_locally!
       config = Coveralls::Configuration.configuration
       if config[:repo_token].nil?
-        puts "Coveralls cannot run locally because no repo_secret_token is set in .coveralls.yml".red
-        puts "Please try again when you get your act together.".red
+        puts ColorFormat.red("Coveralls cannot run locally because no repo_secret_token is set in .coveralls.yml")
+        puts ColorFormat.red("Please try again when you get your act together.")
+
         return false
       end
       true

@@ -109,8 +109,8 @@ module Coveralls
       hash
 
     rescue Exception => e
-      puts "#{ ColorFormat.red }Coveralls git error: #{ ColorFormat.reset }"
-      puts "#{ ColorFormat.red }#{ e.to_s.red }#{ ColorFormat.reset }"
+      puts ColorFormat.red("Coveralls git error:")
+      puts ColorFormat.red(e.to_s)
       nil
     end
 
