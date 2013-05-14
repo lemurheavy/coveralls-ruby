@@ -7,7 +7,7 @@ module Coveralls
         if result.files.length > 0
           puts "[Coveralls] Some handy coverage stats:"
         else
-          Coveralls::Output "[Coveralls] There are no covered files.", color: "yellow"
+          Coveralls::Output.puts "[Coveralls] There are no covered files.", color: "yellow"
         end
         result.files.each do |f|
           print "  * "

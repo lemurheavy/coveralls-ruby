@@ -14,10 +14,6 @@ module Coveralls
     end
   end
 
-  class ColorFormat
-    extend Term::ANSIColor
-  end
-
   attr_accessor :testing, :noisy, :adapter, :run_locally
 
   def wear!(simplecov_setting=nil, &block)
