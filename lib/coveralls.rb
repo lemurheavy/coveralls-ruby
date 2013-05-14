@@ -1,5 +1,3 @@
-require 'term/ansicolor'
-
 require "coveralls/version"
 require "coveralls/configuration"
 require "coveralls/api"
