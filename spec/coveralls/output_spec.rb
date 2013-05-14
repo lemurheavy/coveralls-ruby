@@ -5,7 +5,7 @@ describe Coveralls::Output do
     it "accepts a color argument" do
       string = 'Hello'
       ansi_color_string =  Term::ANSIColor.red(string)
-      Coveralls::Output.format(string, color: 'red').should eq(ansi_color_string)
+      Coveralls::Output.format(string, :color => 'red').should eq(ansi_color_string)
     end
 
     it "also accepts no color arguments" do
@@ -15,7 +15,7 @@ describe Coveralls::Output do
 
     it "rejects formats unrecognized by Term::ANSIColor" do
       string = 'Hi dog!'
-      Coveralls::Output.format(string, color: "not_a_real_color").should eq(string)
+      Coveralls::Output.format(string, :color => "not_a_real_color").should eq(string)
     end
 
     it "accepts more than 1 color argument" do
@@ -23,7 +23,7 @@ describe Coveralls::Output do
 
       string = 'Hi dog!'
       multi_formatted_string = Term::ANSIColor.red{ Term::ANSIColor.underline(string) }
-      Coveralls::Output.format(string, color: 'red underline').should eq(multi_formatted_string)
+      Coveralls::Output.format(string, :color => 'red underline').should eq(multi_formatted_string)
     end
   end
 end

@@ -9,13 +9,13 @@ module Coveralls
   #
   # Examples
   #
-  #   Coveralls::Output.format("Hello World", color: "cyan")
+  #   Coveralls::Output.format("Hello World", :color => "cyan")
   #   # => "\e[36mHello World\e[0m"
   #
   #   Coveralls::Output.print("Hello World")
   #   # Hello World => nil
   #
-  #   Coveralls::Output.puts("Hello World", color: "underline")
+  #   Coveralls::Output.puts("Hello World", :color => "underline")
   #   # Hello World
   #   # => nil
   module Output
@@ -32,7 +32,7 @@ module Coveralls
     #
     # Examples
     #
-    #   Coveralls::Output.format("Hello World!", color: "cyan")
+    #   Coveralls::Output.format("Hello World!", :color => "cyan")
     #   # => "\e[36mHello World\e[0m"
     #
     # Returns the formatted string.
@@ -54,7 +54,7 @@ module Coveralls
     #
     # Example
     #
-    #   Coveralls::Output.puts("Hello World", color: "cyan")
+    #   Coveralls::Output.puts("Hello World", :color => "cyan")
     #
     # Returns nil.
     def puts(string, options = {})
@@ -70,7 +70,7 @@ module Coveralls
     #
     # Example
     #
-    #   Coveralls::Output.print("Hello World!", color: "underline")
+    #   Coveralls::Output.print("Hello World!", :color => "underline")
     #
     # Returns nil.
     def print(string, options = {})
