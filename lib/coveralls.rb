@@ -1,8 +1,7 @@
-require 'colorize'
-
 require "coveralls/version"
 require "coveralls/configuration"
 require "coveralls/api"
+require "coveralls/output"
 require "coveralls/simplecov"
 
 module Coveralls
@@ -49,9 +48,9 @@ module Coveralls
     # Load the appropriate adapter.
     if @@adapter == :simplecov
       ::SimpleCov.formatter = Coveralls::SimpleCov::Formatter
-      puts "[Coveralls] Set up the SimpleCov formatter.".green
+      Coveralls::Output.puts("[Coveralls] Set up the SimpleCov formatter.", :color => "green")
     else
-      puts "[Coveralls] Couldn't find an appropriate adapter.".red
+      Coveralls::Output.puts("[Coveralls] Couldn't find an appropriate adapter.", :color => "red")
     end
 
   end
@@ -61,17 +60,17 @@ module Coveralls
       ::SimpleCov.add_filter 'vendor'
 
       if simplecov_setting
-        puts "[Coveralls] Using SimpleCov's '#{simplecov_setting}' settings.".green
+        Coveralls::Output.puts("[Coveralls] Using SimpleCov's '#{simplecov_setting}' settings.", :color => "green")
         if block_given?
           ::SimpleCov.start(simplecov_setting) { instance_eval &block }
         else
           ::SimpleCov.start(simplecov_setting)
         end
       elsif block_given?
-        puts "[Coveralls] Using SimpleCov settings defined in block.".green
+        Coveralls::Output.puts("[Coveralls] Using SimpleCov settings defined in block.", :color => "green")
         ::SimpleCov.start { instance_eval &block }
       else
-        puts "[Coveralls] Using SimpleCov's default settings.".green
+        Coveralls::Output.puts("[Coveralls] Using SimpleCov's default settings.", :color => "green")
         ::SimpleCov.start
       end
     end
@@ -81,12 +80,12 @@ module Coveralls
     # Fail early if we're not on a CI
     unless ENV["CI"] || ENV["JENKINS_URL"] ||
       ENV["COVERALLS_RUN_LOCALLY"] || @testing
-      puts "[Coveralls] Outside the Travis environment, not sending data.".yellow
+      Coveralls::Output.puts("[Coveralls] Outside the Travis environment, not sending data.", :color => "yellow")
       return false
     end
 
     if ENV["COVERALLS_RUN_LOCALLY"] || @run_locally
-      puts "[Coveralls] Creating a new job on Coveralls from local coverage results.".cyan
+      Coveralls::Output.puts("[Coveralls] Creating a new job on Coveralls from local coverage results.", :color => "cyan")
     end
 
     true
