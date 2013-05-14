@@ -17,14 +17,14 @@ module Coveralls
 			puts "[Coveralls] Submitting to #{API_BASE}".cyan
 			response = RestClient.post(url, :json_file => hash_to_file(hash))
 			response_hash = MultiJson.load(response.to_str)
-			puts ("[Coveralls] " + response_hash['message']).cyan
+			puts(("[Coveralls] " + response_hash['message']).cyan)
 			if response_hash['message']
-				puts ("[Coveralls] " + response_hash['url'].underline).cyan
+				puts(("[Coveralls] " + response_hash['url'].underline).cyan)
 			end
 		rescue RestClient::ServiceUnavailable
-			puts ("[Coveralls] API timeout occured, but data should still be processed").red
+			puts(("[Coveralls] API timeout occured, but data should still be processed").red)
 		rescue RestClient::InternalServerError
-			puts ("[Coveralls] API internal error occured, we're on it!").red
+			puts(("[Coveralls] API internal error occured, we're on it!").red)
 		end
 
 		private
