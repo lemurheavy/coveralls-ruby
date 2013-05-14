@@ -12,19 +12,19 @@ module Coveralls
 		def self.post_json(endpoint, hash)
 			disable_net_blockers!
 			url = endpoint_to_url(endpoint)
-			puts ColorFormat.green("#{ MultiJson.dump(hash, :pretty => true) }") if ENV['COVERALLS_DEBUG']
+      Coveralls::Output.puts("#{ MultiJson.dump(hash, :pretty => true) }", color: "green") if ENV['COVERALLS_DEBUG']
 			hash = apified_hash hash
-			puts ColorFormat.cyan("[Coveralls] Submitting to #{API_BASE}")
+      Coveralls::Output.puts "[Coveralls] Submitting to #{API_BASE}", color: "cyan"
 			response = RestClient.post(url, :json_file => hash_to_file(hash))
 			response_hash = MultiJson.load(response.to_str)
-			puts ColorFormat.cyan("[Coveralls] " + response_hash['message'])
+      Coveralls::Output.puts "[Coveralls] #{ response_hash['message'] }", color: "cyan"
 			if response_hash['message']
-				puts ColorFormat.cyan("[Coveralls] " + ColorFormat.underline(response_hash['url']))
+        Coveralls::Output.puts("[Coveralls] #{ Coveralls::Output.format(response_hash['url'], color: "underline") }", color: "cyan")
 			end
 		rescue RestClient::ServiceUnavailable
-			puts ColorFormat.red("[Coveralls] API timeout occured, but data should still be processed")
+			Coveralls::Output.puts "[Coveralls] API timeout occured, but data should still be processed", color: "red"
 		rescue RestClient::InternalServerError
-			puts ColorFormat.red("[Coveralls] API internal error occured, we're on it!")
+      Coveralls::Output.puts "[Coveralls] API internal error occured, we're on it!", color: "red"
 		end
 
 		private
@@ -58,9 +58,9 @@ module Coveralls
 		def self.apified_hash hash
 			config = Coveralls::Configuration.configuration
 			if ENV['CI'] || ENV['COVERALLS_DEBUG'] || Coveralls.testing
-				puts ColorFormat.yellow("[Coveralls] Submiting with config:")
-				puts ColorFormat.yellow(MultiJson.dump(config, :pretty => true).
-					gsub(/"repo_token": "(.*?)"/,'"repo_token": "[secure]"'))
+        Coveralls::Output.puts "[Coveralls] Submiting with config:", color: "yellow"
+        Coveralls::Output.puts MultiJson.dump(config, :pretty => true)
+					.gsub(/"repo_token": "(.*?)"/,'"repo_token": "[secure]"'), color: "yellow"
 			end
 			hash.merge(config)
 		end
