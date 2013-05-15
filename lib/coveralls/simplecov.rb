@@ -7,19 +7,19 @@ module Coveralls
         if result.files.length > 0
           puts "[Coveralls] Some handy coverage stats:"
         else
-          puts "[Coveralls] There are no covered files.".yellow
+          Coveralls::Output.puts "[Coveralls] There are no covered files.", :color => "yellow"
         end
         result.files.each do |f|
           print "  * "
-          print "#{short_filename(f.filename)}".cyan
-          print " => ".white
+          Coveralls::Output.print short_filename(f.filename).to_s, :color => "cyan"
+          Coveralls::Output.print " => ", :color => "white"
           cov = "#{f.covered_percent.round}%"
           if f.covered_percent > 90
-            print cov.green
+            Coveralls::Output.print cov, :color => "green"
           elsif f.covered_percent > 80
-            print cov.yellow
+            Coveralls::Output.print cov, :color => "yellow"
           else
-            print cov.red
+            Coveralls::Output.print cov, :color => "red"
           end
           puts ""
         end
@@ -79,14 +79,14 @@ module Coveralls
       end
 
       def display_error(e)
-        puts "Coveralls encountered an exception:".red
-        puts e.class.to_s.red
-        puts e.message.red
+        Coveralls::Output.puts "Coveralls encountered an exception:", :color => "red"
+        Coveralls::Output.puts e.class.to_s, :color => "red"
+        Coveralls::Output.puts e.message, :color => "red"
         e.backtrace.each do |line|
-          puts line.red
+          Coveralls::Output.puts line, :color => "red"
         end if e.backtrace
         if e.respond_to?(:response) && e.response
-          puts e.response.to_s.red
+          Coveralls::Output.puts e.response.to_s, :color => "red"
         end
         false
       end
