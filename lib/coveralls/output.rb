@@ -22,6 +22,8 @@ module Coveralls
     require 'term/ansicolor'
     extend self
 
+    attr_accessor :silent
+
     # Public: Formats the given string with the specified color
     # through Term::ANSIColor
     #
@@ -58,6 +60,7 @@ module Coveralls
     #
     # Returns nil.
     def puts(string, options = {})
+      return if silent?
       Kernel.puts self.format(string, options)
     end
 
@@ -74,7 +77,12 @@ module Coveralls
     #
     # Returns nil.
     def print(string, options = {})
+      return if silent?
       Kernel.print self.format(string, options)
+    end
+
+    def silent?
+      ENV["COVERALLS_SILENT"] || @silent
     end
   end
 end
