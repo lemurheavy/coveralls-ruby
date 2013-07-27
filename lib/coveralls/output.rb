@@ -37,11 +37,14 @@ module Coveralls
     #
     # Returns the formatted string.
     def format(string, options = {})
-      if options[:color] && Term::ANSIColor.respond_to?(options[:color].to_sym)
-        Term::ANSIColor.send(options[:color].to_sym, string)
-      else
-        string
+      if options[:color]
+        options[:color].split(/\s/).reverse_each do |color|
+          if Term::ANSIColor.respond_to?(color.to_sym)
+            string = Term::ANSIColor.send(color.to_sym, string)
+          end
+        end
       end
+      string
     end
 
     # Public: Passes .format to Kernel#puts
