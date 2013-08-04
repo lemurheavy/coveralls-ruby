@@ -79,12 +79,12 @@ module Coveralls
   def should_run?
     # Fail early if we're not on a CI
     unless ENV["CI"] || ENV["JENKINS_URL"] ||
-      ENV["COVERALLS_RUN_LOCALLY"] || @testing
+      ENV["COVERALLS_RUN_LOCALLY"] || defined?(@testing) && @testing
       Coveralls::Output.puts("[Coveralls] Outside the Travis environment, not sending data.", :color => "yellow")
       return false
     end
 
-    if ENV["COVERALLS_RUN_LOCALLY"] || @run_locally
+    if ENV["COVERALLS_RUN_LOCALLY"] || defined?(@run_locally) && @run_locally
       Coveralls::Output.puts("[Coveralls] Creating a new job on Coveralls from local coverage results.", :color => "cyan")
     end
 
@@ -92,6 +92,6 @@ module Coveralls
   end
 
   def noisy?
-    ENV["COVERALLS_NOISY"] || @noisy
+    ENV["COVERALLS_NOISY"] || defined?(@noisy) && @noisy
   end
 end
