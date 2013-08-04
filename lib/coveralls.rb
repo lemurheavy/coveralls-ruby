@@ -62,13 +62,13 @@ module Coveralls
       if simplecov_setting
         Coveralls::Output.puts("[Coveralls] Using SimpleCov's '#{simplecov_setting}' settings.", :color => "green")
         if block_given?
-          ::SimpleCov.start(simplecov_setting) { instance_eval &block }
+          ::SimpleCov.start(simplecov_setting) { instance_eval(&block) }
         else
           ::SimpleCov.start(simplecov_setting)
         end
       elsif block_given?
         Coveralls::Output.puts("[Coveralls] Using SimpleCov settings defined in block.", :color => "green")
-        ::SimpleCov.start { instance_eval &block }
+        ::SimpleCov.start { instance_eval(&block) }
       else
         Coveralls::Output.puts("[Coveralls] Using SimpleCov's default settings.", :color => "green")
         ::SimpleCov.start
