@@ -12,7 +12,7 @@ module Coveralls
     end
   end
 
-  attr_accessor :testing, :noisy, :adapter, :run_locally
+  attr_accessor :testing, :noisy, :run_locally
 
   def wear!(simplecov_setting=nil, &block)
     setup!
