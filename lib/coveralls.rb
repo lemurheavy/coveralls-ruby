@@ -8,11 +8,11 @@ module Coveralls
   extend self
 
   class NilFormatter
-    def format( result )
+    def format(result)
     end
   end
 
-  attr_accessor :testing, :noisy, :adapter, :run_locally
+  attr_accessor :testing, :noisy, :run_locally
 
   def wear!(simplecov_setting=nil, &block)
     setup!
@@ -62,13 +62,13 @@ module Coveralls
       if simplecov_setting
         Coveralls::Output.puts("[Coveralls] Using SimpleCov's '#{simplecov_setting}' settings.", :color => "green")
         if block_given?
-          ::SimpleCov.start(simplecov_setting) { instance_eval &block }
+          ::SimpleCov.start(simplecov_setting) { instance_eval(&block)}
         else
           ::SimpleCov.start(simplecov_setting)
         end
       elsif block_given?
         Coveralls::Output.puts("[Coveralls] Using SimpleCov settings defined in block.", :color => "green")
-        ::SimpleCov.start { instance_eval &block }
+        ::SimpleCov.start { instance_eval(&block)}
       else
         Coveralls::Output.puts("[Coveralls] Using SimpleCov's default settings.", :color => "green")
         ::SimpleCov.start
@@ -79,12 +79,12 @@ module Coveralls
   def should_run?
     # Fail early if we're not on a CI
     unless ENV["CI"] || ENV["JENKINS_URL"] ||
-      ENV["COVERALLS_RUN_LOCALLY"] || @testing
+      ENV["COVERALLS_RUN_LOCALLY"] || testing
       Coveralls::Output.puts("[Coveralls] Outside the Travis environment, not sending data.", :color => "yellow")
       return false
     end
 
-    if ENV["COVERALLS_RUN_LOCALLY"] || @run_locally
+    if ENV["COVERALLS_RUN_LOCALLY"] || run_locally
       Coveralls::Output.puts("[Coveralls] Creating a new job on Coveralls from local coverage results.", :color => "cyan")
     end
 
@@ -92,6 +92,6 @@ module Coveralls
   end
 
   def noisy?
-    ENV["COVERALLS_NOISY"] || @noisy
+    ENV["COVERALLS_NOISY"] || noisy
   end
 end
