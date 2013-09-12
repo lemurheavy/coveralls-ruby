@@ -24,10 +24,6 @@ Gem::Specification.new do |gem|
     gem.add_dependency 'simplecov', ">= 0.7"
   end
 
-  unless ENV["CI"]
-    gem.add_development_dependency 'debugger'
-  end
-
   gem.add_runtime_dependency('jruby-openssl') if RUBY_PLATFORM == 'java'
 
   gem.add_development_dependency 'rspec'
