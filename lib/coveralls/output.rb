@@ -20,7 +20,13 @@ module Coveralls
   #   # => nil
   module Output
     require 'term/ansicolor'
+    attr_writer :output
     extend self
+
+    def output
+      @output || $stdout
+    end
+
 
     # Public: Formats the given string with the specified color
     # through Term::ANSIColor
@@ -58,7 +64,7 @@ module Coveralls
     #
     # Returns nil.
     def puts(string, options = {})
-      Kernel.puts self.format(string, options)
+      (options[:output] || output).puts self.format(string, options)
     end
 
     # Public: Passes .format to Kernel#print
@@ -74,7 +80,7 @@ module Coveralls
     #
     # Returns nil.
     def print(string, options = {})
-      Kernel.print self.format(string, options)
+      (options[:output] || output).print self.format(string, options)
     end
   end
 end
