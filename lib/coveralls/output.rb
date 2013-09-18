@@ -24,7 +24,7 @@ module Coveralls
     extend self
 
     def output
-      @output || $stdout
+      (defined?(@output) && @output) || $stdout
     end
 
 

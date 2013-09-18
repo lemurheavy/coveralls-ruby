@@ -6,10 +6,11 @@ describe Coveralls::SimpleCov::Formatter do
     stub_api_post
   end
 
+  def source_fixture(filename)
+    File.expand_path( File.join( File.dirname( __FILE__ ), 'fixtures', filename ) )
+  end
+
   let(:result) {
-    def source_fixture(filename)
-      File.expand_path( File.join( File.dirname( __FILE__ ), 'fixtures', filename ) )
-    end
 
     SimpleCov::Result.new({
       source_fixture( 'sample.rb' )                  => [nil, 1, 1, 1, nil, 0, 1, 1, nil, nil],
