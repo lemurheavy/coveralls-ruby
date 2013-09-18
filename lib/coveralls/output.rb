@@ -18,15 +18,24 @@ module Coveralls
   #   Coveralls::Output.puts("Hello World", :color => "underline")
   #   # Hello World
   #   # => nil
+  #
+  # To silence output completely:
+  #
+  #   Coveralls::Output.silent = true
+  #
+  # or set this environment variable:
+  #
+  #   COVERALLS_SILENT
+
   module Output
     require 'term/ansicolor'
+    attr_accessor :silent
     attr_writer :output
     extend self
 
     def output
       (defined?(@output) && @output) || $stdout
     end
-
 
     # Public: Formats the given string with the specified color
     # through Term::ANSIColor
@@ -64,6 +73,7 @@ module Coveralls
     #
     # Returns nil.
     def puts(string, options = {})
+      return if silent?
       (options[:output] || output).puts self.format(string, options)
     end
 
@@ -80,7 +90,12 @@ module Coveralls
     #
     # Returns nil.
     def print(string, options = {})
+      return if silent?
       (options[:output] || output).print self.format(string, options)
+    end
+
+    def silent?
+      ENV["COVERALLS_SILENT"] || (defined?(@silent) && @silent)
     end
   end
 end

@@ -5,12 +5,12 @@ module Coveralls
       def display_result(result)
         # Log which files would be submitted.
         if result.files.length > 0
-          puts "[Coveralls] Some handy coverage stats:"
+          Coveralls::Output.puts "[Coveralls] Some handy coverage stats:"
         else
           Coveralls::Output.puts "[Coveralls] There are no covered files.", :color => "yellow"
         end
         result.files.each do |f|
-          print "  * "
+          Coveralls::Output.print "  * "
           Coveralls::Output.print short_filename(f.filename).to_s, :color => "cyan"
           Coveralls::Output.print " => ", :color => "white"
           cov = "#{f.covered_percent.round}%"
@@ -21,7 +21,7 @@ module Coveralls
           else
             Coveralls::Output.print cov, :color => "red"
           end
-          puts ""
+          Coveralls::Output.puts ""
         end
         true
       end
@@ -70,7 +70,7 @@ module Coveralls
 
         # Post to Coveralls.
         API.post_json "jobs", {:source_files => source_files, :test_framework => result.command_name.downcase, :run_at => result.created_at}
-        puts output_message result
+        Coveralls::Output.puts output_message result
 
         true
 

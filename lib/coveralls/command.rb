@@ -39,7 +39,7 @@ module Coveralls
 
     desc "version", "See version"
     def version
-      puts Coveralls::VERSION
+      Coveralls::Output.puts Coveralls::VERSION
     end
 
     private
@@ -50,7 +50,7 @@ module Coveralls
         url = url.gsub("%@", config[:repo_token])
         `open #{url}`
       else
-        puts "No repo_token configured."
+        Coveralls::Output.puts "No repo_token configured."
       end
     end
 

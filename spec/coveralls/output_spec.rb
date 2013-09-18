@@ -33,6 +33,28 @@ describe Coveralls::Output do
     end
   end
 
+  describe 'when silenced' do
+    before do
+      @original_stdout = $stdout
+      @output = StringIO.new
+      Coveralls::Output.silent = true
+      $stdout = @output
+    end
+    it "should not puts" do
+      Coveralls::Output.puts "foo"
+      @output.rewind
+      @output.read.should == ""
+    end
+    it "should not print" do
+      Coveralls::Output.print "foo"
+      @output.rewind
+      @output.read.should == ""
+    end
+    after do
+      $stdout = @original_stdout
+    end
+  end
+
   describe '.format' do
     it "accepts a color argument" do
       string = 'Hello'
