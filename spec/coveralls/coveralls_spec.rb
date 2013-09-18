@@ -13,7 +13,19 @@ describe Coveralls do
     end
 
     context "with CI disabled" do
-      before { Coveralls.testing = false }
+      before do
+        @ci = ENV['CI']
+        ENV['CI'] = nil
+        @coveralls_run_locally = ENV['COVERALLS_RUN_LOCALLY']
+        ENV['COVERALLS_RUN_LOCALLY'] = nil
+
+        Coveralls.testing = false
+      end
+
+      after do
+        ENV['CI'] = @ci
+        ENV['COVERALLS_RUN_LOCALLY'] = @coveralls_run_locally
+      end
 
       it "indicates no run" do
         Coveralls.will_run?.should be_false
