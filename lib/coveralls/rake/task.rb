@@ -1,6 +1,5 @@
 require 'rake'
 require 'rake/tasklib'
-require 'json'
 
 module Coveralls
   class RakeTask < ::Rake::TaskLib
