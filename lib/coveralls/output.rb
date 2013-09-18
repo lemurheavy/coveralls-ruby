@@ -26,15 +26,22 @@ module Coveralls
   # or set this environment variable:
   #
   #   COVERALLS_SILENT
+  #
+  # To disable color completely:
+  #
+  #   Coveralls::Output.no_color = true
 
   module Output
-    require 'term/ansicolor'
-    attr_accessor :silent
+    attr_accessor :silent, :no_color
     attr_writer :output
     extend self
 
     def output
       (defined?(@output) && @output) || $stdout
+    end
+
+    def no_color?
+      (defined?(@no_color)) && @no_color
     end
 
     # Public: Formats the given string with the specified color
@@ -52,10 +59,13 @@ module Coveralls
     #
     # Returns the formatted string.
     def format(string, options = {})
-      if options[:color]
-        options[:color].split(/\s/).reverse_each do |color|
-          if Term::ANSIColor.respond_to?(color.to_sym)
-            string = Term::ANSIColor.send(color.to_sym, string)
+      unless no_color?
+        require 'term/ansicolor'
+        if options[:color]
+          options[:color].split(/\s/).reverse_each do |color|
+            if Term::ANSIColor.respond_to?(color.to_sym)
+              string = Term::ANSIColor.send(color.to_sym, string)
+            end
           end
         end
       end
