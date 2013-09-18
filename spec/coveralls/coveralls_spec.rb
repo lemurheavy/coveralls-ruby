@@ -7,6 +7,20 @@ describe Coveralls do
     Coveralls.testing = true
   end
 
+  describe "#will_run?" do
+    it "checks CI environemnt variables" do
+      Coveralls.will_run?.should be_true
+    end
+
+    context "with CI disabled" do
+      before { Coveralls.testing = false }
+
+      it "indicates no run" do
+        Coveralls.will_run?.should be_false
+      end
+    end
+  end
+
   describe "#should_run?" do
     it "outputs to stdout when running locally" do
       Coveralls.testing = false
