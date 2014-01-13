@@ -4,3 +4,9 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'simplecov', :require => false
+
+platform :rbx do
+  gem 'rubysl', '~> 2.0'
+  gem 'json'
+  gem 'rubinius-developer_tools'
+end
