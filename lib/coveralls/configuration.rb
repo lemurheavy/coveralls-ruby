@@ -24,6 +24,8 @@ module Coveralls
         set_service_params_for_semaphore(config)
       elsif ENV['JENKINS_URL']
         set_service_params_for_jenkins(config)
+      elsif ENV['APPVEYOR']
+        set_service_params_for_appveyor(config)
       elsif ENV['COVERALLS_RUN_LOCALLY'] || Coveralls.testing
         set_service_params_for_coveralls_local(config)
       # standardized env vars
@@ -52,6 +54,15 @@ module Coveralls
     def self.set_service_params_for_jenkins(config)
       config[:service_name]   = 'jenkins'
       config[:service_number] = ENV['BUILD_NUMBER']
+    end
+
+    def self.set_service_params_for_appveyor(config)
+      config[:service_name]   = 'appveyor'
+      config[:service_number] = ENV['APPVEYOR_BUILD_VERSION']
+      config[:service_branch] = ENV['APPVEYOR_REPO_BRANCH']
+      config[:commit_sha] = ENV['APPVEYOR_REPO_COMMIT']
+      repo_name = ENV['APPVEYOR_REPO_NAME']
+      config[:service_build_url]  = 'https://ci.appveyor.com/project/%s/build/%s' % [repo_name, config[:service_number]]
     end
 
     def self.set_service_params_for_coveralls_local(config)
