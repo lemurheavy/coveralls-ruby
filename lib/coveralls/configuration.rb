@@ -2,6 +2,7 @@ module Coveralls
   module Configuration
 
     require 'yaml'
+    require 'securerandom'
 
     def self.configuration
       config = {
