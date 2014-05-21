@@ -54,7 +54,7 @@ module Coveralls
 
 		def self.hash_to_file(hash)
 			file = nil
-			Tempfile.open(['coveralls-upload', 'json']) do |f|
+			Tempfile.open(['coveralls-upload', '.json']) do |f|
 				f.write(MultiJson.dump hash)
 				file = f
 			end
