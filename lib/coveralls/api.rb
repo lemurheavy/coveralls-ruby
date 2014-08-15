@@ -4,9 +4,15 @@ module Coveralls
 		require 'multi_json'
 		require 'rest_client'
 
-		API_HOST = ENV['COVERALLS_DEVELOPMENT'] ? "localhost:3000" : "coveralls.io"
-		API_PROTOCOL = ENV['COVERALLS_DEVELOPMENT'] ? "http" : "https"
-		API_DOMAIN = "#{API_PROTOCOL}://#{API_HOST}"
+		if ENV['COVERALLS_ENDPOINT']
+			API_HOST = ENV['COVERALLS_ENDPOINT']
+			API_DOMAIN = ENV['COVERALLS_ENDPOINT']
+		else
+			API_HOST = ENV['COVERALLS_DEVELOPMENT'] ? "localhost:3000" : "coveralls.io"
+			API_PROTOCOL = ENV['COVERALLS_DEVELOPMENT'] ? "http" : "https"
+			API_DOMAIN = "#{API_PROTOCOL}://#{API_HOST}"
+		end
+
 		API_BASE = "#{API_DOMAIN}/api/v1"
 
 		def self.post_json(endpoint, hash)
