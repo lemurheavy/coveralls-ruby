@@ -21,7 +21,7 @@ module Coveralls
       Coveralls::Output.puts("#{ MultiJson.dump(hash, :pretty => true) }", :color => "green") if ENV['COVERALLS_DEBUG']
 			hash = apified_hash hash
       Coveralls::Output.puts("[Coveralls] Submitting to #{API_BASE}", :color => "cyan")
-			response = RestClient.post(url, :json_file => hash_to_file(hash))
+			response = RestClient::Request.execute(:method => :post, :url => url, :payload => { :json_file => hash_to_file(hash) }, :ssl_version => 'SSLv23')
 			response_hash = MultiJson.load(response.to_str)
       Coveralls::Output.puts("[Coveralls] #{ response_hash['message'] }", :color => "cyan")
 			if response_hash['message']
