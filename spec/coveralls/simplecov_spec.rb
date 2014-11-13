@@ -33,7 +33,7 @@ describe Coveralls::SimpleCov::Formatter do
       it "posts json" do
         result.files.should_not be_empty
         silence do
-          Coveralls::SimpleCov::Formatter.new.format(result).should be_true
+          Coveralls::SimpleCov::Formatter.new.format(result).should be_truthy
         end
       end
     end
@@ -41,7 +41,7 @@ describe Coveralls::SimpleCov::Formatter do
     context "should not run, noisy" do
       it "only displays result" do
         silence do
-          Coveralls::SimpleCov::Formatter.new.display_result(result).should be_true
+          Coveralls::SimpleCov::Formatter.new.display_result(result).should be_truthy
         end
       end
     end
@@ -64,7 +64,7 @@ describe Coveralls::SimpleCov::Formatter do
       it "rescues" do
         e = RestClient::ResourceNotFound.new double('HTTP Response', :code => '502')
         silence do
-          Coveralls::SimpleCov::Formatter.new.display_error(e).should be_false
+          Coveralls::SimpleCov::Formatter.new.display_error(e).should be_falsy
         end
       end
     end
