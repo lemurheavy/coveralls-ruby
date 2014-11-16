@@ -27,9 +27,9 @@ setup_formatter
 
 require 'coveralls'
 
-VCR.config do |c|
+VCR.configure do |c|
   c.cassette_library_dir = 'fixtures/vcr_cassettes'
-  c.stub_with :webmock
+  c.hook_into :webmock
 end
 
 RSpec.configure do |config|
