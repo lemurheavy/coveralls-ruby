@@ -7,6 +7,7 @@ Gem::Specification.new do |gem|
   gem.description   = "A Ruby implementation of the Coveralls API."
   gem.summary       = "A Ruby implementation of the Coveralls API."
   gem.homepage      = "https://coveralls.io"
+  gem.license       = "MIT"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
