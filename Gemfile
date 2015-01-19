@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'simplecov', :require => false
+gem 'truthy'
 
 platform :rbx do
   gem 'rubysl', '~> 2.0'
