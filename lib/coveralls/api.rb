@@ -65,7 +65,7 @@ module Coveralls
 			config = Coveralls::Configuration.configuration
 			if ENV['CI'] || ENV['COVERALLS_DEBUG'] || Coveralls.testing
         Coveralls::Output.puts "[Coveralls] Submitting with config:", :color => "yellow"
-        output = MultiJson.dump(config, :pretty => true).gsub(/"repo_token": "(.*?)"/,'"repo_token": "[secure]"')
+        output = MultiJson.dump(config, :pretty => true).gsub(/"repo_token": ?"(.*?)"/,'"repo_token": "[secure]"')
         Coveralls::Output.puts output, :color => "yellow"
 			end
 			hash.merge(config)
