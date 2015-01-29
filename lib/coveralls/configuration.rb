@@ -27,6 +27,8 @@ module Coveralls
         set_service_params_for_semaphore(config)
       elsif ENV['JENKINS_URL']
         set_service_params_for_jenkins(config)
+      elsif ENV['TDDIUM']
+        set_service_params_for_tddium(config)
       elsif ENV['COVERALLS_RUN_LOCALLY'] || Coveralls.testing
         set_service_params_for_coveralls_local(config)
       # standardized env vars
@@ -55,6 +57,14 @@ module Coveralls
     def self.set_service_params_for_jenkins(config)
       config[:service_name]   = 'jenkins'
       config[:service_number] = ENV['BUILD_NUMBER']
+    end
+
+    def self.set_service_params_for_tddium(config)
+      config[:service_name]         = 'tddium'
+      config[:service_number]       = ENV['TDDIUM_SESSION_ID']
+      config[:service_pull_request] = ENV['TDDIUM_PR_ID']
+      config[:service_branch]       = ENV['TDDIUM_CURRENT_BRANCH']
+      config[:service_build_url]    = "https://solanolabs.com/reports/#{ENV['TDDIUM_SESSION_ID']}"
     end
 
     def self.set_service_params_for_coveralls_local(config)
