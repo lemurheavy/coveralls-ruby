@@ -16,6 +16,9 @@ module Coveralls
       if ENV['COVERALLS_REPO_TOKEN']
         config[:repo_token] = ENV['COVERALLS_REPO_TOKEN']
       end
+      if ENV['COVERALLS_PARALLEL'] && ENV['COVERALLS_PARALLEL'] != "false"
+        config[:parallel] = true
+      end
       if ENV['TRAVIS']
         set_service_params_for_travis(config, yml ? yml['service_name'] : nil)
       elsif ENV['CIRCLECI']
