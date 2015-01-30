@@ -91,8 +91,8 @@ module Coveralls
   end
 
   def will_run?
-    ENV["CI"] || ENV["JENKINS_URL"] || ENV["COVERALLS_RUN_LOCALLY"] ||
-      (defined?(@testing) && @testing)
+    ENV["CI"] || ENV["JENKINS_URL"] || ENV['TDDIUM'] ||
+      ENV["COVERALLS_RUN_LOCALLY"] || (defined?(@testing) && @testing)
   end
 
   def noisy?

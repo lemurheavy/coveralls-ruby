@@ -1,3 +1,3 @@
 module Coveralls
- VERSION = "0.7.5"
+ VERSION = "0.7.7"
 end
