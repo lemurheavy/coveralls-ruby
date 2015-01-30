@@ -49,7 +49,7 @@ module Coveralls
       config[:service_number]       = ENV['CIRCLE_BUILD_NUM']
       config[:service_pull_request] = (ENV['CI_PULL_REQUEST'] || "")[/(\d+)$/,1]
       config[:parallel]             = ENV['CIRCLE_NODE_TOTAL'].to_i > 1
-      config[:service_job_id]       = ENV['CIRCLE_NODE_INDEX']
+      config[:service_job_number]   = ENV['CIRCLE_NODE_INDEX']
     end
 
     def self.set_service_params_for_semaphore(config)
@@ -65,15 +65,15 @@ module Coveralls
     def self.set_service_params_for_tddium(config)
       config[:service_name]         = 'tddium'
       config[:service_number]       = ENV['TDDIUM_SESSION_ID']
-      config[:service_job_id]       = ENV['TDDIUM_TID']
+      config[:service_job_number]   = ENV['TDDIUM_TID']
       config[:service_pull_request] = ENV['TDDIUM_PR_ID']
       config[:service_branch]       = ENV['TDDIUM_CURRENT_BRANCH']
       config[:service_build_url]    = "https://ci.solanolabs.com/reports/#{ENV['TDDIUM_SESSION_ID']}"
     end
 
     def self.set_service_params_for_coveralls_local(config)
-      config[:service_job_id] = nil
-      config[:service_name]   = 'coveralls-ruby'
+      config[:service_job_id]     = nil
+      config[:service_name]       = 'coveralls-ruby'
       config[:service_event_type] = 'manual'
     end
 
