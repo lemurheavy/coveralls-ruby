@@ -182,6 +182,11 @@ module Coveralls
             :branch => ENV['GIT_BRANCH'],
             :commit_sha => ENV['GIT_COMMIT']
           }
+        elsif ENV['SEMAPHORE']
+          {
+            :branch => ENV['BRANCH_NAME'],
+            :commit_sha => ENV['REVISION']
+          }
         else
           {}
         end
