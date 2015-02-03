@@ -256,4 +256,30 @@ describe Coveralls::Configuration do
       config[:service_pull_request].should eq(service_pull_request)
     end
   end
+
+  describe '.set_service_params_for_appveyor' do
+    let(:service_number) { SecureRandom.hex(4) }
+    let(:service_branch) { SecureRandom.hex(4) }
+    let(:commit_sha) { SecureRandom.hex(4) }
+    let(:repo_name) { SecureRandom.hex(4) }
+
+    before do
+      ENV.stub(:[]).with('APPVEYOR_BUILD_VERSION').and_return(service_number)
+      ENV.stub(:[]).with('APPVEYOR_REPO_BRANCH').and_return(service_branch)
+      ENV.stub(:[]).with('APPVEYOR_REPO_COMMIT').and_return(commit_sha)
+      ENV.stub(:[]).with('APPVEYOR_REPO_NAME').and_return(repo_name)
+    end
+
+    it 'should set the expected parameters' do
+      config = {}
+      Coveralls::Configuration.set_service_params_for_appveyor(config)
+      config[:service_name].should eq('appveyor')
+      config[:service_number].should eq(service_number)
+      config[:service_branch].should eq(service_branch)
+      config[:commit_sha].should eq(commit_sha)
+      config[:service_build_url].should eq('https://ci.appveyor.com/project/%s/build/%s' % [repo_name, service_number])
+    end
+  end
+
+
 end
