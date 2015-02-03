@@ -79,7 +79,7 @@ module Coveralls
   def should_run?
     # Fail early if we're not on a CI
     unless will_run?
-      Coveralls::Output.puts("[Coveralls] Outside the Travis environment, not sending data.", :color => "yellow")
+      Coveralls::Output.puts("[Coveralls] Outside the CI environment, not sending data.", :color => "yellow")
       return false
     end
 
@@ -91,8 +91,8 @@ module Coveralls
   end
 
   def will_run?
-    ENV["CI"] || ENV["JENKINS_URL"] || ENV["COVERALLS_RUN_LOCALLY"] ||
-      (defined?(@testing) && @testing)
+    ENV["CI"] || ENV["JENKINS_URL"] || ENV['TDDIUM'] ||
+      ENV["COVERALLS_RUN_LOCALLY"] || (defined?(@testing) && @testing)
   end
 
   def noisy?

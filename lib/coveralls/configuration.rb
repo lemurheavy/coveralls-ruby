@@ -17,6 +17,9 @@ module Coveralls
       if ENV['COVERALLS_REPO_TOKEN']
         config[:repo_token] = ENV['COVERALLS_REPO_TOKEN']
       end
+      if ENV['COVERALLS_PARALLEL'] && ENV['COVERALLS_PARALLEL'] != "false"
+        config[:parallel] = true
+      end
       if ENV['TRAVIS']
         set_service_params_for_travis(config, yml ? yml['service_name'] : nil)
       elsif ENV['CIRCLECI']
@@ -27,6 +30,8 @@ module Coveralls
         set_service_params_for_jenkins(config)
       elsif ENV['APPVEYOR']
         set_service_params_for_appveyor(config)
+      elsif ENV['TDDIUM']
+        set_service_params_for_tddium(config)
       elsif ENV['COVERALLS_RUN_LOCALLY'] || Coveralls.testing
         set_service_params_for_coveralls_local(config)
       # standardized env vars
@@ -43,8 +48,11 @@ module Coveralls
     end
 
     def self.set_service_params_for_circleci(config)
-      config[:service_name]   = 'circleci'
-      config[:service_number] = ENV['CIRCLE_BUILD_NUM']
+      config[:service_name]         = 'circleci'
+      config[:service_number]       = ENV['CIRCLE_BUILD_NUM']
+      config[:service_pull_request] = (ENV['CI_PULL_REQUEST'] || "")[/(\d+)$/,1]
+      config[:parallel]             = ENV['CIRCLE_NODE_TOTAL'].to_i > 1
+      config[:service_job_number]   = ENV['CIRCLE_NODE_INDEX']
     end
 
     def self.set_service_params_for_semaphore(config)
@@ -66,15 +74,25 @@ module Coveralls
       config[:service_build_url]  = 'https://ci.appveyor.com/project/%s/build/%s' % [repo_name, config[:service_number]]
     end
 
+    def self.set_service_params_for_tddium(config)
+      config[:service_name]         = 'tddium'
+      config[:service_number]       = ENV['TDDIUM_SESSION_ID']
+      config[:service_job_number]   = ENV['TDDIUM_TID']
+      config[:service_pull_request] = ENV['TDDIUM_PR_ID']
+      config[:service_branch]       = ENV['TDDIUM_CURRENT_BRANCH']
+      config[:service_build_url]    = "https://ci.solanolabs.com/reports/#{ENV['TDDIUM_SESSION_ID']}"
+    end
+
     def self.set_service_params_for_coveralls_local(config)
-      config[:service_job_id] = nil
-      config[:service_name]   = 'coveralls-ruby'
+      config[:service_job_id]     = nil
+      config[:service_name]       = 'coveralls-ruby'
       config[:service_event_type] = 'manual'
     end
 
     def self.set_service_params_for_generic_ci(config)
       config[:service_name]         = ENV['CI_NAME']
       config[:service_number]       = ENV['CI_BUILD_NUMBER']
+      config[:service_job_id]       = ENV['CI_JOB_ID']
       config[:service_build_url]    = ENV['CI_BUILD_URL']
       config[:service_branch]       = ENV['CI_BRANCH']
       config[:service_pull_request] = ENV['CI_PULL_REQUEST']

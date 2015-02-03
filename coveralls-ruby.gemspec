@@ -7,6 +7,7 @@ Gem::Specification.new do |gem|
   gem.description   = "A Ruby implementation of the Coveralls API."
   gem.summary       = "A Ruby implementation of the Coveralls API."
   gem.homepage      = "https://coveralls.io"
+  gem.license       = "MIT"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
@@ -15,19 +16,19 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Coveralls::VERSION
 
-  gem.add_dependency 'rest-client'
-  gem.add_dependency 'term-ansicolor'
-  gem.add_dependency 'multi_json', '~> 1.3'
-  gem.add_dependency 'thor'
+  gem.add_dependency 'rest-client','~> 1.7'
+  gem.add_dependency 'term-ansicolor', '~> 1.3'
+  gem.add_dependency 'multi_json', '~> 1.10'
+  gem.add_dependency 'thor', '~> 0.19.1'
 
   if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new("1.9")
-    gem.add_dependency 'simplecov', ">= 0.7"
+    gem.add_dependency 'simplecov', '~> 0.9.1'
   end
 
-  gem.add_runtime_dependency('jruby-openssl') if RUBY_PLATFORM == 'java'
+  gem.add_dependency('jruby-openssl', '~> 0.9.5') if RUBY_PLATFORM == 'java'
 
-  gem.add_development_dependency 'rspec'
-  gem.add_development_dependency 'rake'
-  gem.add_development_dependency 'webmock', '1.7'
-  gem.add_development_dependency 'vcr', '1.11.3'
+  gem.add_development_dependency 'rspec', '~> 3.1'
+  gem.add_development_dependency 'rake', '~> 10.4'
+  gem.add_development_dependency 'webmock', '~> 1.20'
+  gem.add_development_dependency 'vcr', '~> 2.9'
 end

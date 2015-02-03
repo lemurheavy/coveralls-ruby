@@ -4,9 +4,15 @@ module Coveralls
 		require 'multi_json'
 		require 'rest_client'
 
-		API_HOST = ENV['COVERALLS_DEVELOPMENT'] ? "localhost:3000" : "coveralls.io"
-		API_PROTOCOL = ENV['COVERALLS_DEVELOPMENT'] ? "http" : "https"
-		API_DOMAIN = "#{API_PROTOCOL}://#{API_HOST}"
+		if ENV['COVERALLS_ENDPOINT']
+			API_HOST = ENV['COVERALLS_ENDPOINT']
+			API_DOMAIN = ENV['COVERALLS_ENDPOINT']
+		else
+			API_HOST = ENV['COVERALLS_DEVELOPMENT'] ? "localhost:3000" : "coveralls.io"
+			API_PROTOCOL = ENV['COVERALLS_DEVELOPMENT'] ? "http" : "https"
+			API_DOMAIN = "#{API_PROTOCOL}://#{API_HOST}"
+		end
+
 		API_BASE = "#{API_DOMAIN}/api/v1"
 
 		def self.post_json(endpoint, hash)
@@ -15,7 +21,7 @@ module Coveralls
       Coveralls::Output.puts("#{ MultiJson.dump(hash, :pretty => true) }", :color => "green") if ENV['COVERALLS_DEBUG']
 			hash = apified_hash hash
       Coveralls::Output.puts("[Coveralls] Submitting to #{API_BASE}", :color => "cyan")
-			response = RestClient.post(url, :json_file => hash_to_file(hash))
+			response = RestClient::Request.execute(:method => :post, :url => url, :payload => { :json_file => hash_to_file(hash) }, :ssl_version => 'SSLv23')
 			response_hash = MultiJson.load(response.to_str)
       Coveralls::Output.puts("[Coveralls] #{ response_hash['message'] }", :color => "cyan")
 			if response_hash['message']

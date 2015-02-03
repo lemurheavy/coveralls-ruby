@@ -9,7 +9,7 @@ describe Coveralls do
 
   describe "#will_run?" do
     it "checks CI environemnt variables" do
-      Coveralls.will_run?.should be_true
+      Coveralls.will_run?.should be_truthy
     end
 
     context "with CI disabled" do
@@ -28,7 +28,7 @@ describe Coveralls do
       end
 
       it "indicates no run" do
-        Coveralls.will_run?.should be_false
+        Coveralls.will_run?.should be_falsy
       end
     end
   end
@@ -61,7 +61,7 @@ describe Coveralls do
     end
 
     it "uses default" do
-      ::SimpleCov.should_receive(:start).with
+      ::SimpleCov.should_receive(:start).with no_args
       silence do
         subject.wear!
       end
@@ -87,7 +87,7 @@ describe Coveralls do
       silence do
         result = subject.push!
       end
-      result.should be_true
+      result.should be_truthy
     end
   end
 
