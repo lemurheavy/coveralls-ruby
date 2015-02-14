@@ -1,5 +1,6 @@
-# -*- encoding: utf-8 -*-
-require File.expand_path('../lib/coveralls/version', __FILE__)
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'coveralls/version'
 
 Gem::Specification.new do |gem|
   gem.authors       = ["Nick Merwin", "Wil Gieseler"]
