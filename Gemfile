@@ -8,6 +8,10 @@ platforms :ruby_18 do
   gem 'rest-client', '~> 1.6.0'
 end
 
+platforms :jruby do
+  gem 'jruby-openssl', '~> 0.9.5'
+end
+
 gem 'simplecov', :require => false
 gem 'truthy'
 
