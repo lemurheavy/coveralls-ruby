@@ -3,6 +3,11 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in coveralls-ruby.gemspec
 gemspec
 
+platforms :ruby_18 do
+  gem 'mime-types', '~> 1.25'
+  gem 'rest-client', '~> 1.6.0'
+end
+
 gem 'simplecov', :require => false
 gem 'truthy'
 
