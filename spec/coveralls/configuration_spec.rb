@@ -173,9 +173,9 @@ describe Coveralls::Configuration do
 
     it 'should set the service_name to a value if one is passed in' do
       config = {}
-      service_name = SecureRandom.hex(4)
-      Coveralls::Configuration.set_service_params_for_travis(config, service_name)
-      config[:service_name].should eq(service_name)
+      random_name = SecureRandom.hex(4)
+      Coveralls::Configuration.set_service_params_for_travis(config, random_name)
+      config[:service_name].should eq(random_name)
     end
   end
 
