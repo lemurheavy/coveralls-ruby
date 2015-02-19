@@ -1,5 +1,6 @@
-# -*- encoding: utf-8 -*-
-require File.expand_path('../lib/coveralls/version', __FILE__)
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'coveralls/version'
 
 Gem::Specification.new do |gem|
   gem.authors       = ["Nick Merwin", "Wil Gieseler"]
@@ -16,16 +17,11 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Coveralls::VERSION
 
-  gem.add_dependency 'rest-client','~> 1.7'
-  gem.add_dependency 'term-ansicolor', '~> 1.3'
   gem.add_dependency 'multi_json', '~> 1.10'
+  gem.add_dependency 'rest-client', '>= 1.6.8', '< 2'
+  gem.add_dependency 'simplecov', '~> 0.9.1'
+  gem.add_dependency 'term-ansicolor', '~> 1.3'
   gem.add_dependency 'thor', '~> 0.19.1'
-
-  if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new("1.9")
-    gem.add_dependency 'simplecov', '~> 0.9.1'
-  end
-
-  gem.add_dependency('jruby-openssl', '~> 0.9.5') if RUBY_PLATFORM == 'java'
 
   gem.add_development_dependency 'rspec', '~> 3.1'
   gem.add_development_dependency 'rake', '~> 10.4'

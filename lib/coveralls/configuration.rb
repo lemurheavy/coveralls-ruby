@@ -143,8 +143,7 @@ module Coveralls
         }
 
         # Branch
-        branch = `git branch`.split("\n").delete_if { |i| i[0] != "*" }
-        hash[:branch] = [branch].flatten.first.gsub("* ","")
+        hash[:branch] = `git rev-parse --abbrev-ref HEAD`
 
         # Remotes
         remotes = nil
