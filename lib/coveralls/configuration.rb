@@ -95,7 +95,7 @@ module Coveralls
       config[:service_job_id]       = ENV['CI_JOB_ID']
       config[:service_build_url]    = ENV['CI_BUILD_URL']
       config[:service_branch]       = ENV['CI_BRANCH']
-      config[:service_pull_request] = ENV['CI_PULL_REQUEST']
+      config[:service_pull_request] = (ENV['CI_PULL_REQUEST'] || "")[/(\d+)$/,1]
     end
 
     def self.yaml_config
