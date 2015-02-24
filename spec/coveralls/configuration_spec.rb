@@ -236,7 +236,7 @@ describe Coveralls::Configuration do
     let(:service_number) { SecureRandom.hex(4) }
     let(:service_build_url) { SecureRandom.hex(4) }
     let(:service_branch) { SecureRandom.hex(4) }
-    let(:service_pull_request) { SecureRandom.hex(4) }
+    let(:service_pull_request) { '1234' }
 
     before do
       ENV.stub(:[]).with('CI_NAME').and_return(service_name)
