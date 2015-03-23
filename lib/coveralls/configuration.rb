@@ -134,16 +134,16 @@ module Coveralls
       Dir.chdir(root) do
 
         hash[:head] = {
-          :id => `git log -1 --pretty=format:'%H'`,
-          :author_name => `git log -1 --pretty=format:'%aN'`,
-          :author_email => `git log -1 --pretty=format:'%ae'`,
-          :committer_name => `git log -1 --pretty=format:'%cN'`,
-          :committer_email => `git log -1 --pretty=format:'%ce'`,
-          :message => `git log -1 --pretty=format:'%s'`
+          :id => ENV.fetch("GIT_ID", `git log -1 --pretty=format:'%H'`),
+          :author_name => ENV.fetch("GIT_AUTHOR_NAME", `git log -1 --pretty=format:'%aN'`),
+          :author_email => ENV.fetch("GIT_AUTHOR_EMAIL", `git log -1 --pretty=format:'%ae'`),
+          :committer_name => ENV.fetch("GIT_COMMITTER_NAME", `git log -1 --pretty=format:'%cN'`),
+          :committer_email => ENV.fetch("GIT_COMMITTER_EMAIL", `git log -1 --pretty=format:'%ce'`),
+          :message => ENV.fetch("GIT_MESSAGE", `git log -1 --pretty=format:'%s'`)
         }
 
         # Branch
-        hash[:branch] = `git rev-parse --abbrev-ref HEAD`
+        hash[:branch] = ENV.fetch("GIT_BRANCH", `git rev-parse --abbrev-ref HEAD`)
 
         # Remotes
         remotes = nil
