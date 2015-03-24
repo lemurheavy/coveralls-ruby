@@ -281,5 +281,34 @@ describe Coveralls::Configuration do
     end
   end
 
+  describe '.git' do
+    let(:git_id) { SecureRandom.hex(2) }
+    let(:author_name) { SecureRandom.hex(4) }
+    let(:author_email) { SecureRandom.hex(4) }
+    let(:committer_name) { SecureRandom.hex(4) }
+    let(:committer_email) { SecureRandom.hex(4) }
+    let(:message) { SecureRandom.hex(4) }
+    let(:branch) { SecureRandom.hex(4) }
 
+    before do
+      allow(ENV).to receive(:fetch).with('GIT_ID', anything).and_return(git_id)
+      allow(ENV).to receive(:fetch).with('GIT_AUTHOR_NAME', anything).and_return(author_name)
+      allow(ENV).to receive(:fetch).with('GIT_AUTHOR_EMAIL', anything).and_return(author_email)
+      allow(ENV).to receive(:fetch).with('GIT_COMMITTER_NAME', anything).and_return(committer_name)
+      allow(ENV).to receive(:fetch).with('GIT_COMMITTER_EMAIL', anything).and_return(committer_email)
+      allow(ENV).to receive(:fetch).with('GIT_MESSAGE', anything).and_return(message)
+      allow(ENV).to receive(:fetch).with('GIT_BRANCH', anything).and_return(branch)
+    end
+
+    it 'uses ENV vars' do
+      config = Coveralls::Configuration.git
+      config[:head][:id].should eq(git_id)
+      config[:head][:author_name].should eq(author_name)
+      config[:head][:author_email].should eq(author_email)
+      config[:head][:committer_name].should eq(committer_name)
+      config[:head][:committer_email].should eq(committer_email)
+      config[:head][:message].should eq(message)
+      config[:branch].should eq(branch)
+    end
+  end
 end
