@@ -34,10 +34,10 @@ module Coveralls
         set_service_params_for_tddium(config)
       elsif ENV['COVERALLS_RUN_LOCALLY'] || Coveralls.testing
         set_service_params_for_coveralls_local(config)
-      # standardized env vars
-      elsif ENV['CI_NAME']
-        set_service_params_for_generic_ci(config)
       end
+
+      # standardized env vars
+      set_standard_service_params_for_generic_ci(config)
 
       config
     end
@@ -89,13 +89,13 @@ module Coveralls
       config[:service_event_type] = 'manual'
     end
 
-    def self.set_service_params_for_generic_ci(config)
-      config[:service_name]         = ENV['CI_NAME']
-      config[:service_number]       = ENV['CI_BUILD_NUMBER']
-      config[:service_job_id]       = ENV['CI_JOB_ID']
-      config[:service_build_url]    = ENV['CI_BUILD_URL']
-      config[:service_branch]       = ENV['CI_BRANCH']
-      config[:service_pull_request] = (ENV['CI_PULL_REQUEST'] || "")[/(\d+)$/,1]
+    def self.set_standard_service_params_for_generic_ci(config)
+      config[:service_name]         ||= ENV['CI_NAME']
+      config[:service_number]       ||= ENV['CI_BUILD_NUMBER']
+      config[:service_job_id]       ||= ENV['CI_JOB_ID']
+      config[:service_build_url]    ||= ENV['CI_BUILD_URL']
+      config[:service_branch]       ||= ENV['CI_BRANCH']
+      config[:service_pull_request] ||= (ENV['CI_PULL_REQUEST'] || "")[/(\d+)$/,1]
     end
 
     def self.yaml_config
