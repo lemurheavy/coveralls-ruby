@@ -18,7 +18,7 @@ Gem::Specification.new do |gem|
   gem.version       = Coveralls::VERSION
 
   gem.add_dependency 'multi_json', '~> 1.10'
-  gem.add_dependency 'rest-client', '~> 1.7.0'
+  gem.add_dependency 'rest-client', '>= 1.6.8', '< 1.8'
   gem.add_dependency 'simplecov', '~> 0.9.1'
   gem.add_dependency 'term-ansicolor', '~> 1.3'
   gem.add_dependency 'thor', '~> 0.19.1'
