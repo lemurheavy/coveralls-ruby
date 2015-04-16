@@ -1,3 +1,7 @@
+# Changelog
+
+### Please see Github Releases section for current releases.
+
 ## 0.7.0 (September 18, 2013)
 
 [Full Changelog](https://github.com/lemurheavy/coveralls-ruby/compare/v0.6.4...v0.7.0)

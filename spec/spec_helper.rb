@@ -27,16 +27,21 @@ setup_formatter
 
 require 'coveralls'
 
-VCR.config do |c|
+VCR.configure do |c|
   c.cassette_library_dir = 'fixtures/vcr_cassettes'
-  c.stub_with :webmock
+  c.hook_into :webmock
 end
 
 RSpec.configure do |config|
-  config.treat_symbols_as_metadata_keys_with_true_values = true
   config.run_all_when_everything_filtered = true
   config.filter_run :focus
   config.include WebMock::API
+  config.expect_with :rspec do |c|
+    c.syntax = [:should, :expect]
+  end
+  config.mock_with :rspec do |c|
+    c.syntax = [:should, :expect]
+  end
   config.after(:suite) do
     WebMock.disable!
   end

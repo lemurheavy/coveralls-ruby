@@ -66,7 +66,7 @@ describe Coveralls::Configuration do
           Coveralls::Configuration.should_not_receive(:set_service_params_for_semaphore)
           Coveralls::Configuration.should_not_receive(:set_service_params_for_jenkins)
           Coveralls::Configuration.should_not_receive(:set_service_params_for_coveralls_local)
-          Coveralls::Configuration.should_not_receive(:set_service_params_for_generic_ci)
+          Coveralls::Configuration.should_receive(:set_standard_service_params_for_generic_ci)
           Coveralls::Configuration.configuration
         end
       end
@@ -82,7 +82,7 @@ describe Coveralls::Configuration do
           Coveralls::Configuration.should_not_receive(:set_service_params_for_semaphore)
           Coveralls::Configuration.should_not_receive(:set_service_params_for_jenkins)
           Coveralls::Configuration.should_not_receive(:set_service_params_for_coveralls_local)
-          Coveralls::Configuration.should_not_receive(:set_service_params_for_generic_ci)
+          Coveralls::Configuration.should_receive(:set_standard_service_params_for_generic_ci)
           Coveralls::Configuration.configuration
         end
       end
@@ -98,7 +98,7 @@ describe Coveralls::Configuration do
           Coveralls::Configuration.should_receive(:set_service_params_for_semaphore)
           Coveralls::Configuration.should_not_receive(:set_service_params_for_jenkins)
           Coveralls::Configuration.should_not_receive(:set_service_params_for_coveralls_local)
-          Coveralls::Configuration.should_not_receive(:set_service_params_for_generic_ci)
+          Coveralls::Configuration.should_receive(:set_standard_service_params_for_generic_ci)
           Coveralls::Configuration.configuration
         end
       end
@@ -114,7 +114,7 @@ describe Coveralls::Configuration do
           Coveralls::Configuration.should_not_receive(:set_service_params_for_semaphore)
           Coveralls::Configuration.should_receive(:set_service_params_for_jenkins)
           Coveralls::Configuration.should_not_receive(:set_service_params_for_coveralls_local)
-          Coveralls::Configuration.should_not_receive(:set_service_params_for_generic_ci)
+          Coveralls::Configuration.should_receive(:set_standard_service_params_for_generic_ci)
           Coveralls::Configuration.configuration
         end
       end
@@ -130,7 +130,7 @@ describe Coveralls::Configuration do
           Coveralls::Configuration.should_not_receive(:set_service_params_for_semaphore)
           Coveralls::Configuration.should_not_receive(:set_service_params_for_jenkins)
           Coveralls::Configuration.should_receive(:set_service_params_for_coveralls_local)
-          Coveralls::Configuration.should_not_receive(:set_service_params_for_generic_ci)
+          Coveralls::Configuration.should_receive(:set_standard_service_params_for_generic_ci)
           Coveralls::Configuration.configuration
         end
       end
@@ -146,7 +146,7 @@ describe Coveralls::Configuration do
           Coveralls::Configuration.should_not_receive(:set_service_params_for_semaphore)
           Coveralls::Configuration.should_not_receive(:set_service_params_for_jenkins)
           Coveralls::Configuration.should_not_receive(:set_service_params_for_coveralls_local)
-          Coveralls::Configuration.should_receive(:set_service_params_for_generic_ci)
+          Coveralls::Configuration.should_receive(:set_standard_service_params_for_generic_ci).with(anything)
           Coveralls::Configuration.configuration
         end
       end
@@ -173,9 +173,9 @@ describe Coveralls::Configuration do
 
     it 'should set the service_name to a value if one is passed in' do
       config = {}
-      service_name = SecureRandom.hex(4)
-      Coveralls::Configuration.set_service_params_for_travis(config, service_name)
-      config[:service_name].should eq(service_name)
+      random_name = SecureRandom.hex(4)
+      Coveralls::Configuration.set_service_params_for_travis(config, random_name)
+      config[:service_name].should eq(random_name)
     end
   end
 
@@ -208,16 +208,20 @@ describe Coveralls::Configuration do
   end
 
   describe '.set_service_params_for_jenkins' do
+    let(:service_pull_request) { '1234' }
     let(:build_num) { SecureRandom.hex(4) }
     before do
+      ENV.stub(:[]).with('CI_PULL_REQUEST').and_return(service_pull_request)
       ENV.stub(:[]).with('BUILD_NUMBER').and_return(build_num)
     end
 
     it 'should set the expected parameters' do
       config = {}
       Coveralls::Configuration.set_service_params_for_jenkins(config)
+      Coveralls::Configuration.set_standard_service_params_for_generic_ci(config)
       config[:service_name].should eq('jenkins')
       config[:service_number].should eq(build_num)
+      config[:service_pull_request].should eq(service_pull_request)
     end
   end
 
@@ -236,7 +240,7 @@ describe Coveralls::Configuration do
     let(:service_number) { SecureRandom.hex(4) }
     let(:service_build_url) { SecureRandom.hex(4) }
     let(:service_branch) { SecureRandom.hex(4) }
-    let(:service_pull_request) { SecureRandom.hex(4) }
+    let(:service_pull_request) { '1234' }
 
     before do
       ENV.stub(:[]).with('CI_NAME').and_return(service_name)
@@ -248,12 +252,67 @@ describe Coveralls::Configuration do
 
     it 'should set the expected parameters' do
       config = {}
-      Coveralls::Configuration.set_service_params_for_generic_ci(config)
+      Coveralls::Configuration.set_standard_service_params_for_generic_ci(config)
       config[:service_name].should eq(service_name)
       config[:service_number].should eq(service_number)
       config[:service_build_url].should eq(service_build_url)
       config[:service_branch].should eq(service_branch)
       config[:service_pull_request].should eq(service_pull_request)
+    end
+  end
+
+  describe '.set_service_params_for_appveyor' do
+    let(:service_number) { SecureRandom.hex(4) }
+    let(:service_branch) { SecureRandom.hex(4) }
+    let(:commit_sha) { SecureRandom.hex(4) }
+    let(:repo_name) { SecureRandom.hex(4) }
+
+    before do
+      ENV.stub(:[]).with('APPVEYOR_BUILD_VERSION').and_return(service_number)
+      ENV.stub(:[]).with('APPVEYOR_REPO_BRANCH').and_return(service_branch)
+      ENV.stub(:[]).with('APPVEYOR_REPO_COMMIT').and_return(commit_sha)
+      ENV.stub(:[]).with('APPVEYOR_REPO_NAME').and_return(repo_name)
+    end
+
+    it 'should set the expected parameters' do
+      config = {}
+      Coveralls::Configuration.set_service_params_for_appveyor(config)
+      config[:service_name].should eq('appveyor')
+      config[:service_number].should eq(service_number)
+      config[:service_branch].should eq(service_branch)
+      config[:commit_sha].should eq(commit_sha)
+      config[:service_build_url].should eq('https://ci.appveyor.com/project/%s/build/%s' % [repo_name, service_number])
+    end
+  end
+
+  describe '.git' do
+    let(:git_id) { SecureRandom.hex(2) }
+    let(:author_name) { SecureRandom.hex(4) }
+    let(:author_email) { SecureRandom.hex(4) }
+    let(:committer_name) { SecureRandom.hex(4) }
+    let(:committer_email) { SecureRandom.hex(4) }
+    let(:message) { SecureRandom.hex(4) }
+    let(:branch) { SecureRandom.hex(4) }
+
+    before do
+      allow(ENV).to receive(:fetch).with('GIT_ID', anything).and_return(git_id)
+      allow(ENV).to receive(:fetch).with('GIT_AUTHOR_NAME', anything).and_return(author_name)
+      allow(ENV).to receive(:fetch).with('GIT_AUTHOR_EMAIL', anything).and_return(author_email)
+      allow(ENV).to receive(:fetch).with('GIT_COMMITTER_NAME', anything).and_return(committer_name)
+      allow(ENV).to receive(:fetch).with('GIT_COMMITTER_EMAIL', anything).and_return(committer_email)
+      allow(ENV).to receive(:fetch).with('GIT_MESSAGE', anything).and_return(message)
+      allow(ENV).to receive(:fetch).with('GIT_BRANCH', anything).and_return(branch)
+    end
+
+    it 'uses ENV vars' do
+      config = Coveralls::Configuration.git
+      config[:head][:id].should eq(git_id)
+      config[:head][:author_name].should eq(author_name)
+      config[:head][:author_email].should eq(author_email)
+      config[:head][:committer_name].should eq(committer_name)
+      config[:head][:committer_email].should eq(committer_email)
+      config[:head][:message].should eq(message)
+      config[:branch].should eq(branch)
     end
   end
 end
