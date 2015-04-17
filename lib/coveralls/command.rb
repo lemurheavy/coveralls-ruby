@@ -1,6 +1,6 @@
-module Coveralls
-  require "thor"
+require "thor"
 
+module Coveralls
   class CommandLine < Thor
 
     desc "push", "Runs your test suite and pushes the coverage results to Coveralls."

@@ -1,9 +1,8 @@
+require 'json'
+require 'rest_client'
+
 module Coveralls
 	class API
-
-		require 'multi_json'
-		require 'rest_client'
-
 		if ENV['COVERALLS_ENDPOINT']
 			API_HOST = ENV['COVERALLS_ENDPOINT']
 			API_DOMAIN = ENV['COVERALLS_ENDPOINT']
