@@ -17,7 +17,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Coveralls::VERSION
 
-  gem.add_dependency 'multi_json', '~> 1.10'
+  gem.add_dependency 'json', '~> 1.8'
   gem.add_dependency 'rest-client', '>= 1.6.8', '< 2'
   gem.add_dependency 'simplecov', '~> 0.9.1'
   gem.add_dependency 'term-ansicolor', '~> 1.3'
