@@ -23,8 +23,5 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'term-ansicolor', '~> 1.3'
   gem.add_dependency 'thor', '~> 0.19.1'
 
-  gem.add_development_dependency 'rspec', '~> 3.1'
-  gem.add_development_dependency 'rake', '~> 10.4'
-  gem.add_development_dependency 'webmock', '~> 1.20'
-  gem.add_development_dependency 'vcr', '~> 2.9'
+  gem.add_development_dependency 'bundler', '~> 1.7'
 end
