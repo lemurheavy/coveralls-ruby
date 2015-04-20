@@ -1,9 +1,8 @@
+require 'json'
+require 'rest_client'
+
 module Coveralls
 	class API
-
-		require 'multi_json'
-		require 'rest_client'
-
 		if ENV['COVERALLS_ENDPOINT']
 			API_HOST = ENV['COVERALLS_ENDPOINT']
 			API_DOMAIN = ENV['COVERALLS_ENDPOINT']
@@ -18,11 +17,11 @@ module Coveralls
 		def self.post_json(endpoint, hash)
 			disable_net_blockers!
 			url = endpoint_to_url(endpoint)
-      Coveralls::Output.puts("#{ MultiJson.dump(hash, :pretty => true) }", :color => "green") if ENV['COVERALLS_DEBUG']
+      Coveralls::Output.puts("#{ JSON.pretty_generate(hash) }", :color => "green") if ENV['COVERALLS_DEBUG']
 			hash = apified_hash hash
       Coveralls::Output.puts("[Coveralls] Submitting to #{API_BASE}", :color => "cyan")
 			response = RestClient::Request.execute(:method => :post, :url => url, :payload => { :json_file => hash_to_file(hash) }, :ssl_version => 'SSLv23')
-			response_hash = MultiJson.load(response.to_str)
+			response_hash = JSON.load(response.to_str)
       Coveralls::Output.puts("[Coveralls] #{ response_hash['message'] }", :color => "cyan")
 			if response_hash['message']
         Coveralls::Output.puts("[Coveralls] #{ Coveralls::Output.format(response_hash['url'], :color => "underline") }", :color => "cyan")
@@ -55,7 +54,7 @@ module Coveralls
 		def self.hash_to_file(hash)
 			file = nil
 			Tempfile.open(['coveralls-upload', 'json']) do |f|
-				f.write(MultiJson.dump hash)
+				f.write(JSON.dump hash)
 				file = f
 			end
 			File.new(file.path, 'rb')
@@ -65,7 +64,7 @@ module Coveralls
 			config = Coveralls::Configuration.configuration
 			if ENV['CI'] || ENV['COVERALLS_DEBUG'] || Coveralls.testing
         Coveralls::Output.puts "[Coveralls] Submitting with config:", :color => "yellow"
-        output = MultiJson.dump(config, :pretty => true).gsub(/"repo_token": ?"(.*?)"/,'"repo_token": "[secure]"')
+        output = JSON.pretty_generate(config).gsub(/"repo_token": ?"(.*?)"/,'"repo_token": "[secure]"')
         Coveralls::Output.puts output, :color => "yellow"
 			end
 			hash.merge(config)
