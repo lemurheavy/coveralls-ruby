@@ -20,7 +20,7 @@ module Coveralls
       Coveralls::Output.puts("#{ JSON.pretty_generate(hash) }", :color => "green") if ENV['COVERALLS_DEBUG']
       hash = apified_hash hash
       Coveralls::Output.puts("[Coveralls] Submitting to #{API_BASE}", :color => "cyan")
-      response = RestClient::Request.execute(:method => :post, :url => url, :payload => { :json_file => hash_to_file(hash) }, :ssl_version => 'SSLv23')
+      response = RestClient::Request.execute(:method => :post, :url => url, :payload => { :json_file => hash_to_file(hash) }, :ssl_version => 'TLSv1', :verify_ssl => false)
       response_hash = JSON.load(response.to_str)
       Coveralls::Output.puts("[Coveralls] #{ response_hash['message'] }", :color => "cyan")
       if response_hash['message']
