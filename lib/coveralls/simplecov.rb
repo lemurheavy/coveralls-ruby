@@ -61,10 +61,10 @@ module Coveralls
         end
 
         # Post to Coveralls.
-        API.post_json "jobs",
-          source_files: get_source_files(result),
-          test_framework: result.command_name.downcase,
-          run_at: result.created_at
+        API.post_json "jobs", 
+          :source_files => get_source_files(result),
+          :test_framework => result.command_name.downcase,
+          :run_at => result.created_at
 
         Coveralls::Output.puts output_message result
 
