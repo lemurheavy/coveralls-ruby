@@ -1,6 +1,7 @@
 require 'simplecov'
 require 'webmock'
 require 'vcr'
+require 'pry'
 
 class InceptionFormatter
   def format(result)

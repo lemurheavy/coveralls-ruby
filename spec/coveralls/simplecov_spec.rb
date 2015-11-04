@@ -19,7 +19,7 @@ describe Coveralls::SimpleCov::Formatter do
       source_fixture( 'app/models/house.rb' )        => [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil],
       source_fixture( 'app/models/airplane.rb' )     => [0, 0, 0, 0, 0],
       source_fixture( 'app/models/dog.rb' )          => [1, 1, 1, 1, 1],
-      source_fixture( 'app/controllers/sample.rb' )  => [nil, 1, 1, 1, nil, nil, 0, 0, nil, nil]
+      source_fixture( 'app/controllers/sample.rb' )  => [nil, 1, 1, 1, nil, 0, 1, 1, nil, nil]
     })
   }
 
@@ -69,5 +69,13 @@ describe Coveralls::SimpleCov::Formatter do
       end
     end
 
+    context "#get_source_files" do
+      let(:source_files) { Coveralls::SimpleCov::Formatter.new.get_source_files(result) }
+      it "nils the skipped lines" do
+        source_file = source_files.first
+        source_file[:coverage].should_not eq result.files.first.coverage
+        source_file[:coverage].should eq [nil, 1, 1, 1, nil, 0, 1, nil, nil, nil]
+      end
+    end
   end
 end

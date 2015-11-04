@@ -26,15 +26,7 @@ module Coveralls
         true
       end
 
-      def format(result)
-
-        unless Coveralls.should_run?
-          if Coveralls.noisy?
-            display_result result
-          end
-          return
-        end
-
+      def get_source_files(result)
         # Gather the source files.
         source_files = []
         result.files.each do |file|
@@ -47,29 +39,33 @@ module Coveralls
           properties[:name] = short_filename(file.filename)
 
           # Get the coverage
-          properties[:coverage] = file.coverage
+          properties[:coverage] = file.coverage.dup
 
-          # Get the group
-          # puts "result groups: #{result.groups}"
-          # result.groups.each do |group_name, grouped_files|
-          #   puts "Checking #{grouped_files.map(&:filename)} for #{file.filename}"
-          #   if grouped_files.map(&:filename).include?(file.filename)
-          #     properties[:group] = group_name
-          #     break
-          #   end
-          # end
+          # Skip nocov lines
+          file.lines.each_with_index do |line, i|
+            properties[:coverage][i] = nil if line.skipped?
+          end
 
           source_files << properties
         end
+        source_files
+      end
 
-        # Log which files are being submitted.
-        # puts "Submitting #{source_files.length} file#{source_files.length == 1 ? '' : 's'}:"
-        # source_files.each do |f|
-        #   puts "  => #{f[:name]}"
-        # end
+      def format(result)
+
+        unless Coveralls.should_run?
+          if Coveralls.noisy?
+            display_result result
+          end
+          return
+        end
 
         # Post to Coveralls.
-        API.post_json "jobs", {:source_files => source_files, :test_framework => result.command_name.downcase, :run_at => result.created_at}
+        API.post_json "jobs",
+          source_files: get_source_files(result),
+          test_framework: result.command_name.downcase,
+          run_at: result.created_at
+
         Coveralls::Output.puts output_message result
 
         true

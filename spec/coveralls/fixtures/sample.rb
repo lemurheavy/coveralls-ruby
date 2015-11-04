@@ -4,7 +4,9 @@ class Foo
     @foo = 'baz'
   end
 
+  # :nocov:
   def bar
     @foo
   end
+  # :nocov:
 end

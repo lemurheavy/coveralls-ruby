@@ -24,3 +24,7 @@ platform :rbx do
   gem 'json'
   gem 'rubinius-developer_tools'
 end
+
+group :test do
+  gem 'pry'
+end
