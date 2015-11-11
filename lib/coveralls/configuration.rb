@@ -57,8 +57,10 @@ module Coveralls
     end
 
     def self.set_service_params_for_semaphore(config)
-      config[:service_name]   = 'semaphore'
-      config[:service_number] = ENV['SEMAPHORE_BUILD_NUMBER']
+      config[:service_name]         = 'semaphore'
+      # Semaphore build numbers are non-unique across branches, so branch id is needed for scoping:
+      config[:service_number]       = ENV['SEMAPHORE_BRANCH_ID'] + ENV['SEMAPHORE_BUILD_NUMBER']
+      config[:service_pull_request] = ENV['PULL_REQUEST_NUMBER']
     end
 
     def self.set_service_params_for_jenkins(config)
