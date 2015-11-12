@@ -22,8 +22,8 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'json', '~> 1.8'
   gem.add_dependency 'rest-client', '>= 1.6.8', '< 2'
   gem.add_dependency 'simplecov', '~> 0.10.0'
-  gem.add_dependency 'tins', '1.6.0'
-  gem.add_dependency 'term-ansicolor', '1.3'
+  gem.add_dependency 'tins', '~> 1.6.0'
+  gem.add_dependency 'term-ansicolor', '~> 1.3'
   gem.add_dependency 'thor', '~> 0.19.1'
 
   gem.add_development_dependency 'bundler', '~> 1.7'
