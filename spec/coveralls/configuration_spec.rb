@@ -195,15 +195,17 @@ describe Coveralls::Configuration do
 
   describe '.set_service_params_for_semaphore' do
     let(:semaphore_build_num) { SecureRandom.hex(4) }
+    let(:semaphore_branch_id) { SecureRandom.hex(4) }
     before do
       ENV.stub(:[]).with('SEMAPHORE_BUILD_NUMBER').and_return(semaphore_build_num)
+      ENV.stub(:[]).with('SEMAPHORE_BRANCH_ID').and_return(semaphore_branch_id)
     end
 
     it 'should set the expected parameters' do
       config = {}
       Coveralls::Configuration.set_service_params_for_semaphore(config)
       config[:service_name].should eq('semaphore')
-      config[:service_number].should eq(semaphore_build_num)
+      config[:service_number].should eq("#{semaphore_branch_id}0#{semaphore_build_num}")
     end
   end
 
