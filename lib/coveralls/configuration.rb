@@ -59,7 +59,7 @@ module Coveralls
     def self.set_service_params_for_semaphore(config)
       config[:service_name]         = 'semaphore'
       # Semaphore build numbers are non-unique across branches, so branch id is needed for scoping:
-      config[:service_number]       = ENV['SEMAPHORE_BRANCH_ID'] + ENV['SEMAPHORE_BUILD_NUMBER']
+      config[:service_number]       = ENV['SEMAPHORE_BRANCH_ID'].to_s + ENV['SEMAPHORE_BUILD_NUMBER'].to_s
       config[:service_pull_request] = ENV['PULL_REQUEST_NUMBER']
     end
 
