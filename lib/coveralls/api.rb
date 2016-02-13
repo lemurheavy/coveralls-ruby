@@ -1,5 +1,5 @@
 require 'json'
-require 'net/http'
+require 'net/https'
 
 module Coveralls
   class API
@@ -28,7 +28,10 @@ module Coveralls
       response = client.request(request)
 
       response_hash = JSON.load(response.body.to_str)
-      Coveralls::Output.puts("[Coveralls] #{ response_hash['message'] }", :color => "cyan")
+
+      if response_hash['message']
+        Coveralls::Output.puts("[Coveralls] #{ response_hash['message'] }", :color => "cyan")
+      end
 
       if response_hash['url']
         Coveralls::Output.puts("[Coveralls] #{ Coveralls::Output.format(response_hash['url'], :color => "underline") }", :color => "cyan")
@@ -65,6 +68,11 @@ module Coveralls
       client = Net::HTTP.new(uri.host, uri.port)
       client.use_ssl = true if uri.port == 443
       client.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
+      unless client.respond_to?(:ssl_version=)
+        Net::HTTP.ssl_context_accessor("ssl_version")
+      end
+
       client.ssl_version = 'TLSv1'
 
       client
@@ -85,9 +93,9 @@ module Coveralls
       file = hash_to_file(hash)
 
       "--#{boundary}\r\n" \
-      "Content-Disposition: form-data; name=\"json_file\"; filename=\"#{File.basename(file)}\"\r\n" \
+      "Content-Disposition: form-data; name=\"json_file\"; filename=\"#{File.basename(file.path)}\"\r\n" \
       "Content-Type: text/plain\r\n\r\n" +
-      File.read(file) +
+      File.read(file.path) +
       "\r\n--#{boundary}--\r\n"
     end
 

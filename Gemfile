@@ -12,7 +12,7 @@ gem 'webmock', '>= 1.20'
 
 platforms :ruby_18 do
   gem 'mime-types', '~> 1.25'
-  gem 'rest-client', '~> 1.6.0'
+  gem 'addressable', '~> 2.3.8', :group => :test
 end
 
 platforms :jruby do
