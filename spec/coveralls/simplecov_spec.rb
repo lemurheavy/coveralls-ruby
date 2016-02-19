@@ -62,7 +62,8 @@ describe Coveralls::SimpleCov::Formatter do
 
     context "with api error" do
       it "rescues" do
-        e = RestClient::ResourceNotFound.new double('HTTP Response', :code => '502')
+        e = SocketError.new
+
         silence do
           Coveralls::SimpleCov::Formatter.new.display_error(e).should be_falsy
         end
