@@ -32,6 +32,8 @@ module Coveralls
         set_service_params_for_appveyor(config)
       elsif ENV['TDDIUM']
         set_service_params_for_tddium(config)
+      elsif ENV['GITLAB_CI']
+        set_service_params_for_gitlab(config)
       elsif ENV['COVERALLS_RUN_LOCALLY'] || Coveralls.testing
         set_service_params_for_coveralls_local(config)
       end
@@ -83,6 +85,16 @@ module Coveralls
       config[:service_pull_request] = ENV['TDDIUM_PR_ID']
       config[:service_branch]       = ENV['TDDIUM_CURRENT_BRANCH']
       config[:service_build_url]    = "https://ci.solanolabs.com/reports/#{ENV['TDDIUM_SESSION_ID']}"
+    end
+
+    def self.set_service_params_for_gitlab(config)
+      config[:service_name]         = 'gitlab-ci'
+      config[:service_number]       = ENV['CI_BUILD_ID']
+      # config[:service_job_number]   = ENV['CI_BUILD_ID']
+      # config[:service_pull_request] = ENV['TDDIUM_PR_ID']
+      config[:service_branch]       = ENV['CI_BUILD_REF_NAME']
+      config[:commit_sha]           = ENV['CI_BUILD_REF']
+      # config[:service_build_url]    = "https://ci.solanolabs.com/reports/#{ENV['TDDIUM_SESSION_ID']}"
     end
 
     def self.set_service_params_for_coveralls_local(config)
