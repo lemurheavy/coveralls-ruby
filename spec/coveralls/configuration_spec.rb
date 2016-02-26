@@ -193,6 +193,30 @@ describe Coveralls::Configuration do
     end
   end
 
+  describe '.set_service_params_for_gitlab' do
+    let(:commit_sha) { SecureRandom.hex(32) }
+    let(:service_job_number) { "spec:one" }
+    let(:service_job_id) { 1234 }
+    let(:service_branch) { "feature" }
+
+    before do
+      ENV.stub(:[]).with('CI_BUILD_NAME').and_return(service_job_number)
+      ENV.stub(:[]).with('CI_BUILD_ID').and_return(service_job_id)
+      ENV.stub(:[]).with('CI_BUILD_REF_NAME').and_return(service_branch)
+      ENV.stub(:[]).with('CI_BUILD_REF').and_return(commit_sha)
+    end
+
+    it 'should set the expected parameters' do
+      config = {}
+      Coveralls::Configuration.set_service_params_for_gitlab(config)
+      config[:service_name].should eq('gitlab-ci')
+      config[:service_job_number].should eq(service_job_number)
+      config[:service_job_id].should eq(service_job_id)
+      config[:service_branch].should eq(service_branch)
+      config[:commit_sha].should eq(commit_sha)
+    end
+  end
+
   describe '.set_service_params_for_semaphore' do
     let(:semaphore_build_num) { SecureRandom.hex(4) }
     before do
