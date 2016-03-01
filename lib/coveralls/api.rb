@@ -1,5 +1,6 @@
 require 'json'
 require 'net/https'
+require 'tempfile'
 
 module Coveralls
   class API
