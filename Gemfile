@@ -21,13 +21,16 @@ platforms :ruby_18 do
   gem 'addressable', '~> 2.3.8', :group => :test
 end
 
+platforms :ruby_18, :ruby_19 do
+  gem 'json', '~> 1.8'
+end
+
 platforms :jruby do
   gem 'jruby-openssl', '~> 0.9.5'
 end
 
 platform :rbx do
   gem 'rubysl', '~> 2.0'
-  gem 'json'
   gem 'rubinius-developer_tools'
 end
 
