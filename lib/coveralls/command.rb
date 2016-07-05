@@ -7,11 +7,11 @@ module Coveralls
     def push
       return unless ensure_can_run_locally!
       ENV["COVERALLS_RUN_LOCALLY"] = "true"
-      cmd = "bundle exec rake"
+      cmds = "bundle exec rake"
       if File.exist?('.travis.yml')
-        cmd = YAML.load_file('.travis.yml')["script"] || cmd rescue cmd
+        cmds = YAML.load_file('.travis.yml')["script"] || cmds rescue cmds
       end
-      exec cmd
+      cmds.each { |cmd| system cmd }
       ENV["COVERALLS_RUN_LOCALLY"] = nil
     end
 
