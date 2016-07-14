@@ -23,6 +23,7 @@ end
 
 platforms :ruby_18, :ruby_19 do
   gem 'json', '~> 1.8'
+  gem 'tins', '~> 1.6.0'
 end
 
 platforms :jruby do
