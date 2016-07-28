@@ -49,15 +49,21 @@ module Coveralls
     private
 
     def self.disable_net_blockers!
-      if defined?(WebMock) &&
+      begin
+        require 'webmock'
+
         allow = WebMock::Config.instance.allow || []
         WebMock::Config.instance.allow = [*allow].push API_HOST
+      rescue LoadError
       end
 
-      if defined?(VCR)
+      begin
+        require 'vcr'
+
         VCR.send(VCR.version.major < 2 ? :config : :configure) do |c|
           c.ignore_hosts API_HOST
         end
+      rescue LoadError
       end
     end
 
