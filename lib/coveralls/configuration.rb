@@ -48,6 +48,7 @@ module Coveralls
       config[:service_job_id] = ENV['TRAVIS_JOB_ID']
       config[:service_pull_request] = ENV['TRAVIS_PULL_REQUEST'] unless ENV['TRAVIS_PULL_REQUEST'] == 'false'
       config[:service_name]   = service_name || 'travis-ci'
+      config[:service_branch] = ENV['TRAVIS_BRANCH']
     end
 
     def self.set_service_params_for_circleci(config)
@@ -190,7 +191,8 @@ module Coveralls
         if ENV['TRAVIS']
           {
             :travis_job_id => ENV['TRAVIS_JOB_ID'],
-            :travis_pull_request => ENV['TRAVIS_PULL_REQUEST']
+            :travis_pull_request => ENV['TRAVIS_PULL_REQUEST'],
+            :branch => ENV['TRAVIS_BRANCH']
           }
         elsif ENV['CIRCLECI']
           {
