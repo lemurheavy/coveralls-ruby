@@ -55,6 +55,19 @@ describe Coveralls::Configuration do
     end
 
     context 'Services' do
+      context 'with env based service name' do
+        let(:service_name) { 'travis-enterprise' }
+        before do
+          ENV.stub(:[]).with('TRAVIS').and_return('1')
+          ENV.stub(:[]).with('COVERALLS_SERVICE_NAME').and_return(service_name)
+        end
+
+        it 'pulls the service name from the environment if set' do
+          config = Coveralls::Configuration.configuration
+          config[:service_name].should eq(service_name)
+        end
+      end
+
       context 'on Travis' do
         before do
           ENV.stub(:[]).with('TRAVIS').and_return('1')
