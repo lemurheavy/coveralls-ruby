@@ -2,6 +2,16 @@ module Coveralls
   module SimpleCov
     class Formatter
 
+      def percent_color(percent)
+        if percent > 90
+          'green'
+        elsif percent > 80
+          'yellow'
+        else # 80 or lower
+          'red'
+        end
+      end
+
       def display_result(result)
         # Log which files would be submitted.
         if result.files.length > 0
@@ -14,15 +24,10 @@ module Coveralls
           Coveralls::Output.print short_filename(f.filename).to_s, :color => "cyan"
           Coveralls::Output.print " => ", :color => "white"
           cov = "#{f.covered_percent.round}%"
-          if f.covered_percent > 90
-            Coveralls::Output.print cov, :color => "green"
-          elsif f.covered_percent > 80
-            Coveralls::Output.print cov, :color => "yellow"
-          else
-            Coveralls::Output.print cov, :color => "red"
-          end
+          Coveralls::Output.print cov, :color => percent_color(f.covered_percent)
           Coveralls::Output.puts ""
         end
+        Coveralls::Output.puts output_message(result, sent: false), :color => percent_color(result.covered_percent)
         true
       end
 
@@ -54,9 +59,7 @@ module Coveralls
       def format(result)
 
         unless Coveralls.should_run?
-          if Coveralls.noisy?
-            display_result result
-          end
+          display_result(result) if Coveralls.noisy?
           return
         end
 
@@ -66,7 +69,7 @@ module Coveralls
           :test_framework => result.command_name.downcase,
           :run_at => result.created_at
 
-        Coveralls::Output.puts output_message result
+        Coveralls::Output.puts output_message(result), :color => percent_color(result.covered_percent)
 
         true
 
@@ -87,8 +90,8 @@ module Coveralls
         false
       end
 
-      def output_message(result)
-        "Coverage is at #{result.covered_percent.round(2) rescue result.covered_percent.round}%.\nCoverage report sent to Coveralls."
+      def output_message(result, sent: true)
+        "Coverage is at #{result.covered_percent.round(2) rescue result.covered_percent.round}%.#{sent ? "\nCoverage report sent to Coveralls." : ''}"
       end
 
       def short_filename(filename)
