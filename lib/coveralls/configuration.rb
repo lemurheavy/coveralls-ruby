@@ -26,7 +26,7 @@ module Coveralls
         set_service_params_for_circleci(config)
       elsif ENV['SEMAPHORE']
         set_service_params_for_semaphore(config)
-      elsif ENV['JENKINS_URL']
+      elsif ENV['JENKINS_URL'] || ENV['JENKINS_HOME']
         set_service_params_for_jenkins(config)
       elsif ENV['APPVEYOR']
         set_service_params_for_appveyor(config)
@@ -72,6 +72,8 @@ module Coveralls
     def self.set_service_params_for_jenkins(config)
       config[:service_name]   = 'jenkins'
       config[:service_number] = ENV['BUILD_NUMBER']
+      config[:service_branch] = ENV['BRANCH_NAME']
+      config[:service_pull_request] = ENV['ghprbPullId']
     end
 
     def self.set_service_params_for_appveyor(config)
