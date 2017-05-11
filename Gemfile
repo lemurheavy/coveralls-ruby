@@ -21,7 +21,7 @@ platforms :ruby_18 do
   gem 'mime-types', '~> 1.25'
 end
 
-platforms :ruby_18, :ruby_19 do
+platforms :ruby_18, :ruby_19, :jruby_19 do
   gem 'json', '~> 1.8'
   gem 'term-ansicolor', '~> 1.3.0'
   gem 'tins', '~> 1.6.0'

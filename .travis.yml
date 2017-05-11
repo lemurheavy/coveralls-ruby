@@ -13,11 +13,13 @@ rvm:
   - 2.4.1
   - ruby-head
   - jruby
+  - jruby-head
 
 matrix:
   allow_failures:
     - rvm: ruby-head
     - rvm: jruby
+    - rvm: jruby-head
     # NOTE: The tests never pass with 1.9.3 since WebMock stopped supporting 1.9.
     - rvm: 1.9.3
   fast_finish: true
