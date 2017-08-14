@@ -20,7 +20,7 @@ describe Coveralls::Output do
   describe ".puts" do
     it "accepts an IO injection" do
       out = StringIO.new
-      Coveralls::Output.puts "this is a test", :output => out
+      Coveralls::Output.puts "this is a test", output: out
       expect(out.string).to eq "this is a test\n"
     end
   end
@@ -28,7 +28,7 @@ describe Coveralls::Output do
   describe ".print" do
     it "accepts an IO injection" do
       out = StringIO.new
-      Coveralls::Output.print "this is a test", :output => out
+      Coveralls::Output.print "this is a test", output: out
       expect(out.string).to eq "this is a test"
     end
   end
@@ -60,7 +60,7 @@ describe Coveralls::Output do
       require 'term/ansicolor'
       string = 'Hello'
       ansi_color_string =  Term::ANSIColor.red(string)
-      Coveralls::Output.format(string, :color => 'red').should eq(ansi_color_string)
+      Coveralls::Output.format(string, color: 'red').should eq(ansi_color_string)
     end
 
     it "also accepts no color arguments" do
@@ -70,13 +70,13 @@ describe Coveralls::Output do
 
     it "rejects formats unrecognized by Term::ANSIColor" do
       string = 'Hi dog!'
-      Coveralls::Output.format(string, :color => "not_a_real_color").should eq(string)
+      Coveralls::Output.format(string, color: "not_a_real_color").should eq(string)
     end
 
     it "accepts more than 1 color argument" do
       string = 'Hi dog!'
       multi_formatted_string = Term::ANSIColor.red{ Term::ANSIColor.underline(string) }
-      Coveralls::Output.format(string, :color => 'red underline').should eq(multi_formatted_string)
+      Coveralls::Output.format(string, color: 'red underline').should eq(multi_formatted_string)
     end
 
     context "no color" do
@@ -84,7 +84,7 @@ describe Coveralls::Output do
 
       it "does not add color to string" do
         unformatted_string = "Hi Doggie!"
-        Coveralls::Output.format(unformatted_string, :color => 'red').
+        Coveralls::Output.format(unformatted_string, color: 'red').
           should eq(unformatted_string)
       end
     end

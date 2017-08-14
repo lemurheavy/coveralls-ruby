@@ -6,8 +6,8 @@ module Coveralls
 
     def self.configuration
       config = {
-        :environment => self.relevant_env,
-        :git => git
+        environment: self.relevant_env,
+        git: git
       }
       yml = self.yaml_config
       if yml
@@ -153,12 +153,12 @@ module Coveralls
       Dir.chdir(root) do
 
         hash[:head] = {
-          :id => ENV.fetch("GIT_ID", `git log -1 --pretty=format:'%H'`),
-          :author_name => ENV.fetch("GIT_AUTHOR_NAME", `git log -1 --pretty=format:'%aN'`),
-          :author_email => ENV.fetch("GIT_AUTHOR_EMAIL", `git log -1 --pretty=format:'%ae'`),
-          :committer_name => ENV.fetch("GIT_COMMITTER_NAME", `git log -1 --pretty=format:'%cN'`),
-          :committer_email => ENV.fetch("GIT_COMMITTER_EMAIL", `git log -1 --pretty=format:'%ce'`),
-          :message => ENV.fetch("GIT_MESSAGE", `git log -1 --pretty=format:'%s'`)
+          id: ENV.fetch("GIT_ID", `git log -1 --pretty=format:'%H'`),
+          author_name: ENV.fetch("GIT_AUTHOR_NAME", `git log -1 --pretty=format:'%aN'`),
+          author_email: ENV.fetch("GIT_AUTHOR_EMAIL", `git log -1 --pretty=format:'%ae'`),
+          committer_name: ENV.fetch("GIT_COMMITTER_NAME", `git log -1 --pretty=format:'%cN'`),
+          committer_email: ENV.fetch("GIT_COMMITTER_EMAIL", `git log -1 --pretty=format:'%ce'`),
+          message: ENV.fetch("GIT_MESSAGE", `git log -1 --pretty=format:'%s'`)
         }
 
         # Branch
@@ -169,7 +169,7 @@ module Coveralls
         begin
           remotes = `git remote -v`.split(/\n/).map do |remote|
             splits = remote.split(" ").compact
-            {:name => splits[0], :url => splits[1]}
+            {name: splits[0], url: splits[1]}
           end.uniq
         rescue
         end
@@ -180,43 +180,43 @@ module Coveralls
       hash
 
     rescue Exception => e
-      Coveralls::Output.puts "Coveralls git error:", :color => "red"
-      Coveralls::Output.puts e.to_s, :color => "red"
+      Coveralls::Output.puts "Coveralls git error:", color: "red"
+      Coveralls::Output.puts e.to_s, color: "red"
       nil
     end
 
     def self.relevant_env
       hash = {
-        :pwd => self.pwd,
-        :rails_root => self.rails_root,
-        :simplecov_root => simplecov_root,
-        :gem_version => VERSION
+        pwd: self.pwd,
+        rails_root: self.rails_root,
+        simplecov_root: simplecov_root,
+        gem_version: VERSION
       }
 
       hash.merge! begin
         if ENV['TRAVIS']
           {
-            :travis_job_id => ENV['TRAVIS_JOB_ID'],
-            :travis_pull_request => ENV['TRAVIS_PULL_REQUEST'],
-            :branch => ENV['TRAVIS_BRANCH']
+            travis_job_id: ENV['TRAVIS_JOB_ID'],
+            travis_pull_request: ENV['TRAVIS_PULL_REQUEST'],
+            branch: ENV['TRAVIS_BRANCH']
           }
         elsif ENV['CIRCLECI']
           {
-            :circleci_build_num => ENV['CIRCLE_BUILD_NUM'],
-            :branch => ENV['CIRCLE_BRANCH'],
-            :commit_sha => ENV['CIRCLE_SHA1']
+            circleci_build_num: ENV['CIRCLE_BUILD_NUM'],
+            branch: ENV['CIRCLE_BRANCH'],
+            commit_sha: ENV['CIRCLE_SHA1']
           }
         elsif ENV['JENKINS_URL']
           {
-            :jenkins_build_num => ENV['BUILD_NUMBER'],
-            :jenkins_build_url => ENV['BUILD_URL'],
-            :branch => ENV['GIT_BRANCH'],
-            :commit_sha => ENV['GIT_COMMIT']
+            jenkins_build_num: ENV['BUILD_NUMBER'],
+            jenkins_build_url: ENV['BUILD_URL'],
+            branch: ENV['GIT_BRANCH'],
+            commit_sha: ENV['GIT_COMMIT']
           }
         elsif ENV['SEMAPHORE']
           {
-            :branch => ENV['BRANCH_NAME'],
-            :commit_sha => ENV['REVISION']
+            branch: ENV['BRANCH_NAME'],
+            commit_sha: ENV['REVISION']
           }
         else
           {}
