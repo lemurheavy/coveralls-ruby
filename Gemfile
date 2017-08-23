@@ -13,7 +13,7 @@ if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('1.9')
   gem 'webmock', '~> 1.20'
 else
   gem 'vcr', '>= 2.9'
-  gem 'webmock', '>= 1.20'
+  gem 'webmock', Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.0') ? '~> 2.3' : '~> 3.0'
 end
 
 platforms :ruby_18 do
