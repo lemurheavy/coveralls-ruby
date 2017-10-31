@@ -3,8 +3,8 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'coveralls/version'
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["Nick Merwin", "Wil Gieseler"]
-  gem.email         = ["nick@lemurheavy.com", "supapuerco@gmail.com"]
+  gem.authors       = ["Geremia Taglialatela"]
+  gem.email         = ["tagliala.dev@gmail.com"]
   gem.description   = "A Ruby implementation of the Coveralls API."
   gem.summary       = "A Ruby implementation of the Coveralls API."
   gem.homepage      = "https://coveralls.io"
@@ -13,7 +13,7 @@ Gem::Specification.new do |gem|
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
-  gem.name          = "coveralls"
+  gem.name          = "coveralls_reborn"
   gem.require_paths = ["lib"]
   gem.version       = Coveralls::VERSION
 
