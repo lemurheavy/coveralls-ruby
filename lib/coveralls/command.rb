@@ -7,7 +7,7 @@ module Coveralls
     def push
       return unless ensure_can_run_locally!
       ENV["COVERALLS_RUN_LOCALLY"] = "true"
-      cmds = "bundle exec rake"
+      cmds = ["bundle exec rake"]
       if File.exist?('.travis.yml')
         cmds = YAML.load_file('.travis.yml')["script"] || cmds rescue cmds
       end
@@ -57,8 +57,8 @@ module Coveralls
     def ensure_can_run_locally!
       config = Coveralls::Configuration.configuration
       if config[:repo_token].nil?
-        Coveralls::Output.puts "Coveralls cannot run locally because no repo_secret_token is set in .coveralls.yml", :color => "red"
-        Coveralls::Output.puts "Please try again when you get your act together.", :color => "red"
+        Coveralls::Output.puts "Coveralls cannot run locally because no repo_secret_token is set in .coveralls.yml", color: "red"
+        Coveralls::Output.puts "Please try again when you get your act together.", color: "red"
 
         return false
       end

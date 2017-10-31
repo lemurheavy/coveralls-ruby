@@ -30,7 +30,7 @@ describe Coveralls::SimpleCov::Formatter do
         Coveralls.noisy = false
       end
 
-      it "posts json", :if => RUBY_VERSION >= "1.9" do
+      it "posts json" do
         result.files.should_not be_empty
         silence do
           Coveralls::SimpleCov::Formatter.new.format(result).should be_truthy

@@ -2,7 +2,7 @@ require 'simplecov'
 require 'webmock'
 require 'vcr'
 
-require 'pry' if RUBY_VERSION > "1.8.7"
+require 'pry'
 
 class InceptionFormatter
   def format(result)
@@ -52,14 +52,14 @@ end
 def stub_api_post
   body = "{\"message\":\"\",\"url\":\"\"}"
   stub_request(:post, Coveralls::API::API_BASE+"/jobs").with(
-    :headers => {
+    headers: {
       'Accept'=>'*/*; q=0.5, application/xml',
       'Accept-Encoding'=>'gzip, deflate',
       'Content-Length'=>/.+/,
       'Content-Type'=>/.+/,
       'User-Agent'=>'Ruby'
     }
-  ).to_return(:status => 200, :body => body, :headers => {})
+  ).to_return(status: 200, body: body, headers: {})
 end
 
 def silence
