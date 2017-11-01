@@ -1,0 +1,45 @@
+AllCops:
+  DisplayCopNames: true
+  TargetRubyVersion: 2.1
+  Exclude:
+    - 'spec/coveralls/fixtures/**/*'
+    - 'vendor/bundle/**/*'
+
+Lint/HandleExceptions:
+  Enabled: false
+
+Metrics/AbcSize:
+  Max: 37
+
+Metrics/CyclomaticComplexity:
+  Max: 18
+
+Metrics/PerceivedComplexity:
+  Max: 19
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+
+Metrics/LineLength:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/ModuleLength:
+  Exclude:
+    - 'lib/coveralls/configuration.rb'
+    - 'spec/**/*'
+
+Naming/AccessorMethodName:
+  Exclude:
+    - 'lib/coveralls/configuration.rb'
+
+Style/Documentation:
+  Enabled: false
+
+# TODO: Remove when targeting Ruby 2.3 because it is already enabled.
+Style/FrozenStringLiteralComment:
+  Enabled: true
+  EnforcedStyle: always

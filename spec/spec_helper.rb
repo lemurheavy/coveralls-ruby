@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'simplecov'
 require 'webmock'
 require 'vcr'
@@ -12,15 +14,15 @@ end
 
 def setup_formatter
   SimpleCov.formatter = if ENV['TRAVIS'] || ENV['COVERALLS_REPO_TOKEN']
-    InceptionFormatter
-  else
-    SimpleCov::Formatter::HTMLFormatter
-  end
+                          InceptionFormatter
+                        else
+                          SimpleCov::Formatter::HTMLFormatter
+                        end
 
   # SimpleCov.start 'test_frameworks'
   SimpleCov.start do
     add_filter do |source_file|
-      source_file.filename =~ /spec/ && !(source_file.filename =~ /fixture/)
+      source_file.filename =~ /spec/ && source_file.filename !~ /fixture/
     end
   end
 end
@@ -39,10 +41,10 @@ RSpec.configure do |config|
   config.filter_run :focus
   config.include WebMock::API
   config.expect_with :rspec do |c|
-    c.syntax = [:should, :expect]
+    c.syntax = %i[should expect]
   end
   config.mock_with :rspec do |c|
-    c.syntax = [:should, :expect]
+    c.syntax = %i[should expect]
   end
   config.after(:suite) do
     WebMock.disable!
@@ -50,14 +52,14 @@ RSpec.configure do |config|
 end
 
 def stub_api_post
-  body = "{\"message\":\"\",\"url\":\"\"}"
-  stub_request(:post, Coveralls::API::API_BASE+"/jobs").with(
+  body = '{"message":"","url":""}'
+  stub_request(:post, Coveralls::API::API_BASE + '/jobs').with(
     headers: {
-      'Accept'=>'*/*; q=0.5, application/xml',
-      'Accept-Encoding'=>'gzip, deflate',
-      'Content-Length'=>/.+/,
-      'Content-Type'=>/.+/,
-      'User-Agent'=>'Ruby'
+      'Accept' => '*/*; q=0.5, application/xml',
+      'Accept-Encoding' => 'gzip, deflate',
+      'Content-Length' => /.+/,
+      'Content-Type' => /.+/,
+      'User-Agent' => 'Ruby'
     }
   ).to_return(status: 200, body: body, headers: {})
 end

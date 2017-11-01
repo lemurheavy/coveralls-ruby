@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Coveralls::Configuration do
@@ -6,7 +8,7 @@ describe Coveralls::Configuration do
   end
 
   describe '.configuration' do
-    it "returns a hash with the default keys" do
+    it 'returns a hash with the default keys' do
       config = Coveralls::Configuration.configuration
       config.should be_a(Hash)
       config.keys.should include(:environment)
@@ -16,12 +18,12 @@ describe Coveralls::Configuration do
     context 'yaml_config' do
       let(:repo_token) { SecureRandom.hex(4) }
       let(:repo_secret_token) { SecureRandom.hex(4) }
-      let(:yaml_config) {
+      let(:yaml_config) do
         {
           'repo_token' => repo_token,
           'repo_secret_token' => repo_secret_token
         }
-      }
+      end
 
       before do
         Coveralls::Configuration.stub(:yaml_config).and_return(yaml_config)
@@ -208,9 +210,9 @@ describe Coveralls::Configuration do
 
   describe '.set_service_params_for_gitlab' do
     let(:commit_sha) { SecureRandom.hex(32) }
-    let(:service_job_number) { "spec:one" }
+    let(:service_job_number) { 'spec:one' }
     let(:service_job_id) { 1234 }
-    let(:service_branch) { "feature" }
+    let(:service_branch) { 'feature' }
 
     before do
       ENV.stub(:[]).with('CI_BUILD_NAME').and_return(service_job_number)
@@ -318,7 +320,7 @@ describe Coveralls::Configuration do
       config[:service_number].should eq(service_number)
       config[:service_branch].should eq(service_branch)
       config[:commit_sha].should eq(commit_sha)
-      config[:service_build_url].should eq('https://ci.appveyor.com/project/%s/build/%s' % [repo_name, service_number])
+      config[:service_build_url].should eq(format('https://ci.appveyor.com/project/%s/build/%s', repo_name, service_number))
     end
   end
 

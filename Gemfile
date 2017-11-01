@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 # Specify your gem's dependencies in coveralls-ruby.gemspec
@@ -15,8 +17,8 @@ platforms :jruby do
 end
 
 platform :rbx do
-  gem 'rubysl', '~> 2.2'
   gem 'rubinius-developer_tools', '~> 2.0'
+  gem 'rubysl', '~> 2.2'
 end
 
 group :test do

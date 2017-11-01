@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Coveralls do
@@ -7,12 +9,12 @@ describe Coveralls do
     Coveralls.testing = true
   end
 
-  describe "#will_run?" do
-    it "checks CI environemnt variables" do
+  describe '#will_run?' do
+    it 'checks CI environemnt variables' do
       Coveralls.will_run?.should be_truthy
     end
 
-    context "with CI disabled" do
+    context 'with CI disabled' do
       before do
         @ci = ENV['CI']
         ENV['CI'] = nil
@@ -27,14 +29,14 @@ describe Coveralls do
         ENV['COVERALLS_RUN_LOCALLY'] = @coveralls_run_locally
       end
 
-      it "indicates no run" do
+      it 'indicates no run' do
         Coveralls.will_run?.should be_falsy
       end
     end
   end
 
-  describe "#should_run?" do
-    it "outputs to stdout when running locally" do
+  describe '#should_run?' do
+    it 'outputs to stdout when running locally' do
       Coveralls.testing = false
       Coveralls.run_locally = true
       silence do
@@ -43,8 +45,8 @@ describe Coveralls do
     end
   end
 
-  describe "#wear!" do
-    it "receives block" do
+  describe '#wear!' do
+    it 'receives block' do
       ::SimpleCov.should_receive(:start)
       silence do
         subject.wear! do
@@ -53,14 +55,14 @@ describe Coveralls do
       end
     end
 
-    it "uses string" do
+    it 'uses string' do
       ::SimpleCov.should_receive(:start).with 'test_frameworks'
       silence do
         subject.wear! 'test_frameworks'
       end
     end
 
-    it "uses default" do
+    it 'uses default' do
       ::SimpleCov.should_receive(:start).with no_args
       silence do
         subject.wear!
@@ -69,20 +71,20 @@ describe Coveralls do
     end
   end
 
-  describe "#wear_merged!" do
-    it "sets formatter to NilFormatter" do
+  describe '#wear_merged!' do
+    it 'sets formatter to NilFormatter' do
       ::SimpleCov.should_receive(:start).with 'rails'
       silence do
         subject.wear_merged! 'rails' do
-          add_filter "/spec/"
+          add_filter '/spec/'
         end
       end
       ::SimpleCov.formatter.should be Coveralls::NilFormatter
     end
   end
 
-  describe "#push!" do
-    it "sends existing test results" do
+  describe '#push!' do
+    it 'sends existing test results' do
       result = false
       silence do
         result = subject.push!
@@ -91,8 +93,8 @@ describe Coveralls do
     end
   end
 
-  describe "#setup!" do
-    it "sets SimpleCov adapter" do
+  describe '#setup!' do
+    it 'sets SimpleCov adapter' do
       SimpleCovTmp = SimpleCov
       Object.send :remove_const, :SimpleCov
       silence { subject.setup! }

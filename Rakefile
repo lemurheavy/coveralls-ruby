@@ -1,14 +1,20 @@
 #!/usr/bin/env rake
-require "bundler/gem_tasks"
+# frozen_string_literal: true
+
+require 'bundler/gem_tasks'
 
 # Travis!
 require 'rubygems'
 require 'rake'
 require 'rspec/core/rake_task'
 
-desc "Run RSpec"
+require 'rubocop/rake_task'
+
+RuboCop::RakeTask.new
+
+desc 'Run RSpec'
 RSpec::Core::RakeTask.new do |t|
   t.verbose = false
 end
 
-task default: :spec
+task default: %i[rubocop spec]

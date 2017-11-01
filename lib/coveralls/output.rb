@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Coveralls
   #
   # Public: Methods for formatting strings with Term::ANSIColor.
@@ -32,16 +34,19 @@ module Coveralls
   #   Coveralls::Output.no_color = true
 
   module Output
-    attr_accessor :silent, :no_color
-    attr_writer :output
-    extend self
+    class << self
+      attr_accessor :silent, :no_color
+      attr_writer :output
+    end
+
+    module_function
 
     def output
       (defined?(@output) && @output) || $stdout
     end
 
     def no_color?
-      (defined?(@no_color)) && @no_color
+      defined?(@no_color) && @no_color
     end
 
     # Public: Formats the given string with the specified color
@@ -87,7 +92,7 @@ module Coveralls
     # Returns nil.
     def puts(string, options = {})
       return if silent?
-      (options[:output] || output).puts self.format(string, options)
+      (options[:output] || output).puts format(string, options)
     end
 
     # Public: Passes .format to Kernel#print
@@ -104,11 +109,11 @@ module Coveralls
     # Returns nil.
     def print(string, options = {})
       return if silent?
-      (options[:output] || output).print self.format(string, options)
+      (options[:output] || output).print format(string, options)
     end
 
     def silent?
-      ENV["COVERALLS_SILENT"] || (defined?(@silent) && @silent)
+      ENV['COVERALLS_SILENT'] || (defined?(@silent) && @silent)
     end
   end
 end
