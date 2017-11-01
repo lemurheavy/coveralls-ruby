@@ -17,7 +17,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Coveralls::VERSION
 
-  gem.required_ruby_version = '>= 1.9.3'
+  gem.required_ruby_version = '>= 2.1'
 
   gem.add_dependency 'json', '~> 2.1'
   gem.add_dependency 'simplecov', '~> 0.15.1'
