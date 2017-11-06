@@ -56,6 +56,17 @@ describe Coveralls::Configuration do
       end
     end
 
+    context 'parallel in environment' do
+      before do
+        ENV.stub(:[]).with('COVERALLS_PARALLEL').and_return(true)
+      end
+
+      it 'sets parallel to true if present' do
+        config = described_class.configuration
+        config[:parallel].should be true
+      end
+    end
+
     context 'Services' do
       context 'with env based service name' do
         let(:service_name) { 'travis-enterprise' }
