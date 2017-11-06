@@ -47,23 +47,23 @@ describe Coveralls::Output do
       require 'term/ansicolor'
       string = 'Hello'
       ansi_color_string = Term::ANSIColor.red(string)
-      described_class.format(string, color: 'red').should eq(ansi_color_string)
+      expect(described_class.format(string, color: 'red')).to eq(ansi_color_string)
     end
 
     it 'also accepts no color arguments' do
       unformatted_string = 'Hi Doggie!'
-      described_class.format(unformatted_string).should eq(unformatted_string)
+      expect(described_class.format(unformatted_string)).to eq(unformatted_string)
     end
 
     it 'rejects formats unrecognized by Term::ANSIColor' do
       string = 'Hi dog!'
-      described_class.format(string, color: 'not_a_real_color').should eq(string)
+      expect(described_class.format(string, color: 'not_a_real_color')).to eq(string)
     end
 
     it 'accepts more than 1 color argument' do
       string = 'Hi dog!'
       multi_formatted_string = Term::ANSIColor.red { Term::ANSIColor.underline(string) }
-      described_class.format(string, color: 'red underline').should eq(multi_formatted_string)
+      expect(described_class.format(string, color: 'red underline')).to eq(multi_formatted_string)
     end
 
     context 'no color' do
@@ -71,8 +71,8 @@ describe Coveralls::Output do
 
       it 'does not add color to string' do
         unformatted_string = 'Hi Doggie!'
-        described_class.format(unformatted_string, color: 'red')
-                       .should eq(unformatted_string)
+        expect(described_class.format(unformatted_string, color: 'red'))
+          .to eq(unformatted_string)
       end
     end
   end

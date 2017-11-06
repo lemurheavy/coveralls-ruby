@@ -29,9 +29,9 @@ describe Coveralls::SimpleCov::Formatter do
       end
 
       it 'posts json' do
-        result.files.should_not be_empty
+        expect(result.files).not_to be_empty
         silence do
-          described_class.new.format(result).should be_truthy
+          expect(described_class.new.format(result)).to be_truthy
         end
       end
     end
@@ -39,7 +39,7 @@ describe Coveralls::SimpleCov::Formatter do
     context 'should not run, noisy' do
       it 'only displays result' do
         silence do
-          described_class.new.display_result(result).should be_truthy
+          expect(described_class.new.display_result(result)).to be_truthy
         end
       end
     end
@@ -64,7 +64,7 @@ describe Coveralls::SimpleCov::Formatter do
         e = SocketError.new
 
         silence do
-          described_class.new.display_error(e).should be_falsy
+          expect(described_class.new.display_error(e)).to be_falsy
         end
       end
     end
@@ -74,8 +74,8 @@ describe Coveralls::SimpleCov::Formatter do
 
       it 'nils the skipped lines' do
         source_file = source_files.first
-        source_file[:coverage].should_not eq result.files.first.coverage
-        source_file[:coverage].should eq [nil, 1, 1, 1, nil, 0, 1, 1, nil, nil, nil, nil, nil]
+        expect(source_file[:coverage]).not_to eq result.files.first.coverage
+        expect(source_file[:coverage]).to eq [nil, 1, 1, 1, nil, 0, 1, 1, nil, nil, nil, nil, nil]
       end
     end
   end

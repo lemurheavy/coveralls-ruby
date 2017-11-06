@@ -41,6 +41,9 @@ Naming/AccessorMethodName:
 RSpec/ExampleLength:
   Max: 8
 
+RSpec/MultipleExpectations:
+  Enabled: false
+
 RSpec/NamedSubject:
   Enabled: false
 

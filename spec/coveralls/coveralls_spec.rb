@@ -4,14 +4,14 @@ require 'spec_helper'
 
 describe Coveralls do
   before do
-    SimpleCov.stub(:start)
+    allow(SimpleCov).to receive(:start)
     stub_api_post
     described_class.testing = true
   end
 
   describe '#will_run?' do
     it 'checks CI environemnt variables' do
-      described_class.will_run?.should be_truthy
+      expect(described_class).to be_will_run
     end
 
     context 'with CI disabled' do
@@ -23,7 +23,7 @@ describe Coveralls do
       end
 
       it 'indicates no run' do
-        described_class.will_run?.should be_falsy
+        expect(described_class).not_to be_will_run
       end
     end
   end
@@ -40,39 +40,43 @@ describe Coveralls do
 
   describe '#wear!' do
     it 'receives block' do
-      ::SimpleCov.should_receive(:start)
       silence do
         subject.wear! do
           add_filter 's'
         end
       end
+
+      expect(::SimpleCov).to have_received(:start)
     end
 
     it 'uses string' do
-      ::SimpleCov.should_receive(:start).with 'test_frameworks'
       silence do
         subject.wear! 'test_frameworks'
       end
+
+      expect(::SimpleCov).to have_received(:start).with 'test_frameworks'
     end
 
     it 'uses default' do
-      ::SimpleCov.should_receive(:start).with no_args
       silence do
         subject.wear!
       end
-      ::SimpleCov.filters.map(&:filter_argument).should include 'vendor'
+
+      expect(::SimpleCov).to have_received(:start).with no_args
+      expect(::SimpleCov.filters.map(&:filter_argument)).to include 'vendor'
     end
   end
 
   describe '#wear_merged!' do
     it 'sets formatter to NilFormatter' do
-      ::SimpleCov.should_receive(:start).with 'rails'
       silence do
         subject.wear_merged! 'rails' do
           add_filter '/spec/'
         end
       end
-      ::SimpleCov.formatter.should be Coveralls::NilFormatter
+
+      expect(::SimpleCov).to have_received(:start).with 'rails'
+      expect(::SimpleCov.formatter).to be Coveralls::NilFormatter
     end
   end
 
@@ -82,7 +86,7 @@ describe Coveralls do
       silence do
         result = subject.push!
       end
-      result.should be_truthy
+      expect(result).to be_truthy
     end
   end
 
