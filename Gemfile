@@ -7,6 +7,8 @@ gemspec
 
 gem 'rake', '~> 12.2'
 gem 'rspec', '~> 3.7'
+gem 'rubocop', '~> 0.51.0'
+gem 'rubocop-rspec', '~> 1.19'
 gem 'simplecov', '~> 0.15.1', require: false
 gem 'truthy', '~> 1.0'
 gem 'vcr', '~> 3.0'
