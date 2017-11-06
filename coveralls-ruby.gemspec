@@ -5,8 +5,8 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'coveralls/version'
 
 Gem::Specification.new do |gem|
-  gem.authors       = ['Geremia Taglialatela']
-  gem.email         = ['tagliala.dev@gmail.com']
+  gem.authors       = ['Nick Merwin', 'Wil Gieseler', 'Geremia Taglialatela']
+  gem.email         = ['nick@lemurheavy.com', 'supapuerco@gmail.com', 'tagliala.dev@gmail.com']
   gem.description   = 'A Ruby implementation of the Coveralls API.'
   gem.summary       = 'A Ruby implementation of the Coveralls API.'
   gem.homepage      = 'https://coveralls.io'
