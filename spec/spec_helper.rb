@@ -47,6 +47,7 @@ RSpec.configure do |config|
     c.syntax = %i[should expect]
   end
   config.after(:suite) do
+    setup_formatter
     WebMock.disable!
   end
 end

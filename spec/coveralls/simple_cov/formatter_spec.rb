@@ -8,7 +8,7 @@ describe Coveralls::SimpleCov::Formatter do
   end
 
   def source_fixture(filename)
-    File.expand_path(File.join(File.dirname(__FILE__), 'fixtures', filename))
+    File.expand_path(File.join(File.dirname(__FILE__), '..', 'fixtures', filename))
   end
 
   let(:result) do
@@ -31,7 +31,7 @@ describe Coveralls::SimpleCov::Formatter do
       it 'posts json' do
         result.files.should_not be_empty
         silence do
-          Coveralls::SimpleCov::Formatter.new.format(result).should be_truthy
+          described_class.new.format(result).should be_truthy
         end
       end
     end
@@ -39,20 +39,21 @@ describe Coveralls::SimpleCov::Formatter do
     context 'should not run, noisy' do
       it 'only displays result' do
         silence do
-          Coveralls::SimpleCov::Formatter.new.display_result(result).should be_truthy
+          described_class.new.display_result(result).should be_truthy
         end
       end
     end
 
     context 'no files' do
       let(:result) { SimpleCov::Result.new({}) }
+
       it 'shows note that no files have been covered' do
         Coveralls.noisy = true
         Coveralls.testing = false
 
         silence do
           expect do
-            Coveralls::SimpleCov::Formatter.new.format(result)
+            described_class.new.format(result)
           end.not_to raise_error
         end
       end
@@ -63,13 +64,14 @@ describe Coveralls::SimpleCov::Formatter do
         e = SocketError.new
 
         silence do
-          Coveralls::SimpleCov::Formatter.new.display_error(e).should be_falsy
+          described_class.new.display_error(e).should be_falsy
         end
       end
     end
 
     context '#get_source_files' do
-      let(:source_files) { Coveralls::SimpleCov::Formatter.new.get_source_files(result) }
+      let(:source_files) { described_class.new.get_source_files(result) }
+
       it 'nils the skipped lines' do
         source_file = source_files.first
         source_file[:coverage].should_not eq result.files.first.coverage

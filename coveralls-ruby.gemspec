@@ -29,4 +29,5 @@ Gem::Specification.new do |gem|
 
   gem.add_development_dependency 'bundler', '~> 1.15'
   gem.add_development_dependency 'rubocop', '~> 0.51.0'
+  gem.add_development_dependency 'rubocop-rspec', '~> 1.19'
 end

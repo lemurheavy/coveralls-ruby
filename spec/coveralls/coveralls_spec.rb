@@ -6,41 +6,34 @@ describe Coveralls do
   before do
     SimpleCov.stub(:start)
     stub_api_post
-    Coveralls.testing = true
+    described_class.testing = true
   end
 
   describe '#will_run?' do
     it 'checks CI environemnt variables' do
-      Coveralls.will_run?.should be_truthy
+      described_class.will_run?.should be_truthy
     end
 
     context 'with CI disabled' do
       before do
-        @ci = ENV['CI']
-        ENV['CI'] = nil
-        @coveralls_run_locally = ENV['COVERALLS_RUN_LOCALLY']
-        ENV['COVERALLS_RUN_LOCALLY'] = nil
-
-        Coveralls.testing = false
-      end
-
-      after do
-        ENV['CI'] = @ci
-        ENV['COVERALLS_RUN_LOCALLY'] = @coveralls_run_locally
+        allow(ENV).to receive(:[])
+        allow(ENV).to receive(:[]).with('COVERALLS_RUN_LOCALLY').and_return(nil)
+        allow(ENV).to receive(:[]).with('CI').and_return(nil)
+        described_class.testing = false
       end
 
       it 'indicates no run' do
-        Coveralls.will_run?.should be_falsy
+        described_class.will_run?.should be_falsy
       end
     end
   end
 
   describe '#should_run?' do
     it 'outputs to stdout when running locally' do
-      Coveralls.testing = false
-      Coveralls.run_locally = true
+      described_class.testing = false
+      described_class.run_locally = true
       silence do
-        Coveralls.should_run?
+        described_class.should_run?
       end
     end
   end
@@ -100,9 +93,5 @@ describe Coveralls do
       silence { subject.setup! }
       SimpleCov = SimpleCovTmp
     end
-  end
-
-  after(:all) do
-    setup_formatter
   end
 end

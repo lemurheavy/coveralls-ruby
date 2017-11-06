@@ -1,3 +1,5 @@
+require: rubocop-rspec
+
 AllCops:
   DisplayCopNames: true
   TargetRubyVersion: 2.1
@@ -35,6 +37,15 @@ Metrics/ModuleLength:
 Naming/AccessorMethodName:
   Exclude:
     - 'lib/coveralls/configuration.rb'
+
+RSpec/ExampleLength:
+  Max: 8
+
+RSpec/NamedSubject:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Max: 4
 
 Style/Documentation:
   Enabled: false
