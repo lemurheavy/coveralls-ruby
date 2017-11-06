@@ -329,6 +329,31 @@ describe Coveralls::Configuration do
     end
   end
 
+  describe '.set_service_params_for_tddium' do
+    let(:service_number)       { SecureRandom.hex(4) }
+    let(:service_job_number)   { SecureRandom.hex(4) }
+    let(:service_pull_request) { SecureRandom.hex(4) }
+    let(:service_branch)       { SecureRandom.hex(4) }
+
+    before do
+      ENV.stub(:[]).with('TDDIUM_SESSION_ID').and_return(service_number)
+      ENV.stub(:[]).with('TDDIUM_TID').and_return(service_job_number)
+      ENV.stub(:[]).with('TDDIUM_PR_ID').and_return(service_pull_request)
+      ENV.stub(:[]).with('TDDIUM_CURRENT_BRANCH').and_return(service_branch)
+    end
+
+    it 'sets the expected parameters' do
+      config = {}
+      described_class.set_service_params_for_tddium(config)
+      config[:service_name].should eq('tddium')
+      config[:service_number].should eq(service_number)
+      config[:service_job_number].should eq(service_job_number)
+      config[:service_pull_request].should eq(service_pull_request)
+      config[:service_branch].should eq(service_branch)
+      config[:service_build_url].should eq(format('https://ci.solanolabs.com/reports/%s', service_number))
+    end
+  end
+
   describe '.git' do
     let(:git_id) { SecureRandom.hex(2) }
     let(:author_name) { SecureRandom.hex(4) }
