@@ -1,29 +1,31 @@
+# frozen_string_literal: true
+
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'coveralls/version'
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["Geremia Taglialatela"]
-  gem.email         = ["tagliala.dev@gmail.com"]
-  gem.description   = "A Ruby implementation of the Coveralls API."
-  gem.summary       = "A Ruby implementation of the Coveralls API."
-  gem.homepage      = "https://coveralls.io"
-  gem.license       = "MIT"
+  gem.authors       = ['Nick Merwin', 'Wil Gieseler', 'Geremia Taglialatela']
+  gem.email         = ['nick@lemurheavy.com', 'supapuerco@gmail.com', 'tagliala.dev@gmail.com']
+  gem.description   = 'A Ruby implementation of the Coveralls API.'
+  gem.summary       = 'A Ruby implementation of the Coveralls API.'
+  gem.homepage      = 'https://coveralls.io'
+  gem.license       = 'MIT'
 
-  gem.files         = `git ls-files`.split($\)
-  gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
+  gem.files         = `git ls-files`.split($OUTPUT_RECORD_SEPARATOR)
+  gem.executables   = gem.files.grep(%r{^bin/}).map { |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
-  gem.name          = "coveralls_reborn"
-  gem.require_paths = ["lib"]
+  gem.name          = 'coveralls_reborn'
+  gem.require_paths = ['lib']
   gem.version       = Coveralls::VERSION
 
-  gem.required_ruby_version = '>= 1.9.3'
+  gem.required_ruby_version = '>= 2.1'
 
   gem.add_dependency 'json', '~> 2.1'
   gem.add_dependency 'simplecov', '~> 0.15.1'
-  gem.add_dependency 'tins', '~> 1.6'
   gem.add_dependency 'term-ansicolor', '~> 1.3'
   gem.add_dependency 'thor', '~> 0.20.0'
+  gem.add_dependency 'tins', '~> 1.6'
 
-  gem.add_development_dependency 'bundler', '~> 1.15'
+  gem.add_development_dependency 'bundler', '~> 1.16'
 end
