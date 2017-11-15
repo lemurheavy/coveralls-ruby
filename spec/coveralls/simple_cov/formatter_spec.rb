@@ -22,7 +22,7 @@ describe Coveralls::SimpleCov::Formatter do
   end
 
   describe '#format' do
-    context 'should run' do
+    context 'when should run' do
       before do
         Coveralls.testing = true
         Coveralls.noisy = false
@@ -36,7 +36,7 @@ describe Coveralls::SimpleCov::Formatter do
       end
     end
 
-    context 'should not run, noisy' do
+    context 'when should not run, noisy' do
       it 'only displays result' do
         silence do
           expect(described_class.new.display_result(result)).to be_truthy
@@ -44,7 +44,7 @@ describe Coveralls::SimpleCov::Formatter do
       end
     end
 
-    context 'no files' do
+    context 'without files' do
       let(:result) { SimpleCov::Result.new({}) }
 
       it 'shows note that no files have been covered' do
@@ -69,7 +69,7 @@ describe Coveralls::SimpleCov::Formatter do
       end
     end
 
-    context '#get_source_files' do
+    describe '#get_source_files' do
       let(:source_files) { described_class.new.get_source_files(result) }
 
       it 'nils the skipped lines' do

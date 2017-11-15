@@ -15,7 +15,7 @@ describe Coveralls::Configuration do
       expect(config.keys).to include(:git)
     end
 
-    context 'yaml_config' do
+    context 'with yaml_config' do
       let(:repo_token) { SecureRandom.hex(4) }
       let(:repo_secret_token) { SecureRandom.hex(4) }
       let(:yaml_config) do
@@ -43,7 +43,7 @@ describe Coveralls::Configuration do
       end
     end
 
-    context 'repo_token in environment' do
+    context 'when repo_token is in environment' do
       let(:repo_token) { SecureRandom.hex(4) }
 
       before do
@@ -56,7 +56,7 @@ describe Coveralls::Configuration do
       end
     end
 
-    context 'parallel in environment' do
+    context 'when parallel is in environment' do
       before do
         allow(ENV).to receive(:[]).with('COVERALLS_PARALLEL').and_return(true)
       end
@@ -67,7 +67,7 @@ describe Coveralls::Configuration do
       end
     end
 
-    context 'Services' do
+    context 'with services' do
       before do
         allow(described_class).to receive(:set_service_params_for_travis)
         allow(described_class).to receive(:set_service_params_for_circleci)
@@ -91,7 +91,7 @@ describe Coveralls::Configuration do
         end
       end
 
-      context 'on Travis' do
+      context 'when using Travis' do
         before do
           allow(ENV).to receive(:[]).with('TRAVIS').and_return('1')
           described_class.configuration
@@ -107,7 +107,7 @@ describe Coveralls::Configuration do
         end
       end
 
-      context 'on CircleCI' do
+      context 'when using CircleCI' do
         before do
           allow(ENV).to receive(:[]).with('CIRCLECI').and_return('1')
           described_class.configuration
@@ -123,7 +123,7 @@ describe Coveralls::Configuration do
         end
       end
 
-      context 'on Semaphore' do
+      context 'when using Semaphore' do
         before do
           allow(ENV).to receive(:[]).with('SEMAPHORE').and_return('1')
           described_class.configuration
@@ -171,7 +171,7 @@ describe Coveralls::Configuration do
         end
       end
 
-      context 'for generic CI' do
+      context 'when using a generic CI' do
         before do
           allow(ENV).to receive(:[]).with('CI_NAME').and_return('1')
           described_class.configuration

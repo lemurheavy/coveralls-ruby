@@ -66,7 +66,7 @@ describe Coveralls::Output do
       expect(described_class.format(string, color: 'red underline')).to eq(multi_formatted_string)
     end
 
-    context 'no color' do
+    context 'without color' do
       before { described_class.no_color = true }
 
       it 'does not add color to string' do
