@@ -3,3 +3,9 @@
 ### [Read the docs &rarr;](https://coveralls.zendesk.com/hc/en-us/articles/201769485-Ruby-Rails)
 
 An up-to-date fork of [lemurheavy/coveralls-ruby](https://github.com/lemurheavy/coveralls-ruby)
+
+Add to your `Gemfile`:
+
+```rb
+gem 'coveralls_reborn', '~> 0.10.0', require: false
+```
