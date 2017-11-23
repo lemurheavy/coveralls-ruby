@@ -15,7 +15,7 @@ platforms :rbx do
 end
 
 group :development do
-  gem 'rake', '~> 12.2'
+  gem 'rake', '~> 12.3'
   gem 'rspec', '~> 3.7'
   gem 'rubocop', '~> 0.51.0'
   gem 'rubocop-rspec', '~> 1.20'
