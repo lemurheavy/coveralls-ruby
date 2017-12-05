@@ -20,7 +20,7 @@ Gem::Specification.new do |gem|
   gem.required_ruby_version = '>= 1.8.7'
 
   gem.add_dependency 'json', '>= 1.8', '< 3'
-  gem.add_dependency 'simplecov', '~> 0.14.1'
+  gem.add_dependency 'simplecov', '>= 0.14.1', '< 1.0'
   gem.add_dependency 'tins', '~> 1.6'
   gem.add_dependency 'term-ansicolor', '~> 1.3'
   gem.add_dependency 'thor', '~> 0.19.4'
