@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-lib = File.expand_path('../lib', __FILE__)
+lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'coveralls/version'
 
@@ -22,10 +22,10 @@ Gem::Specification.new do |gem|
   gem.required_ruby_version = '>= 2.1'
 
   gem.add_dependency 'json', '~> 2.1'
-  gem.add_dependency 'simplecov', '~> 0.15.1'
+  gem.add_dependency 'simplecov', '~> 0.16.0'
   gem.add_dependency 'term-ansicolor', '~> 1.6'
   gem.add_dependency 'thor', '~> 0.20.0'
-  gem.add_dependency 'tins', '~> 1.6'
+  gem.add_dependency 'tins', '~> 1.16'
 
   gem.add_development_dependency 'bundler', '~> 1.16'
 end

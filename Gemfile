@@ -17,12 +17,11 @@ end
 group :development do
   gem 'rake', '~> 12.3'
   gem 'rspec', '~> 3.7'
-  gem 'rubocop', '~> 0.51.0'
-  gem 'rubocop-rspec', '~> 1.20'
-  gem 'simplecov', '~> 0.15.1', require: false
+  gem 'rubocop', '~> 0.53.0'
+  gem 'rubocop-rspec', '~> 1.24'
   gem 'truthy', '~> 1.0'
-  gem 'vcr', '~> 3.0'
-  gem 'webmock', '~> 3.1'
+  gem 'vcr', '~> 4.0'
+  gem 'webmock', '~> 3.3'
 end
 
 group :test do
