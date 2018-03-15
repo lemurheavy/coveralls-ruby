@@ -345,7 +345,7 @@ describe Coveralls::Configuration do
       expect(config[:service_number]).to eq(service_number)
       expect(config[:service_branch]).to eq(service_branch)
       expect(config[:commit_sha]).to eq(commit_sha)
-      expect(config[:service_build_url]).to eq(format('https://ci.appveyor.com/project/%s/build/%s', repo_name, service_number))
+      expect(config[:service_build_url]).to eq(format('https://ci.appveyor.com/project/%<repo_name>s/build/%<service_number>s', repo_name: repo_name, service_number: service_number))
     end
   end
 
@@ -370,7 +370,7 @@ describe Coveralls::Configuration do
       expect(config[:service_job_number]).to eq(service_job_number)
       expect(config[:service_pull_request]).to eq(service_pull_request)
       expect(config[:service_branch]).to eq(service_branch)
-      expect(config[:service_build_url]).to eq(format('https://ci.solanolabs.com/reports/%s', service_number))
+      expect(config[:service_build_url]).to eq(format('https://ci.solanolabs.com/reports/%<service_number>s', service_number: service_number))
     end
   end
 

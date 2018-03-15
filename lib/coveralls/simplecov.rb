@@ -71,17 +71,17 @@ module Coveralls
         display_error e
       end
 
-      def display_error(e)
+      def display_error(error)
         Coveralls::Output.puts 'Coveralls encountered an exception:', color: 'red'
-        Coveralls::Output.puts e.class.to_s, color: 'red'
-        Coveralls::Output.puts e.message, color: 'red'
-        if e.backtrace
-          e.backtrace.each do |line|
+        Coveralls::Output.puts error.class.to_s, color: 'red'
+        Coveralls::Output.puts error.message, color: 'red'
+        if error.backtrace
+          error.backtrace.each do |line|
             Coveralls::Output.puts line, color: 'red'
           end
         end
-        if e.respond_to?(:response) && e.response
-          Coveralls::Output.puts e.response.to_s, color: 'red'
+        if error.respond_to?(:response) && error.response
+          Coveralls::Output.puts error.response.to_s, color: 'red'
         end
         false
       end

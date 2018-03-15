@@ -83,7 +83,7 @@ module Coveralls
       config[:service_branch]    = ENV['APPVEYOR_REPO_BRANCH']
       config[:commit_sha]        = ENV['APPVEYOR_REPO_COMMIT']
       repo_name                  = ENV['APPVEYOR_REPO_NAME']
-      config[:service_build_url] = format('https://ci.appveyor.com/project/%s/build/%s', repo_name, config[:service_number])
+      config[:service_build_url] = format('https://ci.appveyor.com/project/%<repo_name>s/build/%<service_number>s', repo_name: repo_name, service_number: config[:service_number])
     end
 
     def self.set_service_params_for_tddium(config)
