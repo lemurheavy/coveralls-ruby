@@ -17,6 +17,10 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Coveralls::VERSION
 
+  gem.metadata = {
+    "source_code_uri" => "https://github.com/lemurheavy/coveralls-ruby",
+  }
+
   gem.required_ruby_version = '>= 1.8.7'
 
   gem.add_dependency 'json', '>= 1.8', '< 3'
