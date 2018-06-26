@@ -20,6 +20,9 @@ module Coveralls
       if ENV['COVERALLS_PARALLEL'] && ENV['COVERALLS_PARALLEL'] != "false"
         config[:parallel] = true
       end
+      if ENV['COVERALLS_FLAG_NAME']
+        config[:flag_name] = ENV['COVERALLS_FLAG_NAME']
+      end
       if ENV['TRAVIS']
         set_service_params_for_travis(config, yml ? yml['service_name'] : nil)
       elsif ENV['CIRCLECI']

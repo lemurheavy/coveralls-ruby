@@ -54,6 +54,19 @@ describe Coveralls::Configuration do
       end
     end
 
+    context 'flag_name in environment' do
+      let(:flag_name) { 'Test Flag' }
+
+      before do
+        ENV.stub(:[]).with('COVERALLS_FLAG_NAME').and_return(flag_name)
+      end
+
+      it 'pulls the flag name from the environment if set' do
+        config = Coveralls::Configuration.configuration
+        config[:flag_name].should eq(flag_name)
+      end
+    end
+
     context 'Services' do
       context 'with env based service name' do
         let(:service_name) { 'travis-enterprise' }
