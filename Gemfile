@@ -16,24 +16,14 @@ else
   gem 'webmock', '>= 1.20'
 end
 
-platforms :ruby_18 do
-  gem 'addressable', '~> 2.3.8', :group => :test
-  gem 'mime-types', '~> 1.25'
-end
-
-platforms :ruby_18, :ruby_19 do
-  gem 'json', '~> 1.8'
+platforms :ruby_19 do
+  gem 'json', '~> 2.1'
   gem 'term-ansicolor', '~> 1.3.0'
   gem 'tins', '~> 1.6.0'
 end
 
 platforms :jruby do
   gem 'jruby-openssl'
-end
-
-platform :rbx do
-  gem 'rubysl', '~> 2.0'
-  gem 'rubinius-developer_tools'
 end
 
 group :test do
