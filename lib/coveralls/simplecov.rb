@@ -1,3 +1,5 @@
+require 'pathname'
+
 module Coveralls
   module SimpleCov
     class Formatter
@@ -61,7 +63,7 @@ module Coveralls
         end
 
         # Post to Coveralls.
-        API.post_json "jobs", 
+        API.post_json "jobs",
           :source_files => get_source_files(result),
           :test_framework => result.command_name.downcase,
           :run_at => result.created_at
@@ -92,8 +94,11 @@ module Coveralls
       end
 
       def short_filename(filename)
-        filename = filename.gsub(::SimpleCov.root, '.').gsub(/^\.\//, '') if ::SimpleCov.root
-        filename
+        return filename unless ::SimpleCov.root
+
+        filename = Pathname.new(filename)
+        root = Pathname.new(::SimpleCov.root)
+        filename.relative_path_from(root).to_s
       end
 
     end

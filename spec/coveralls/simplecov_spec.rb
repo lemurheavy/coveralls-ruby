@@ -79,4 +79,26 @@ describe Coveralls::SimpleCov::Formatter do
       end
     end
   end
+
+  describe "#short_filename" do
+    subject {  formatter.short_filename(filename) }
+    let(:formatter) { Coveralls::SimpleCov::Formatter.new }
+    let(:filename) { '/app/app/controllers/application_controller.rb' }
+
+    before do
+      allow(SimpleCov).to receive(:root).and_return(root_path)
+    end
+
+    context "with no root path" do
+      let(:root_path) { nil }
+
+      it { is_expected.to eql filename }
+    end
+
+    context "with multiple matches of root path" do
+      let(:root_path) { '/app' }
+
+      it { is_expected.to eql 'app/controllers/application_controller.rb' }
+    end
+  end
 end
