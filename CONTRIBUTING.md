@@ -5,7 +5,7 @@ We love pull requests. Here's a quick guide:
 2. Run the tests. We only take pull requests with passing tests, and it's great
 to know that you have a clean slate: `bundle exec rspec`
 
-3. Please add a test for your change. Only refactoring and documentation changes require no new tests. If you are adding functionality or fixing a bug, we need a test! We use [Rspec](http://rspec.info/) in this project. If you're not familiar with Minitest and are comfortable with Rspec, please ask a contributor/collaborator to review your PR.
+3. Please add a test for your change. Only refactoring and documentation changes require no new tests. If you are adding functionality or fixing a bug, we need a test! We use [Rspec](http://rspec.info/) in this project.
 
 4. We care about code coverage and use `SimpleCov` to analyze the code and generate
 test coverage reports.
