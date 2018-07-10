@@ -17,7 +17,7 @@ def setup_formatter
                           InceptionFormatter
                         else
                           SimpleCov::Formatter::HTMLFormatter
-  end
+                        end
 
   SimpleCov.start do
     add_filter do |source_file|
