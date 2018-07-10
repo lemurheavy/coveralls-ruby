@@ -6,10 +6,10 @@ module Coveralls
 
     def self.configuration
       config = {
-        environment: self.relevant_env,
+        environment: relevant_env,
         git: git
       }
-      yml = self.yaml_config
+      yml = yaml_config
       if yml
         config[:configuration] = yml
         config[:repo_token] = yml['repo_token'] || yml['repo_secret_token']
@@ -121,13 +121,13 @@ module Coveralls
     end
 
     def self.yaml_config
-      if self.configuration_path && File.exist?(self.configuration_path)
-        YAML::load_file(self.configuration_path)
+      if configuration_path && File.exist?(configuration_path)
+        YAML::load_file(configuration_path)
       end
     end
 
     def self.configuration_path
-      File.expand_path(File.join(self.root, '.coveralls.yml')) if self.root
+      File.expand_path(File.join(root, '.coveralls.yml')) if root
     end
 
     def self.root
@@ -190,8 +190,8 @@ module Coveralls
 
     def self.relevant_env
       hash = {
-        pwd: self.pwd,
-        rails_root: self.rails_root,
+        pwd: pwd,
+        rails_root: rails_root,
         simplecov_root: simplecov_root,
         gem_version: VERSION
       }

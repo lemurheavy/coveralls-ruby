@@ -87,7 +87,7 @@ module Coveralls
     # Returns nil.
     def puts(string, options = {})
       return if silent?
-      (options[:output] || output).puts self.format(string, options)
+      (options[:output] || output).puts format(string, options)
     end
 
     # Public: Passes .format to Kernel#print
@@ -104,7 +104,7 @@ module Coveralls
     # Returns nil.
     def print(string, options = {})
       return if silent?
-      (options[:output] || output).print self.format(string, options)
+      (options[:output] || output).print format(string, options)
     end
 
     def silent?
