@@ -11,6 +11,10 @@
 
 - [PR #1](https://github.com/Coveralls-Community/coveralls-ruby/pull/1) Drop 1.8 support, and move some work over from main coveralls [@Ch4s3](https://github.com/Ch4s3)
 
+### Documentation
+
+- [PR #5](https://github.com/Coveralls-Community/coveralls-ruby/pull/5) Add changelog [@vbrazo](https://github.com/vbrazo)
+
 ## 0.7.0 (September 18, 2013)
 
 [Full Changelog](https://github.com/lemurheavy/coveralls-ruby/compare/v0.6.4...v0.7.0)
