@@ -3,7 +3,6 @@ require 'pathname'
 module Coveralls
   module SimpleCov
     class Formatter
-
       def display_result(result)
         # Log which files would be submitted.
         if result.files.length > 0
@@ -100,7 +99,6 @@ module Coveralls
         root = Pathname.new(::SimpleCov.root)
         filename.relative_path_from(root).to_s
       end
-
     end
   end
 end

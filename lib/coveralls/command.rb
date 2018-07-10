@@ -2,7 +2,6 @@ require 'thor'
 
 module Coveralls
   class CommandLine < Thor
-
     desc 'push', 'Runs your test suite and pushes the coverage results to Coveralls.'
     def push
       return unless ensure_can_run_locally!
@@ -64,6 +63,5 @@ module Coveralls
       end
       true
     end
-
   end
 end

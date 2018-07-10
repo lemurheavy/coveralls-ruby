@@ -14,6 +14,5 @@ module Coveralls
         end
       end
     end # initialize
-
   end # class
 end # module
