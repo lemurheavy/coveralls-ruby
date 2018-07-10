@@ -44,7 +44,7 @@ module Coveralls
 
     private
 
-    def open_token_based_url url
+    def open_token_based_url(url)
       config = Coveralls::Configuration.configuration
       if config[:repo_token]
         url = url.gsub('%@', config[:repo_token])

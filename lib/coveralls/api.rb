@@ -115,7 +115,7 @@ module Coveralls
       File.new(file.path, 'rb')
     end
 
-    def self.apified_hash hash
+    def self.apified_hash(hash)
       config = Coveralls::Configuration.configuration
       if ENV['COVERALLS_DEBUG'] || Coveralls.testing
         Coveralls::Output.puts '[Coveralls] Submitting with config:', color: 'yellow'
