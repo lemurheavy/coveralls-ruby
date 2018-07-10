@@ -8,8 +8,7 @@ module Coveralls
   extend self
 
   class NilFormatter
-    def format(result)
-    end
+    def format(result); end
   end
 
   attr_accessor :testing, :noisy, :run_locally
