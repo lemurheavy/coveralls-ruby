@@ -153,7 +153,6 @@ module Coveralls
       hash = {}
 
       Dir.chdir(root) do
-
         hash[:head] = {
           id: ENV.fetch('GIT_ID', `git log -1 --pretty=format:'%H'`),
           author_name: ENV.fetch('GIT_AUTHOR_NAME', `git log -1 --pretty=format:'%aN'`),
@@ -176,7 +175,6 @@ module Coveralls
         rescue
         end
         hash[:remotes] = remotes
-
       end
 
       hash

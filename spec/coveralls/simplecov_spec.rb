@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Coveralls::SimpleCov::Formatter do
-
   before do
     stub_api_post
   end
@@ -11,7 +10,6 @@ describe Coveralls::SimpleCov::Formatter do
   end
 
   let(:result) {
-
     SimpleCov::Result.new({
                             source_fixture('sample.rb') => [nil, 1, 1, 1, nil, 0, 1, 1, nil, nil],
                             source_fixture('app/models/user.rb')         => [nil, 1, 1, 1, 1, 0, 1, 0, nil, nil],
