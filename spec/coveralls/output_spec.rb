@@ -59,7 +59,7 @@ describe Coveralls::Output do
     it 'accepts a color argument' do
       require 'term/ansicolor'
       string = 'Hello'
-      ansi_color_string =  Term::ANSIColor.red(string)
+      ansi_color_string = Term::ANSIColor.red(string)
       Coveralls::Output.format(string, color: 'red').should eq(ansi_color_string)
     end
 

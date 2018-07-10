@@ -13,7 +13,7 @@ describe Coveralls::SimpleCov::Formatter do
   let(:result) {
 
     SimpleCov::Result.new({
-                            source_fixture('sample.rb')                  => [nil, 1, 1, 1, nil, 0, 1, 1, nil, nil],
+                            source_fixture('sample.rb') => [nil, 1, 1, 1, nil, 0, 1, 1, nil, nil],
       source_fixture('app/models/user.rb')         => [nil, 1, 1, 1, 1, 0, 1, 0, nil, nil],
       source_fixture('app/models/robot.rb')        => [1, 1, 1, 1, nil, nil, 1, 0, nil, nil],
       source_fixture('app/models/house.rb')        => [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil],
