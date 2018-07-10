@@ -20,7 +20,7 @@ module Coveralls
 
       uri = endpoint_to_uri(endpoint)
 
-      Coveralls::Output.puts("#{ JSON.pretty_generate(hash) }", color: 'green') if ENV['COVERALLS_DEBUG']
+      Coveralls::Output.puts("#{JSON.pretty_generate(hash)}", color: 'green') if ENV['COVERALLS_DEBUG']
       Coveralls::Output.puts("[Coveralls] Submitting to #{API_BASE}", color: 'cyan')
 
       client  = build_client(uri)
@@ -31,11 +31,11 @@ module Coveralls
       response_hash = JSON.load(response.body.to_str)
 
       if response_hash['message']
-        Coveralls::Output.puts("[Coveralls] #{ response_hash['message'] }", color: 'cyan')
+        Coveralls::Output.puts("[Coveralls] #{response_hash['message']}", color: 'cyan')
       end
 
       if response_hash['url']
-        Coveralls::Output.puts("[Coveralls] #{ Coveralls::Output.format(response_hash['url'], color: "underline") }", color: 'cyan')
+        Coveralls::Output.puts("[Coveralls] #{Coveralls::Output.format(response_hash['url'], color: "underline")}", color: 'cyan')
       end
 
       case response
