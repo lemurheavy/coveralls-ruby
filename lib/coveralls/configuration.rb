@@ -3,7 +3,6 @@ require 'securerandom'
 
 module Coveralls
   module Configuration
-
     def self.configuration
       config = {
         environment: relevant_env,
@@ -228,6 +227,5 @@ module Coveralls
 
       hash
     end
-
   end
 end
