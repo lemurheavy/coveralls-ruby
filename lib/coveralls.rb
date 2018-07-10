@@ -52,7 +52,6 @@ module Coveralls
     else
       Coveralls::Output.puts("[Coveralls] Couldn't find an appropriate adapter.", color: 'red')
     end
-
   end
 
   def start!(simplecov_setting = 'test_frameworks', &block)

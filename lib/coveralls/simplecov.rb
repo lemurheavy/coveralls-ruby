@@ -53,7 +53,6 @@ module Coveralls
       end
 
       def format(result)
-
         unless Coveralls.should_run?
           if Coveralls.noisy?
             display_result result
