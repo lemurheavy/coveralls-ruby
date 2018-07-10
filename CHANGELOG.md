@@ -1,6 +1,11 @@
 # Changelog
 
-### Please see Github Releases section for current releases.
+## HEAD Unreleased
+### Latest update: 2018-07-09
+
+### Feature Request/Enhancement
+
+- [PR #4](https://github.com/Coveralls-Community/coveralls-ruby/pull/4) Add rubocop [@vbrazo](https://github.com/vbrazo)
 
 ## 0.7.0 (September 18, 2013)
 
