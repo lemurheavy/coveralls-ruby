@@ -28,4 +28,5 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'thor', '>= 0.19.4', '< 1'
 
   gem.add_development_dependency 'bundler', '~> 1.7'
+  gem.add_development_dependency 'rubocop'
 end

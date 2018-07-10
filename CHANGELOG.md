@@ -16,6 +16,10 @@
 - [PR #6](https://github.com/Coveralls-Community/coveralls-ruby/pull/5) Add contributing.md [@vbrazo](https://github.com/vbrazo)
 - [PR #5](https://github.com/Coveralls-Community/coveralls-ruby/pull/5) Add changelog [@vbrazo](https://github.com/vbrazo)
 
+### Feature Request/Enhancement
+
+- [PR #4](https://github.com/Coveralls-Community/coveralls-ruby/pull/4) Add rubocop [@vbrazo](https://github.com/vbrazo)
+
 ## 0.7.0 (September 18, 2013)
 
 [Full Changelog](https://github.com/lemurheavy/coveralls-ruby/compare/v0.6.4...v0.7.0)
