@@ -5,7 +5,7 @@ module Coveralls
     class Formatter
       def display_result(result)
         # Log which files would be submitted.
-        if result.files.length > 0
+        if !result.files.empty?
           Coveralls::Output.puts '[Coveralls] Some handy coverage stats:'
         else
           Coveralls::Output.puts '[Coveralls] There are no covered files.', color: 'yellow'
