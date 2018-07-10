@@ -9,19 +9,19 @@ module Coveralls
         if result.files.length > 0
           Coveralls::Output.puts '[Coveralls] Some handy coverage stats:'
         else
-          Coveralls::Output.puts '[Coveralls] There are no covered files.', :color => 'yellow'
+          Coveralls::Output.puts '[Coveralls] There are no covered files.', color: 'yellow'
         end
         result.files.each do |f|
           Coveralls::Output.print '  * '
-          Coveralls::Output.print short_filename(f.filename).to_s, :color => 'cyan'
-          Coveralls::Output.print ' => ', :color => 'white'
+          Coveralls::Output.print short_filename(f.filename).to_s, color: 'cyan'
+          Coveralls::Output.print ' => ', color: 'white'
           cov = "#{f.covered_percent.round}%"
           if f.covered_percent > 90
-            Coveralls::Output.print cov, :color => 'green'
+            Coveralls::Output.print cov, color: 'green'
           elsif f.covered_percent > 80
-            Coveralls::Output.print cov, :color => 'yellow'
+            Coveralls::Output.print cov, color: 'yellow'
           else
-            Coveralls::Output.print cov, :color => 'red'
+            Coveralls::Output.print cov, color: 'red'
           end
           Coveralls::Output.puts ''
         end
@@ -64,9 +64,9 @@ module Coveralls
 
         # Post to Coveralls.
         API.post_json 'jobs',
-          :source_files => get_source_files(result),
-          :test_framework => result.command_name.downcase,
-          :run_at => result.created_at
+          source_files: get_source_files(result),
+          test_framework: result.command_name.downcase,
+          run_at: result.created_at
 
         Coveralls::Output.puts output_message result
 
@@ -77,14 +77,14 @@ module Coveralls
       end
 
       def display_error(e)
-        Coveralls::Output.puts 'Coveralls encountered an exception:', :color => 'red'
-        Coveralls::Output.puts e.class.to_s, :color => 'red'
-        Coveralls::Output.puts e.message, :color => 'red'
+        Coveralls::Output.puts 'Coveralls encountered an exception:', color: 'red'
+        Coveralls::Output.puts e.class.to_s, color: 'red'
+        Coveralls::Output.puts e.message, color: 'red'
         e.backtrace.each do |line|
-          Coveralls::Output.puts line, :color => 'red'
+          Coveralls::Output.puts line, color: 'red'
         end if e.backtrace
         if e.respond_to?(:response) && e.response
-          Coveralls::Output.puts e.response.to_s, :color => 'red'
+          Coveralls::Output.puts e.response.to_s, color: 'red'
         end
         false
       end

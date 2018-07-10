@@ -20,8 +20,8 @@ module Coveralls
 
       uri = endpoint_to_uri(endpoint)
 
-      Coveralls::Output.puts("#{ JSON.pretty_generate(hash) }", :color => 'green') if ENV['COVERALLS_DEBUG']
-      Coveralls::Output.puts("[Coveralls] Submitting to #{API_BASE}", :color => 'cyan')
+      Coveralls::Output.puts("#{ JSON.pretty_generate(hash) }", color: 'green') if ENV['COVERALLS_DEBUG']
+      Coveralls::Output.puts("[Coveralls] Submitting to #{API_BASE}", color: 'cyan')
 
       client  = build_client(uri)
       request = build_request(uri.path, hash)
@@ -31,18 +31,18 @@ module Coveralls
       response_hash = JSON.load(response.body.to_str)
 
       if response_hash['message']
-        Coveralls::Output.puts("[Coveralls] #{ response_hash['message'] }", :color => 'cyan')
+        Coveralls::Output.puts("[Coveralls] #{ response_hash['message'] }", color: 'cyan')
       end
 
       if response_hash['url']
-        Coveralls::Output.puts("[Coveralls] #{ Coveralls::Output.format(response_hash['url'], :color => "underline") }", :color => 'cyan')
+        Coveralls::Output.puts("[Coveralls] #{ Coveralls::Output.format(response_hash['url'], color: "underline") }", color: 'cyan')
       end
 
       case response
       when Net::HTTPServiceUnavailable
-        Coveralls::Output.puts('[Coveralls] API timeout occured, but data should still be processed', :color => 'red')
+        Coveralls::Output.puts('[Coveralls] API timeout occured, but data should still be processed', color: 'red')
       when Net::HTTPInternalServerError
-        Coveralls::Output.puts("[Coveralls] API internal error occured, we're on it!", :color => 'red')
+        Coveralls::Output.puts("[Coveralls] API internal error occured, we're on it!", color: 'red')
       end
     end
 
@@ -118,9 +118,9 @@ module Coveralls
     def self.apified_hash hash
       config = Coveralls::Configuration.configuration
       if ENV['COVERALLS_DEBUG'] || Coveralls.testing
-        Coveralls::Output.puts '[Coveralls] Submitting with config:', :color => 'yellow'
+        Coveralls::Output.puts '[Coveralls] Submitting with config:', color: 'yellow'
         output = JSON.pretty_generate(config).gsub(/"repo_token": ?"(.*?)"/,'"repo_token": "[secure]"')
-        Coveralls::Output.puts output, :color => 'yellow'
+        Coveralls::Output.puts output, color: 'yellow'
       end
       hash.merge(config)
     end
