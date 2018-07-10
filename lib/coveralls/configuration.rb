@@ -172,7 +172,7 @@ module Coveralls
         begin
           remotes = `git remote -v`.split(/\n/).map do |remote|
             splits = remote.split(' ').compact
-            {name: splits[0], url: splits[1]}
+            { name: splits[0], url: splits[1] }
           end.uniq
         rescue
         end
