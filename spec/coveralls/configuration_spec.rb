@@ -6,7 +6,7 @@ describe Coveralls::Configuration do
   end
 
   describe '.configuration' do
-    it "returns a hash with the default keys" do
+    it 'returns a hash with the default keys' do
       config = Coveralls::Configuration.configuration
       config.should be_a(Hash)
       config.keys.should include(:environment)
@@ -221,9 +221,9 @@ describe Coveralls::Configuration do
 
   describe '.set_service_params_for_gitlab' do
     let(:commit_sha) { SecureRandom.hex(32) }
-    let(:service_job_number) { "spec:one" }
+    let(:service_job_number) { 'spec:one' }
     let(:service_job_id) { 1234 }
-    let(:service_branch) { "feature" }
+    let(:service_branch) { 'feature' }
 
     before do
       ENV.stub(:[]).with('CI_BUILD_NAME').and_return(service_job_number)

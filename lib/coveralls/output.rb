@@ -108,7 +108,7 @@ module Coveralls
     end
 
     def silent?
-      ENV["COVERALLS_SILENT"] || (defined?(@silent) && @silent)
+      ENV['COVERALLS_SILENT'] || (defined?(@silent) && @silent)
     end
   end
 end

@@ -17,7 +17,7 @@ module Coveralls
       if ENV['COVERALLS_REPO_TOKEN']
         config[:repo_token] = ENV['COVERALLS_REPO_TOKEN']
       end
-      if ENV['COVERALLS_PARALLEL'] && ENV['COVERALLS_PARALLEL'] != "false"
+      if ENV['COVERALLS_PARALLEL'] && ENV['COVERALLS_PARALLEL'] != 'false'
         config[:parallel] = true
       end
       if ENV['COVERALLS_FLAG_NAME']
@@ -61,7 +61,7 @@ module Coveralls
     def self.set_service_params_for_circleci(config)
       config[:service_name]         = 'circleci'
       config[:service_number]       = ENV['CIRCLE_BUILD_NUM']
-      config[:service_pull_request] = (ENV['CI_PULL_REQUEST'] || "")[/(\d+)$/,1]
+      config[:service_pull_request] = (ENV['CI_PULL_REQUEST'] || '')[/(\d+)$/,1]
       config[:parallel]             = ENV['CIRCLE_NODE_TOTAL'].to_i > 1
       config[:service_job_number]   = ENV['CIRCLE_NODE_INDEX']
     end
@@ -117,7 +117,7 @@ module Coveralls
       config[:service_job_id]       ||= ENV['CI_JOB_ID']
       config[:service_build_url]    ||= ENV['CI_BUILD_URL']
       config[:service_branch]       ||= ENV['CI_BRANCH']
-      config[:service_pull_request] ||= (ENV['CI_PULL_REQUEST'] || "")[/(\d+)$/,1]
+      config[:service_pull_request] ||= (ENV['CI_PULL_REQUEST'] || '')[/(\d+)$/,1]
     end
 
     def self.yaml_config
@@ -127,7 +127,7 @@ module Coveralls
     end
 
     def self.configuration_path
-      File.expand_path(File.join(self.root, ".coveralls.yml")) if self.root
+      File.expand_path(File.join(self.root, '.coveralls.yml')) if self.root
     end
 
     def self.root
@@ -156,22 +156,22 @@ module Coveralls
       Dir.chdir(root) do
 
         hash[:head] = {
-          :id => ENV.fetch("GIT_ID", `git log -1 --pretty=format:'%H'`),
-          :author_name => ENV.fetch("GIT_AUTHOR_NAME", `git log -1 --pretty=format:'%aN'`),
-          :author_email => ENV.fetch("GIT_AUTHOR_EMAIL", `git log -1 --pretty=format:'%ae'`),
-          :committer_name => ENV.fetch("GIT_COMMITTER_NAME", `git log -1 --pretty=format:'%cN'`),
-          :committer_email => ENV.fetch("GIT_COMMITTER_EMAIL", `git log -1 --pretty=format:'%ce'`),
-          :message => ENV.fetch("GIT_MESSAGE", `git log -1 --pretty=format:'%s'`)
+          :id => ENV.fetch('GIT_ID', `git log -1 --pretty=format:'%H'`),
+          :author_name => ENV.fetch('GIT_AUTHOR_NAME', `git log -1 --pretty=format:'%aN'`),
+          :author_email => ENV.fetch('GIT_AUTHOR_EMAIL', `git log -1 --pretty=format:'%ae'`),
+          :committer_name => ENV.fetch('GIT_COMMITTER_NAME', `git log -1 --pretty=format:'%cN'`),
+          :committer_email => ENV.fetch('GIT_COMMITTER_EMAIL', `git log -1 --pretty=format:'%ce'`),
+          :message => ENV.fetch('GIT_MESSAGE', `git log -1 --pretty=format:'%s'`)
         }
 
         # Branch
-        hash[:branch] = ENV.fetch("GIT_BRANCH", `git rev-parse --abbrev-ref HEAD`)
+        hash[:branch] = ENV.fetch('GIT_BRANCH', `git rev-parse --abbrev-ref HEAD`)
 
         # Remotes
         remotes = nil
         begin
           remotes = `git remote -v`.split(/\n/).map do |remote|
-            splits = remote.split(" ").compact
+            splits = remote.split(' ').compact
             {:name => splits[0], :url => splits[1]}
           end.uniq
         rescue
@@ -183,8 +183,8 @@ module Coveralls
       hash
 
     rescue Exception => e
-      Coveralls::Output.puts "Coveralls git error:", :color => "red"
-      Coveralls::Output.puts e.to_s, :color => "red"
+      Coveralls::Output.puts 'Coveralls git error:', :color => 'red'
+      Coveralls::Output.puts e.to_s, :color => 'red'
       nil
     end
 

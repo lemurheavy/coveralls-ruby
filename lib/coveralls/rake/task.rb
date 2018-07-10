@@ -7,7 +7,7 @@ module Coveralls
 
     def initialize(*args, &task_block)
       namespace :coveralls do
-        desc "Push latest coverage results to Coveralls.io"
+        desc 'Push latest coverage results to Coveralls.io'
         task :push do
           require 'coveralls'
           Coveralls.push!
