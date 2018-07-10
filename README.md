@@ -6,4 +6,6 @@ This is a community fork of  lemurheavy/coveralls-ruby. More details to come.
 
 See [CONTRIBUTING.md](https://github.com/Coveralls-Community/coveralls-ruby/blob/master/CONTRIBUTING.md).
 
-### [Read the docs &rarr;](https://docs.coveralls.io/ruby-on-rails)
+## Official Documentation
+
+[Read the docs &rarr;](https://docs.coveralls.io/ruby-on-rails)
