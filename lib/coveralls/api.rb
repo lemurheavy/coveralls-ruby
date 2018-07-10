@@ -35,7 +35,7 @@ module Coveralls
       end
 
       if response_hash['url']
-        Coveralls::Output.puts("[Coveralls] #{Coveralls::Output.format(response_hash['url'], color: "underline")}", color: 'cyan')
+        Coveralls::Output.puts("[Coveralls] #{Coveralls::Output.format(response_hash['url'], color: 'underline')}", color: 'cyan')
       end
 
       case response

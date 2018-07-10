@@ -79,7 +79,7 @@ describe Coveralls::SimpleCov::Formatter do
   end
 
   describe '#short_filename' do
-    subject {  formatter.short_filename(filename) }
+    subject { formatter.short_filename(filename) }
     let(:formatter) { Coveralls::SimpleCov::Formatter.new }
     let(:filename) { '/app/app/controllers/application_controller.rb' }
 
