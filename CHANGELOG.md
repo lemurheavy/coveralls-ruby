@@ -1,6 +1,11 @@
 # Changelog
 
-### Please see Github Releases section for current releases.
+## HEAD Unreleased
+### Latest update: 2018-07-09
+
+### Bug
+
+- [PR #3](https://github.com/Coveralls-Community/coveralls-ruby/pull/3) Remove .bundle folder info from SimpleCov reports [@vbrazo](https://github.com/vbrazo)
 
 ## 0.7.0 (September 18, 2013)
 
