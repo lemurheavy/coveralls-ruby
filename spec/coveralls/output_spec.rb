@@ -85,7 +85,7 @@ describe Coveralls::Output do
       it 'does not add color to string' do
         unformatted_string = 'Hi Doggie!'
         Coveralls::Output.format(unformatted_string, color: 'red')
-          .should eq(unformatted_string)
+                         .should eq(unformatted_string)
       end
     end
   end
