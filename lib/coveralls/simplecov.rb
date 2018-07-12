@@ -10,6 +10,7 @@ module Coveralls
         else
           Coveralls::Output.puts '[Coveralls] There are no covered files.', color: 'yellow'
         end
+
         result.files.each do |f|
           Coveralls::Output.print '  * '
           Coveralls::Output.print short_filename(f.filename).to_s, color: 'cyan'
@@ -24,6 +25,7 @@ module Coveralls
           end
           Coveralls::Output.puts ''
         end
+
         true
       end
 
@@ -49,6 +51,7 @@ module Coveralls
 
           source_files << properties
         end
+
         source_files
       end
 
@@ -77,12 +80,15 @@ module Coveralls
         Coveralls::Output.puts 'Coveralls encountered an exception:', color: 'red'
         Coveralls::Output.puts error.class.to_s, color: 'red'
         Coveralls::Output.puts error.message, color: 'red'
+
         error.backtrace&.each do |line|
           Coveralls::Output.puts line, color: 'red'
         end
+
         if error.respond_to?(:response) && error.response
           Coveralls::Output.puts error.response.to_s, color: 'red'
         end
+
         false
       end
 

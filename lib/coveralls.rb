@@ -20,7 +20,7 @@ module Coveralls
 
   def wear_merged!(simplecov_setting = nil, &block)
     require 'simplecov'
-    @@adapter = :simplecov
+    @adapter = :simplecov
     ::SimpleCov.formatter = NilFormatter
     start! simplecov_setting, &block
   end
@@ -33,19 +33,19 @@ module Coveralls
 
   def setup!
     # Try to load up SimpleCov.
-    @@adapter = nil
+    @adapter = nil
     if defined?(::SimpleCov)
-      @@adapter = :simplecov
+      @adapter = :simplecov
     else
       begin
         require 'simplecov'
-        @@adapter = :simplecov if defined?(::SimpleCov)
+        @adapter = :simplecov if defined?(::SimpleCov)
       rescue StandardError
       end
     end
 
     # Load the appropriate adapter.
-    if @@adapter == :simplecov
+    if @adapter == :simplecov
       ::SimpleCov.formatter = Coveralls::SimpleCov::Formatter
       Coveralls::Output.puts('[Coveralls] Set up the SimpleCov formatter.', color: 'green')
     else
@@ -54,7 +54,7 @@ module Coveralls
   end
 
   def start!(simplecov_setting = 'test_frameworks', &block)
-    return unless @@adapter == :simplecov
+    return unless @adapter == :simplecov
 
     ::SimpleCov.add_filter 'vendor'
 

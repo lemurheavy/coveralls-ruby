@@ -34,6 +34,7 @@ module Coveralls
   module Output
     attr_accessor :silent, :no_color
     attr_writer :output
+
     extend self
 
     def output
@@ -85,6 +86,7 @@ module Coveralls
     # Returns nil.
     def puts(string, options = {})
       return if silent?
+
       (options[:output] || output).puts format(string, options)
     end
 
@@ -102,6 +104,7 @@ module Coveralls
     # Returns nil.
     def print(string, options = {})
       return if silent?
+
       (options[:output] || output).print format(string, options)
     end
 
