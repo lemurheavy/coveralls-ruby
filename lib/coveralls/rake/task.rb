@@ -10,7 +10,7 @@ module Coveralls
         desc 'Push latest coverage results to Coveralls.io'
         task :push do
           require 'coveralls'
-       
+
           Coveralls.push!
         end
       end
