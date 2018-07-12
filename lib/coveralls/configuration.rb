@@ -49,11 +49,9 @@ module Coveralls
 
         # standardized env vars
         define_standard_service_params_for_generic_ci(config)
+        service_name = ENV['COVERALLS_SERVICE_NAME']
 
-        if service_name = ENV['COVERALLS_SERVICE_NAME']
-          config[:service_name] = service_name
-        end
-
+        config[:service_name] = service_name
         config
       end
 

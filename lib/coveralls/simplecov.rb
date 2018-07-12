@@ -55,7 +55,7 @@ module Coveralls
       def format(result)
         unless Coveralls.should_run?
           display_result result if Coveralls.noisy?
-          
+
           return
         end
 
@@ -69,19 +69,19 @@ module Coveralls
 
         true
 
-      rescue Exception => e
-        display_error e
+      rescue Exception => error
+        display_error error
       end
 
-      def display_error(e)
+      def display_error(error)
         Coveralls::Output.puts 'Coveralls encountered an exception:', color: 'red'
-        Coveralls::Output.puts e.class.to_s, color: 'red'
-        Coveralls::Output.puts e.message, color: 'red'
-        e.backtrace&.each do |line|
+        Coveralls::Output.puts error.class.to_s, color: 'red'
+        Coveralls::Output.puts error.message, color: 'red'
+        error.backtrace&.each do |line|
           Coveralls::Output.puts line, color: 'red'
         end
-        if e.respond_to?(:response) && e.response
-          Coveralls::Output.puts e.response.to_s, color: 'red'
+        if error.respond_to?(:response) && error.response
+          Coveralls::Output.puts error.response.to_s, color: 'red'
         end
         false
       end

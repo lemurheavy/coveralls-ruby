@@ -55,7 +55,7 @@ module Coveralls
 
   def start!(simplecov_setting = 'test_frameworks', &block)
     return unless @@adapter == :simplecov
-    
+
     ::SimpleCov.add_filter 'vendor'
 
     if simplecov_setting
