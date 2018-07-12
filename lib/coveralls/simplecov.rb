@@ -71,7 +71,6 @@ module Coveralls
         Coveralls::Output.puts output_message result
 
         true
-
       rescue StandardError => error
         display_error error
       end

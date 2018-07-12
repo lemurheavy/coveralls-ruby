@@ -27,6 +27,8 @@ Style/Documentation:
   Enabled: false
 Style/For:
   Enabled: false
+Style/FormatStringToken:
+  Enabled: false
 Style/RegexpLiteral:
   Enabled: false
 Style/FrozenStringLiteralComment:

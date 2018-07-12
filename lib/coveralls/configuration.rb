@@ -186,7 +186,6 @@ module Coveralls
         end
 
         hash
-
       rescue StandardError => e
         Coveralls::Output.puts 'Coveralls git error:', color: 'red'
         Coveralls::Output.puts e.to_s, color: 'red'
