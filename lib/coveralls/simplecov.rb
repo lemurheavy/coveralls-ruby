@@ -54,9 +54,8 @@ module Coveralls
 
       def format(result)
         unless Coveralls.should_run?
-          if Coveralls.noisy?
-            display_result result
-          end
+          display_result result if Coveralls.noisy?
+          
           return
         end
 

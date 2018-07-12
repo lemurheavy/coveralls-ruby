@@ -220,7 +220,6 @@ module Coveralls
         hash
       end
 
-
       private
 
       def circleci_env_hash

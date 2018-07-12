@@ -54,23 +54,23 @@ module Coveralls
   end
 
   def start!(simplecov_setting = 'test_frameworks', &block)
-    if @@adapter == :simplecov
-      ::SimpleCov.add_filter 'vendor'
+    return unless @@adapter == :simplecov
+    
+    ::SimpleCov.add_filter 'vendor'
 
-      if simplecov_setting
-        Coveralls::Output.puts("[Coveralls] Using SimpleCov's '#{simplecov_setting}' settings.", color: 'green')
-        if block_given?
-          ::SimpleCov.start(simplecov_setting) { instance_eval(&block) }
-        else
-          ::SimpleCov.start(simplecov_setting)
-        end
-      elsif block
-        Coveralls::Output.puts('[Coveralls] Using SimpleCov settings defined in block.', color: 'green')
-        ::SimpleCov.start { instance_eval(&block) }
+    if simplecov_setting
+      Coveralls::Output.puts("[Coveralls] Using SimpleCov's '#{simplecov_setting}' settings.", color: 'green')
+      if block_given?
+        ::SimpleCov.start(simplecov_setting) { instance_eval(&block) }
       else
-        Coveralls::Output.puts("[Coveralls] Using SimpleCov's default settings.", color: 'green')
-        ::SimpleCov.start
+        ::SimpleCov.start(simplecov_setting)
       end
+    elsif block
+      Coveralls::Output.puts('[Coveralls] Using SimpleCov settings defined in block.', color: 'green')
+      ::SimpleCov.start { instance_eval(&block) }
+    else
+      Coveralls::Output.puts("[Coveralls] Using SimpleCov's default settings.", color: 'green')
+      ::SimpleCov.start
     end
   end
 
