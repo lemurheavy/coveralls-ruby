@@ -331,7 +331,7 @@ describe Coveralls::Configuration do
       config[:service_number].should eq(service_number)
       config[:service_branch].should eq(service_branch)
       config[:commit_sha].should eq(commit_sha)
-      config[:service_build_url].should eq('https://ci.appveyor.com/project/%s/build/%s' % [repo_name, service_number])
+      config[:service_build_url].should eq(format('https://ci.appveyor.com/project/%s/build/%s', repo_name, service_number))
     end
   end
 
