@@ -119,7 +119,7 @@ module Coveralls
       config = Coveralls::Configuration.configuration
       if ENV['COVERALLS_DEBUG'] || Coveralls.testing
         Coveralls::Output.puts '[Coveralls] Submitting with config:', color: 'yellow'
-        output = JSON.pretty_generate(config).gsub(/"repo_token": ?"(.*?)"/,'"repo_token": "[secure]"')
+        output = JSON.pretty_generate(config).gsub(/"repo_token": ?"(.*?)"/, '"repo_token": "[secure]"')
         Coveralls::Output.puts output, color: 'yellow'
       end
       hash.merge(config)

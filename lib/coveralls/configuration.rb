@@ -60,7 +60,7 @@ module Coveralls
     def self.set_service_params_for_circleci(config)
       config[:service_name]         = 'circleci'
       config[:service_number]       = ENV['CIRCLE_BUILD_NUM']
-      config[:service_pull_request] = (ENV['CI_PULL_REQUEST'] || '')[/(\d+)$/,1]
+      config[:service_pull_request] = (ENV['CI_PULL_REQUEST'] || '')[/(\d+)$/, 1]
       config[:parallel]             = ENV['CIRCLE_NODE_TOTAL'].to_i > 1
       config[:service_job_number]   = ENV['CIRCLE_NODE_INDEX']
     end
@@ -116,7 +116,7 @@ module Coveralls
       config[:service_job_id]       ||= ENV['CI_JOB_ID']
       config[:service_build_url]    ||= ENV['CI_BUILD_URL']
       config[:service_branch]       ||= ENV['CI_BRANCH']
-      config[:service_pull_request] ||= (ENV['CI_PULL_REQUEST'] || '')[/(\d+)$/,1]
+      config[:service_pull_request] ||= (ENV['CI_PULL_REQUEST'] || '')[/(\d+)$/, 1]
     end
 
     def self.yaml_config
