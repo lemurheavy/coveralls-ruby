@@ -16,12 +16,12 @@ describe Coveralls::Configuration do
     context 'yaml_config' do
       let(:repo_token) { SecureRandom.hex(4) }
       let(:repo_secret_token) { SecureRandom.hex(4) }
-      let(:yaml_config) {
+      let(:yaml_config) do
         {
           'repo_token' => repo_token,
           'repo_secret_token' => repo_secret_token
         }
-      }
+      end
 
       before do
         Coveralls::Configuration.stub(:yaml_config).and_return(yaml_config)
