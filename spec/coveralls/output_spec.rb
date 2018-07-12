@@ -75,7 +75,7 @@ describe Coveralls::Output do
 
     it 'accepts more than 1 color argument' do
       string = 'Hi dog!'
-      multi_formatted_string = Term::ANSIColor.red{ Term::ANSIColor.underline(string) }
+      multi_formatted_string = Term::ANSIColor.red { Term::ANSIColor.underline(string) }
       Coveralls::Output.format(string, color: 'red underline').should eq(multi_formatted_string)
     end
 
