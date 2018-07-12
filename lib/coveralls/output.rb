@@ -63,10 +63,10 @@ module Coveralls
       unless no_color?
         require 'term/ansicolor'
         options[:color]&.split(/\s/)&.reverse_each do |color|
-            if Term::ANSIColor.respond_to?(color.to_sym)
-              string = Term::ANSIColor.send(color.to_sym, string)
-            end
-          end
+          next unless Term::ANSIColor.respond_to?(color.to_sym)
+
+          string = Term::ANSIColor.send(color.to_sym, string)
+        end
       end
       string
     end
