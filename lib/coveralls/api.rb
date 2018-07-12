@@ -28,7 +28,7 @@ module Coveralls
 
       response = client.request(request)
 
-      response_hash = JSON.load(response.body.to_str)
+      response_hash = JSON.parse(response.body.to_str)
 
       if response_hash['message']
         Coveralls::Output.puts("[Coveralls] #{response_hash['message']}", color: 'cyan')
