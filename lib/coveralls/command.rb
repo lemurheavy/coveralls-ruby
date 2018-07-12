@@ -10,7 +10,11 @@ module Coveralls
       cmds = ['bundle exec rake']
 
       if File.exist?('.travis.yml')
-        cmds = YAML.load_file('.travis.yml')['script'] || cmds rescue cmds
+        cmds = begin
+                 YAML.load_file('.travis.yml')['script'] || cmds
+               rescue
+                 cmds
+               end
       end
 
       cmds.each { |cmd| system cmd }
