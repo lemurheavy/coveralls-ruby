@@ -1,3 +1,9 @@
+Bundler/DuplicatedGem:
+  Enabled: false
+
+Gemspec/RequiredRubyVersion:
+  Enabled: false
+
 Lint/AmbiguousBlockAssociation:
   Enabled: false
 Lint/UnifiedInteger:
@@ -15,6 +21,8 @@ Metrics/LineLength:
   Enabled: false
 Metrics/MethodLength:
   Enabled: false
+Metrics/ModuleLength:
+  Enabled: false
 Metrics/PerceivedComplexity:
   Enabled: false
 
@@ -23,6 +31,8 @@ Style/DateTime:
 Style/Documentation:
   Enabled: false
 Style/For:
+  Enabled: false
+Style/FormatStringToken:
   Enabled: false
 Style/RegexpLiteral:
   Enabled: false

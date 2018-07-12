@@ -10,6 +10,7 @@
 ### Chores
 
 - [PR #10](https://github.com/Coveralls-Community/coveralls-ruby/pull/10) Add aggregate failures to tests [@vbrazo](https://github.com/vbrazo)
+- [PR #9](https://github.com/Coveralls-Community/coveralls-ruby/pull/9) Finish fixing rubocop violations [@vbrazo](https://github.com/vbrazo)
 - [PR #8](https://github.com/Coveralls-Community/coveralls-ruby/pull/8) Update .travis.yml [@vbrazo](https://github.com/vbrazo)
 - [PR #7](https://github.com/Coveralls-Community/coveralls-ruby/pull/7) Fix rubocop violations manually [@vbrazo](https://github.com/vbrazo)
 - [PR #1](https://github.com/Coveralls-Community/coveralls-ruby/pull/1) Drop 1.8 support, and move some work over from main coveralls [@Ch4s3](https://github.com/Ch4s3)

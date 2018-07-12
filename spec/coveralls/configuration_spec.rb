@@ -207,7 +207,7 @@ describe Coveralls::Configuration do
     end
   end
 
-  describe '.set_service_params_for_travis' do
+  describe '.define_service_params_for_travis' do
     let(:travis_job_id) { SecureRandom.hex(4) }
     before do
       ENV.stub(:[]).with('TRAVIS_JOB_ID').and_return(travis_job_id)
@@ -235,7 +235,7 @@ describe Coveralls::Configuration do
     end
   end
 
-  describe '.set_service_params_for_circleci' do
+  describe '.define_service_params_for_circleci' do
     let(:circle_build_num) { SecureRandom.hex(4) }
     before do
       ENV.stub(:[]).with('CIRCLE_BUILD_NUM').and_return(circle_build_num)
@@ -251,7 +251,7 @@ describe Coveralls::Configuration do
     end
   end
 
-  describe '.set_service_params_for_gitlab' do
+  describe '.define_service_params_for_gitlab' do
     let(:commit_sha) { SecureRandom.hex(32) }
     let(:service_job_number) { 'spec:one' }
     let(:service_job_id) { 1234 }
@@ -277,7 +277,7 @@ describe Coveralls::Configuration do
     end
   end
 
-  describe '.set_service_params_for_semaphore' do
+  describe '.define_service_params_for_semaphore' do
     let(:semaphore_build_num) { SecureRandom.hex(4) }
     before do
       ENV.stub(:[]).with('SEMAPHORE_BUILD_NUMBER').and_return(semaphore_build_num)
@@ -293,7 +293,7 @@ describe Coveralls::Configuration do
     end
   end
 
-  describe '.set_service_params_for_jenkins' do
+  describe '.define_service_params_for_jenkins' do
     let(:service_pull_request) { '1234' }
     let(:build_num) { SecureRandom.hex(4) }
 
@@ -326,7 +326,7 @@ describe Coveralls::Configuration do
     end
   end
 
-  describe '.set_service_params_for_generic_ci' do
+  describe '.define_service_params_for_generic_ci' do
     let(:service_name) { SecureRandom.hex(4) }
     let(:service_number) { SecureRandom.hex(4) }
     let(:service_build_url) { SecureRandom.hex(4) }
@@ -354,7 +354,7 @@ describe Coveralls::Configuration do
     end
   end
 
-  describe '.set_service_params_for_appveyor' do
+  describe '.define_service_params_for_appveyor' do
     let(:service_number) { SecureRandom.hex(4) }
     let(:service_branch) { SecureRandom.hex(4) }
     let(:commit_sha) { SecureRandom.hex(4) }

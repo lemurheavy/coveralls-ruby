@@ -20,7 +20,7 @@ module Coveralls
 
   def wear_merged!(simplecov_setting = nil, &block)
     require 'simplecov'
-    @@adapter = :simplecov
+    @adapter = :simplecov
     ::SimpleCov.formatter = NilFormatter
     start! simplecov_setting, &block
   end
@@ -33,19 +33,21 @@ module Coveralls
 
   def setup!
     # Try to load up SimpleCov.
-    @@adapter = nil
+    @adapter = nil
     if defined?(::SimpleCov)
-      @@adapter = :simplecov
+      @adapter = :simplecov
     else
       begin
         require 'simplecov'
-        @@adapter = :simplecov if defined?(::SimpleCov)
-      rescue StandardError
+        @adapter = :simplecov if defined?(::SimpleCov)
+      rescue StandardError => error
+        # TODO: Add error action
+        puts error.message
       end
     end
 
     # Load the appropriate adapter.
-    if @@adapter == :simplecov
+    if @adapter == :simplecov
       ::SimpleCov.formatter = Coveralls::SimpleCov::Formatter
       Coveralls::Output.puts('[Coveralls] Set up the SimpleCov formatter.', color: 'green')
     else
@@ -54,23 +56,23 @@ module Coveralls
   end
 
   def start!(simplecov_setting = 'test_frameworks', &block)
-    if @@adapter == :simplecov
-      ::SimpleCov.add_filter 'vendor'
+    return unless @adapter == :simplecov
 
-      if simplecov_setting
-        Coveralls::Output.puts("[Coveralls] Using SimpleCov's '#{simplecov_setting}' settings.", color: 'green')
-        if block_given?
-          ::SimpleCov.start(simplecov_setting) { instance_eval(&block) }
-        else
-          ::SimpleCov.start(simplecov_setting)
-        end
-      elsif block
-        Coveralls::Output.puts('[Coveralls] Using SimpleCov settings defined in block.', color: 'green')
-        ::SimpleCov.start { instance_eval(&block) }
+    ::SimpleCov.add_filter 'vendor'
+
+    if simplecov_setting
+      Coveralls::Output.puts("[Coveralls] Using SimpleCov's '#{simplecov_setting}' settings.", color: 'green')
+      if block_given?
+        ::SimpleCov.start(simplecov_setting) { instance_eval(&block) }
       else
-        Coveralls::Output.puts("[Coveralls] Using SimpleCov's default settings.", color: 'green')
-        ::SimpleCov.start
+        ::SimpleCov.start(simplecov_setting)
       end
+    elsif block
+      Coveralls::Output.puts('[Coveralls] Using SimpleCov settings defined in block.', color: 'green')
+      ::SimpleCov.start { instance_eval(&block) }
+    else
+      Coveralls::Output.puts("[Coveralls] Using SimpleCov's default settings.", color: 'green')
+      ::SimpleCov.start
     end
   end
 
@@ -78,6 +80,7 @@ module Coveralls
     # Fail early if we're not on a CI
     unless will_run?
       Coveralls::Output.puts('[Coveralls] Outside the CI environment, not sending data.', color: 'yellow')
+
       return false
     end
 
