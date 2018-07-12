@@ -104,12 +104,12 @@ describe Coveralls::Configuration do
 
         it 'should set service parameters for this service and no other', :aggregate_failures do
           aggregate_failures 'success' do
-            Coveralls::Configuration.should_receive(:set_service_params_for_travis).with(anything, anything)
-            Coveralls::Configuration.should_not_receive(:set_service_params_for_circleci)
-            Coveralls::Configuration.should_not_receive(:set_service_params_for_semaphore)
-            Coveralls::Configuration.should_not_receive(:set_service_params_for_jenkins)
-            Coveralls::Configuration.should_not_receive(:set_service_params_for_coveralls_local)
-            Coveralls::Configuration.should_receive(:set_standard_service_params_for_generic_ci)
+            Coveralls::Configuration.should_receive(:define_service_params_for_travis).with(anything, anything)
+            Coveralls::Configuration.should_not_receive(:define_service_params_for_circleci)
+            Coveralls::Configuration.should_not_receive(:define_service_params_for_semaphore)
+            Coveralls::Configuration.should_not_receive(:define_service_params_for_jenkins)
+            Coveralls::Configuration.should_not_receive(:define_service_params_for_coveralls_local)
+            Coveralls::Configuration.should_receive(:define_standard_service_params_for_generic_ci)
             Coveralls::Configuration.configuration
           end
         end
@@ -122,12 +122,12 @@ describe Coveralls::Configuration do
 
         it 'should set service parameters for this service and no other', :aggregate_failures do
           aggregate_failures 'success' do
-            Coveralls::Configuration.should_not_receive(:set_service_params_for_travis)
-            Coveralls::Configuration.should_receive(:set_service_params_for_circleci)
-            Coveralls::Configuration.should_not_receive(:set_service_params_for_semaphore)
-            Coveralls::Configuration.should_not_receive(:set_service_params_for_jenkins)
-            Coveralls::Configuration.should_not_receive(:set_service_params_for_coveralls_local)
-            Coveralls::Configuration.should_receive(:set_standard_service_params_for_generic_ci)
+            Coveralls::Configuration.should_not_receive(:define_service_params_for_travis)
+            Coveralls::Configuration.should_receive(:define_service_params_for_circleci)
+            Coveralls::Configuration.should_not_receive(:define_service_params_for_semaphore)
+            Coveralls::Configuration.should_not_receive(:define_service_params_for_jenkins)
+            Coveralls::Configuration.should_not_receive(:define_service_params_for_coveralls_local)
+            Coveralls::Configuration.should_receive(:define_standard_service_params_for_generic_ci)
             Coveralls::Configuration.configuration
           end
         end
@@ -140,12 +140,12 @@ describe Coveralls::Configuration do
 
         it 'should set service parameters for this service and no other', :aggregate_failures do
           aggregate_failures 'success' do
-            Coveralls::Configuration.should_not_receive(:set_service_params_for_travis)
-            Coveralls::Configuration.should_not_receive(:set_service_params_for_circleci)
-            Coveralls::Configuration.should_receive(:set_service_params_for_semaphore)
-            Coveralls::Configuration.should_not_receive(:set_service_params_for_jenkins)
-            Coveralls::Configuration.should_not_receive(:set_service_params_for_coveralls_local)
-            Coveralls::Configuration.should_receive(:set_standard_service_params_for_generic_ci)
+            Coveralls::Configuration.should_not_receive(:define_service_params_for_travis)
+            Coveralls::Configuration.should_not_receive(:define_service_params_for_circleci)
+            Coveralls::Configuration.should_receive(:define_service_params_for_semaphore)
+            Coveralls::Configuration.should_not_receive(:define_service_params_for_jenkins)
+            Coveralls::Configuration.should_not_receive(:define_service_params_for_coveralls_local)
+            Coveralls::Configuration.should_receive(:define_standard_service_params_for_generic_ci)
             Coveralls::Configuration.configuration
           end
         end
@@ -158,12 +158,12 @@ describe Coveralls::Configuration do
 
         it 'should set service parameters for this service and no other', :aggregate_failures do
           aggregate_failures 'success' do
-            Coveralls::Configuration.should_not_receive(:set_service_params_for_travis)
-            Coveralls::Configuration.should_not_receive(:set_service_params_for_circleci)
-            Coveralls::Configuration.should_not_receive(:set_service_params_for_semaphore)
-            Coveralls::Configuration.should_receive(:set_service_params_for_jenkins)
-            Coveralls::Configuration.should_not_receive(:set_service_params_for_coveralls_local)
-            Coveralls::Configuration.should_receive(:set_standard_service_params_for_generic_ci)
+            Coveralls::Configuration.should_not_receive(:define_service_params_for_travis)
+            Coveralls::Configuration.should_not_receive(:define_service_params_for_circleci)
+            Coveralls::Configuration.should_not_receive(:define_service_params_for_semaphore)
+            Coveralls::Configuration.should_receive(:define_service_params_for_jenkins)
+            Coveralls::Configuration.should_not_receive(:define_service_params_for_coveralls_local)
+            Coveralls::Configuration.should_receive(:define_standard_service_params_for_generic_ci)
             Coveralls::Configuration.configuration
           end
         end
@@ -176,12 +176,12 @@ describe Coveralls::Configuration do
 
         it 'should set service parameters for this service and no other', :aggregate_failures do
           aggregate_failures 'success' do
-            Coveralls::Configuration.should_not_receive(:set_service_params_for_travis)
-            Coveralls::Configuration.should_not_receive(:set_service_params_for_circleci)
-            Coveralls::Configuration.should_not_receive(:set_service_params_for_semaphore)
-            Coveralls::Configuration.should_not_receive(:set_service_params_for_jenkins)
-            Coveralls::Configuration.should_receive(:set_service_params_for_coveralls_local)
-            Coveralls::Configuration.should_receive(:set_standard_service_params_for_generic_ci)
+            Coveralls::Configuration.should_not_receive(:define_service_params_for_travis)
+            Coveralls::Configuration.should_not_receive(:define_service_params_for_circleci)
+            Coveralls::Configuration.should_not_receive(:define_service_params_for_semaphore)
+            Coveralls::Configuration.should_not_receive(:define_service_params_for_jenkins)
+            Coveralls::Configuration.should_receive(:define_service_params_for_coveralls_local)
+            Coveralls::Configuration.should_receive(:define_standard_service_params_for_generic_ci)
             Coveralls::Configuration.configuration
           end
         end
@@ -194,12 +194,12 @@ describe Coveralls::Configuration do
 
         it 'should set service parameters for this service and no other', :aggregate_failures do
           aggregate_failures 'success' do
-            Coveralls::Configuration.should_not_receive(:set_service_params_for_travis)
-            Coveralls::Configuration.should_not_receive(:set_service_params_for_circleci)
-            Coveralls::Configuration.should_not_receive(:set_service_params_for_semaphore)
-            Coveralls::Configuration.should_not_receive(:set_service_params_for_jenkins)
-            Coveralls::Configuration.should_not_receive(:set_service_params_for_coveralls_local)
-            Coveralls::Configuration.should_receive(:set_standard_service_params_for_generic_ci).with(anything)
+            Coveralls::Configuration.should_not_receive(:define_service_params_for_travis)
+            Coveralls::Configuration.should_not_receive(:define_service_params_for_circleci)
+            Coveralls::Configuration.should_not_receive(:define_service_params_for_semaphore)
+            Coveralls::Configuration.should_not_receive(:define_service_params_for_jenkins)
+            Coveralls::Configuration.should_not_receive(:define_service_params_for_coveralls_local)
+            Coveralls::Configuration.should_receive(:define_standard_service_params_for_generic_ci).with(anything)
             Coveralls::Configuration.configuration
           end
         end
@@ -216,20 +216,20 @@ describe Coveralls::Configuration do
     it 'should set values properly', :aggregate_failures do
       aggregate_failures 'should set the service_job_id' do
         config = {}
-        Coveralls::Configuration.set_service_params_for_travis(config, nil)
+        Coveralls::Configuration.define_service_params_for_travis(config, nil)
         expect(config[:service_job_id]).to eq(travis_job_id)
       end
 
       aggregate_failures 'should set the service_name to travis-ci by default' do
         config = {}
-        Coveralls::Configuration.set_service_params_for_travis(config, nil)
+        Coveralls::Configuration.define_service_params_for_travis(config, nil)
         expect(config[:service_name]).to eq('travis-ci')
       end
 
       aggregate_failures 'should set the service_name to a value if one is passed in' do
         config = {}
         random_name = SecureRandom.hex(4)
-        Coveralls::Configuration.set_service_params_for_travis(config, random_name)
+        Coveralls::Configuration.define_service_params_for_travis(config, random_name)
         expect(config[:service_name]).to eq(random_name)
       end
     end
@@ -244,7 +244,7 @@ describe Coveralls::Configuration do
     it 'should set the expected parameters', :aggregate_failures do
       aggregate_failures 'success' do
         config = {}
-        Coveralls::Configuration.set_service_params_for_circleci(config)
+        Coveralls::Configuration.define_service_params_for_circleci(config)
         expect(config[:service_name]).to eq('circleci')
         expect(config[:service_number]).to eq(circle_build_num)
       end
@@ -267,7 +267,7 @@ describe Coveralls::Configuration do
     it 'should set the expected parameters', :aggregate_failures do
       aggregate_failures 'success' do
         config = {}
-        Coveralls::Configuration.set_service_params_for_gitlab(config)
+        Coveralls::Configuration.define_service_params_for_gitlab(config)
         expect(config[:service_name]).to eq('gitlab-ci')
         expect(config[:service_job_number]).to eq(service_job_number)
         expect(config[:service_job_id]).to eq(service_job_id)
@@ -286,7 +286,7 @@ describe Coveralls::Configuration do
     it 'should set the expected parameters', :aggregate_failures do
       aggregate_failures 'success' do
         config = {}
-        Coveralls::Configuration.set_service_params_for_semaphore(config)
+        Coveralls::Configuration.define_service_params_for_semaphore(config)
         expect(config[:service_name]).to eq('semaphore')
         expect(config[:service_number]).to eq(semaphore_build_num)
       end
@@ -305,8 +305,8 @@ describe Coveralls::Configuration do
     it 'should set the expected parameters', :aggregate_failures do
       aggregate_failures 'success' do
         config = {}
-        Coveralls::Configuration.set_service_params_for_jenkins(config)
-        Coveralls::Configuration.set_standard_service_params_for_generic_ci(config)
+        Coveralls::Configuration.define_service_params_for_jenkins(config)
+        Coveralls::Configuration.define_standard_service_params_for_generic_ci(config)
         expect(config[:service_name]).to eq('jenkins')
         expect(config[:service_number]).to eq(build_num)
         expect(config[:service_pull_request]).to eq(service_pull_request)
@@ -314,11 +314,11 @@ describe Coveralls::Configuration do
     end
   end
 
-  describe '.set_service_params_for_coveralls_local' do
+  describe '.define_service_params_for_coveralls_local' do
     it 'should set the expected parameters', :aggregate_failures do
       aggregate_failures 'success' do
         config = {}
-        Coveralls::Configuration.set_service_params_for_coveralls_local(config)
+        Coveralls::Configuration.define_service_params_for_coveralls_local(config)
         expect(config[:service_name]).to eq('coveralls-ruby')
         expect(config[:service_job_id]).to be_nil
         expect(config[:service_event_type]).to eq('manual')
@@ -344,7 +344,7 @@ describe Coveralls::Configuration do
     it 'should set the expected parameters', :aggregate_failures do
       aggregate_failures 'success' do
         config = {}
-        Coveralls::Configuration.set_standard_service_params_for_generic_ci(config)
+        Coveralls::Configuration.define_standard_service_params_for_generic_ci(config)
         expect(config[:service_name]).to eq(service_name)
         expect(config[:service_number]).to eq(service_number)
         expect(config[:service_build_url]).to eq(service_build_url)
@@ -370,7 +370,7 @@ describe Coveralls::Configuration do
     it 'should set the expected parameters', :aggregate_failures do
       aggregate_failures 'success' do
         config = {}
-        Coveralls::Configuration.set_service_params_for_appveyor(config)
+        Coveralls::Configuration.define_service_params_for_appveyor(config)
         expect(config[:service_name]).to eq('appveyor')
         expect(config[:service_number]).to eq(service_number)
         expect(config[:service_branch]).to eq(service_branch)
