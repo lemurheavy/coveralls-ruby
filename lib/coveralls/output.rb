@@ -41,7 +41,7 @@ module Coveralls
     end
 
     def no_color?
-      (defined?(@no_color)) && @no_color
+      defined?(@no_color) && @no_color
     end
 
     # Public: Formats the given string with the specified color

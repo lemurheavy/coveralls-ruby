@@ -20,7 +20,7 @@ module Coveralls
 
       uri = endpoint_to_uri(endpoint)
 
-      Coveralls::Output.puts((JSON.pretty_generate(hash)).to_s, color: 'green') if ENV['COVERALLS_DEBUG']
+      Coveralls::Output.puts(JSON.pretty_generate(hash).to_s, color: 'green') if ENV['COVERALLS_DEBUG']
       Coveralls::Output.puts("[Coveralls] Submitting to #{API_BASE}", color: 'cyan')
 
       client  = build_client(uri)
