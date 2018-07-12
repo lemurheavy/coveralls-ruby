@@ -13,12 +13,12 @@ module Coveralls
 
   attr_accessor :testing, :noisy, :run_locally
 
-  def wear!(simplecov_setting=nil, &block)
+  def wear!(simplecov_setting = nil, &block)
     setup!
     start! simplecov_setting, &block
   end
 
-  def wear_merged!(simplecov_setting=nil, &block)
+  def wear_merged!(simplecov_setting = nil, &block)
     require 'simplecov'
     @@adapter = :simplecov
     ::SimpleCov.formatter = NilFormatter
