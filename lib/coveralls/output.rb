@@ -61,13 +61,11 @@ module Coveralls
     def format(string, options = {})
       unless no_color?
         require 'term/ansicolor'
-        if options[:color]
-          options[:color].split(/\s/).reverse_each do |color|
+        options[:color]&.split(/\s/)&.reverse_each do |color|
             if Term::ANSIColor.respond_to?(color.to_sym)
               string = Term::ANSIColor.send(color.to_sym, string)
             end
           end
-        end
       end
       string
     end

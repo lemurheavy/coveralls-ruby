@@ -78,9 +78,9 @@ module Coveralls
         Coveralls::Output.puts 'Coveralls encountered an exception:', color: 'red'
         Coveralls::Output.puts e.class.to_s, color: 'red'
         Coveralls::Output.puts e.message, color: 'red'
-        e.backtrace.each do |line|
+        e.backtrace&.each do |line|
           Coveralls::Output.puts line, color: 'red'
-        end if e.backtrace
+        end
         if e.respond_to?(:response) && e.response
           Coveralls::Output.puts e.response.to_s, color: 'red'
         end
