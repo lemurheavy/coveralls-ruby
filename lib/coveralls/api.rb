@@ -102,8 +102,8 @@ module Coveralls
       "--#{boundary}\r\n" \
       "Content-Disposition: form-data; name=\"json_file\"; filename=\"#{File.basename(file.path)}\"\r\n" \
       "Content-Type: text/plain\r\n\r\n" +
-      File.read(file.path) +
-      "\r\n--#{boundary}--\r\n"
+        File.read(file.path) +
+        "\r\n--#{boundary}--\r\n"
     end
 
     def self.hash_to_file(hash)
