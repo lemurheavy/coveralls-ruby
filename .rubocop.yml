@@ -1,6 +1,9 @@
 Bundler/DuplicatedGem:
   Enabled: false
 
+Gemspec/RequiredRubyVersion:
+  Enabled: false
+
 Lint/AmbiguousBlockAssociation:
   Enabled: false
 Lint/UnifiedInteger:
@@ -17,6 +20,8 @@ Metrics/CyclomaticComplexity:
 Metrics/LineLength:
   Enabled: false
 Metrics/MethodLength:
+  Enabled: false
+Metrics/ModuleLength:
   Enabled: false
 Metrics/PerceivedComplexity:
   Enabled: false

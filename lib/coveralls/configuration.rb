@@ -179,7 +179,9 @@ module Coveralls
               splits = remote.split(' ').compact
               { name: splits[0], url: splits[1] }
             end.uniq
-          rescue StandardError
+          rescue StandardError => error
+            # TODO: Add error action
+            puts error.message
           end
 
           hash[:remotes] = remotes

@@ -40,7 +40,9 @@ module Coveralls
       begin
         require 'simplecov'
         @adapter = :simplecov if defined?(::SimpleCov)
-      rescue StandardError
+      rescue StandardError => error
+        # TODO: Add error action
+        puts error.message
       end
     end
 
@@ -78,6 +80,7 @@ module Coveralls
     # Fail early if we're not on a CI
     unless will_run?
       Coveralls::Output.puts('[Coveralls] Outside the CI environment, not sending data.', color: 'yellow')
+
       return false
     end
 
