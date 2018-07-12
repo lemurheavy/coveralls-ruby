@@ -40,7 +40,7 @@ module Coveralls
       begin
         require 'simplecov'
         @@adapter = :simplecov if defined?(::SimpleCov)
-      rescue
+      rescue StandardError
       end
     end
 

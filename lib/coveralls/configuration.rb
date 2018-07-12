@@ -145,7 +145,7 @@ module Coveralls
 
     def self.rails_root
       Rails.root.to_s
-    rescue
+    rescue StandardError
       nil
     end
 
@@ -172,7 +172,7 @@ module Coveralls
             splits = remote.split(' ').compact
             { name: splits[0], url: splits[1] }
           end.uniq
-        rescue
+        rescue StandardError
         end
         hash[:remotes] = remotes
       end
