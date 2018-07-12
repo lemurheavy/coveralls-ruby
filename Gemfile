@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 # Specify your gem's dependencies in coveralls-ruby.gemspec
@@ -5,7 +7,7 @@ gemspec
 
 gem 'rake', Gem::Version.new(RUBY_VERSION) < Gem::Version.new('1.9.3') ? '~> 10.3' : '>= 10.3'
 gem 'rspec', '>= 3.2'
-gem 'simplecov', :require => false
+gem 'simplecov', require: false
 gem 'truthy', '>= 1'
 
 if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('1.9')

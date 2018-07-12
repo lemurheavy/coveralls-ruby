@@ -41,7 +41,7 @@ module Coveralls
     end
 
     def no_color?
-      (defined?(@no_color)) && @no_color
+      defined?(@no_color) && @no_color
     end
 
     # Public: Formats the given string with the specified color
@@ -61,13 +61,11 @@ module Coveralls
     def format(string, options = {})
       unless no_color?
         require 'term/ansicolor'
-        if options[:color]
-          options[:color].split(/\s/).reverse_each do |color|
+        options[:color]&.split(/\s/)&.reverse_each do |color|
             if Term::ANSIColor.respond_to?(color.to_sym)
               string = Term::ANSIColor.send(color.to_sym, string)
             end
           end
-        end
       end
       string
     end
@@ -87,7 +85,7 @@ module Coveralls
     # Returns nil.
     def puts(string, options = {})
       return if silent?
-      (options[:output] || output).puts self.format(string, options)
+      (options[:output] || output).puts format(string, options)
     end
 
     # Public: Passes .format to Kernel#print
@@ -104,11 +102,11 @@ module Coveralls
     # Returns nil.
     def print(string, options = {})
       return if silent?
-      (options[:output] || output).print self.format(string, options)
+      (options[:output] || output).print format(string, options)
     end
 
     def silent?
-      ENV["COVERALLS_SILENT"] || (defined?(@silent) && @silent)
+      ENV['COVERALLS_SILENT'] || (defined?(@silent) && @silent)
     end
   end
 end

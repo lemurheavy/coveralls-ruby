@@ -26,3 +26,7 @@ Style/For:
   Enabled: false
 Style/RegexpLiteral:
   Enabled: false
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/ModuleFunction:
+  Enabled: false
