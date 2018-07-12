@@ -34,6 +34,7 @@ module Coveralls
   module Output
     attr_accessor :silent, :no_color
     attr_writer :output
+
     extend self
 
     def output
@@ -62,10 +63,10 @@ module Coveralls
       unless no_color?
         require 'term/ansicolor'
         options[:color]&.split(/\s/)&.reverse_each do |color|
-            if Term::ANSIColor.respond_to?(color.to_sym)
-              string = Term::ANSIColor.send(color.to_sym, string)
-            end
-          end
+          next unless Term::ANSIColor.respond_to?(color.to_sym)
+
+          string = Term::ANSIColor.send(color.to_sym, string)
+        end
       end
       string
     end
@@ -85,6 +86,7 @@ module Coveralls
     # Returns nil.
     def puts(string, options = {})
       return if silent?
+
       (options[:output] || output).puts format(string, options)
     end
 
@@ -102,6 +104,7 @@ module Coveralls
     # Returns nil.
     def print(string, options = {})
       return if silent?
+
       (options[:output] || output).print format(string, options)
     end
 
