@@ -30,25 +30,25 @@ module Coveralls
         end
 
         if ENV['TRAVIS']
-          set_service_params_for_travis(config, yml ? yml['service_name'] : nil)
+          define_service_params_for_travis(config, yml ? yml['service_name'] : nil)
         elsif ENV['CIRCLECI']
-          set_service_params_for_circleci(config)
+          define_service_params_for_circleci(config)
         elsif ENV['SEMAPHORE']
-          set_service_params_for_semaphore(config)
+          define_service_params_for_semaphore(config)
         elsif ENV['JENKINS_URL'] || ENV['JENKINS_HOME']
-          set_service_params_for_jenkins(config)
+          define_service_params_for_jenkins(config)
         elsif ENV['APPVEYOR']
-          set_service_params_for_appveyor(config)
+          define_service_params_for_appveyor(config)
         elsif ENV['TDDIUM']
-          set_service_params_for_tddium(config)
+          define_service_params_for_tddium(config)
         elsif ENV['GITLAB_CI']
-          set_service_params_for_gitlab(config)
+          define_service_params_for_gitlab(config)
         elsif ENV['COVERALLS_RUN_LOCALLY'] || Coveralls.testing
-          set_service_params_for_coveralls_local(config)
+          define_service_params_for_coveralls_local(config)
         end
 
         # standardized env vars
-        set_standard_service_params_for_generic_ci(config)
+        define_standard_service_params_for_generic_ci(config)
 
         if service_name = ENV['COVERALLS_SERVICE_NAME']
           config[:service_name] = service_name
@@ -57,14 +57,14 @@ module Coveralls
         config
       end
 
-      def set_service_params_for_travis(config, service_name)
+      def define_service_params_for_travis(config, service_name)
         config[:service_job_id] = ENV['TRAVIS_JOB_ID']
         config[:service_pull_request] = ENV['TRAVIS_PULL_REQUEST'] unless ENV['TRAVIS_PULL_REQUEST'] == 'false'
         config[:service_name]   = service_name || 'travis-ci'
         config[:service_branch] = ENV['TRAVIS_BRANCH']
       end
 
-      def set_service_params_for_circleci(config)
+      def define_service_params_for_circleci(config)
         config[:service_name]         = 'circleci'
         config[:service_number]       = ENV['CIRCLE_BUILD_NUM']
         config[:service_pull_request] = (ENV['CI_PULL_REQUEST'] || '')[/(\d+)$/, 1]
@@ -72,20 +72,20 @@ module Coveralls
         config[:service_job_number]   = ENV['CIRCLE_NODE_INDEX']
       end
 
-      def set_service_params_for_semaphore(config)
+      def define_service_params_for_semaphore(config)
         config[:service_name]         = 'semaphore'
         config[:service_number]       = ENV['SEMAPHORE_BUILD_NUMBER']
         config[:service_pull_request] = ENV['PULL_REQUEST_NUMBER']
       end
 
-      def set_service_params_for_jenkins(config)
+      def define_service_params_for_jenkins(config)
         config[:service_name]   = 'jenkins'
         config[:service_number] = ENV['BUILD_NUMBER']
         config[:service_branch] = ENV['BRANCH_NAME']
         config[:service_pull_request] = ENV['ghprbPullId']
       end
 
-      def set_service_params_for_appveyor(config)
+      def define_service_params_for_appveyor(config)
         config[:service_name]   = 'appveyor'
         config[:service_number] = ENV['APPVEYOR_BUILD_VERSION']
         config[:service_branch] = ENV['APPVEYOR_REPO_BRANCH']
@@ -94,7 +94,7 @@ module Coveralls
         config[:service_build_url] = format('https://ci.appveyor.com/project/%s/build/%s', repo_name, config[:service_number])
       end
 
-      def set_service_params_for_tddium(config)
+      def define_service_params_for_tddium(config)
         config[:service_name]         = 'tddium'
         config[:service_number]       = ENV['TDDIUM_SESSION_ID']
         config[:service_job_number]   = ENV['TDDIUM_TID']
@@ -103,7 +103,7 @@ module Coveralls
         config[:service_build_url]    = "https://ci.solanolabs.com/reports/#{ENV['TDDIUM_SESSION_ID']}"
       end
 
-      def set_service_params_for_gitlab(config)
+      def define_service_params_for_gitlab(config)
         config[:service_name]         = 'gitlab-ci'
         config[:service_job_number]   = ENV['CI_BUILD_NAME']
         config[:service_job_id]       = ENV['CI_BUILD_ID']
@@ -111,13 +111,13 @@ module Coveralls
         config[:commit_sha]           = ENV['CI_BUILD_REF']
       end
 
-      def set_service_params_for_coveralls_local(config)
+      def define_service_params_for_coveralls_local(config)
         config[:service_job_id]     = nil
         config[:service_name]       = 'coveralls-ruby'
         config[:service_event_type] = 'manual'
       end
 
-      def set_standard_service_params_for_generic_ci(config)
+      def define_standard_service_params_for_generic_ci(config)
         config[:service_name]         ||= ENV['CI_NAME']
         config[:service_number]       ||= ENV['CI_BUILD_NUMBER']
         config[:service_job_id]       ||= ENV['CI_JOB_ID']
