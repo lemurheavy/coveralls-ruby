@@ -72,7 +72,7 @@ module Coveralls
 
         true
 
-      rescue Exception => error
+      rescue StandardError => error
         display_error error
       end
 
