@@ -18,7 +18,7 @@ describe Coveralls::SimpleCov::Formatter do
       source_fixture('app/models/airplane.rb')     => [0, 0, 0, 0, 0],
       source_fixture('app/models/dog.rb')          => [1, 1, 1, 1, 1],
       source_fixture('app/controllers/sample.rb')  => [nil, 1, 1, 1, nil, 0, 1, 1, nil, nil]
-                          )
+    )
   }
 
   describe '#format' do
