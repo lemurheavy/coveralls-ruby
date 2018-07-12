@@ -121,7 +121,7 @@ module Coveralls
 
     def self.yaml_config
       if configuration_path && File.exist?(configuration_path)
-        YAML::load_file(configuration_path)
+        YAML.load_file(configuration_path)
       end
     end
 
