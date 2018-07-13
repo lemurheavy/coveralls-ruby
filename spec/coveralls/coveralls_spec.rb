@@ -9,7 +9,7 @@ describe Coveralls do
 
   describe '#will_run?' do
     it 'checks CI environemnt variables' do
-      Coveralls.will_run?.should be_truthy
+      expect(Coveralls.will_run?).to be_truthy
     end
 
     context 'with CI disabled' do
@@ -28,7 +28,7 @@ describe Coveralls do
       end
 
       it 'indicates no run' do
-        Coveralls.will_run?.should be_falsy
+        expect(Coveralls.will_run?).to be_falsy
       end
     end
   end
@@ -65,7 +65,7 @@ describe Coveralls do
       silence do
         subject.wear!
       end
-      ::SimpleCov.filters.map(&:filter_argument).should include 'vendor'
+      expect(::SimpleCov.filters.map(&:filter_argument)).to include('vendor')
     end
   end
 
@@ -77,7 +77,7 @@ describe Coveralls do
           add_filter '/spec/'
         end
       end
-      ::SimpleCov.formatter.should be Coveralls::NilFormatter
+      expect(::SimpleCov.formatter).to be Coveralls::NilFormatter
     end
   end
 
@@ -87,7 +87,7 @@ describe Coveralls do
       silence do
         result = subject.push!
       end
-      result.should be_truthy
+      expect(result).to be_truthy
     end
   end
 
