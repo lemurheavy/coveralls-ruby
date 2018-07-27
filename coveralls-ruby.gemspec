@@ -19,10 +19,10 @@ Gem::Specification.new do |gem|
   gem.require_paths = ['lib']
   gem.version       = Coveralls::VERSION
 
-  gem.required_ruby_version = '>= 2.1'
+  gem.required_ruby_version = '>= 2.2'
 
   gem.add_dependency 'json', '~> 2.1'
-  gem.add_dependency 'simplecov', '~> 0.16.0'
+  gem.add_dependency 'simplecov', '~> 0.16.1'
   gem.add_dependency 'term-ansicolor', '~> 1.6'
   gem.add_dependency 'thor', '~> 0.20.0'
   gem.add_dependency 'tins', '~> 1.16'

@@ -6,7 +6,7 @@ source 'https://rubygems.org'
 gemspec
 
 platforms :jruby do
-  gem 'jruby-openssl', '~> 0.9.21'
+  gem 'jruby-openssl', '~> 0.10.1'
 end
 
 platforms :rbx do
@@ -17,11 +17,11 @@ end
 group :development do
   gem 'rake', '~> 12.3'
   gem 'rspec', '~> 3.7'
-  gem 'rubocop', '~> 0.54.0'
-  gem 'rubocop-rspec', '~> 1.25'
+  gem 'rubocop', '~> 0.58.2'
+  gem 'rubocop-rspec', '~> 1.27'
   gem 'truthy', '~> 1.0'
   gem 'vcr', '~> 4.0'
-  gem 'webmock', '~> 3.3'
+  gem 'webmock', '~> 3.4'
 end
 
 group :test do
