@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'coveralls/version'
 require 'coveralls/configuration'
 require 'coveralls/api'
@@ -5,13 +7,15 @@ require 'coveralls/output'
 require 'coveralls/simplecov'
 
 module Coveralls
-  extend self
+  class << self
+    attr_accessor :adapter, :testing, :noisy, :run_locally
+  end
 
   class NilFormatter
     def format(result); end
   end
 
-  attr_accessor :testing, :noisy, :run_locally
+  module_function
 
   def wear!(simplecov_setting = nil, &block)
     setup!

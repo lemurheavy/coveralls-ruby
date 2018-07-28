@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Coveralls
   #
   # Public: Methods for formatting strings with Term::ANSIColor.
@@ -32,10 +34,12 @@ module Coveralls
   #   Coveralls::Output.no_color = true
 
   module Output
-    attr_accessor :silent, :no_color
-    attr_writer :output
+    class << self
+      attr_accessor :silent, :no_color
+      attr_writer :output
+    end
 
-    extend self
+    module_function
 
     def output
       (defined?(@output) && @output) || $stdout
