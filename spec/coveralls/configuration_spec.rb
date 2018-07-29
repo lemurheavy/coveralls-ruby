@@ -68,15 +68,41 @@ describe Coveralls::Configuration do
     end
 
     context 'with services' do
+      SERVICES = {
+        appveyor: 'APPVEYOR',
+        circleci: 'CIRCLECI',
+        gitlab: 'GITLAB_CI',
+        jenkins: 'JENKINS_URL',
+        semaphore: 'SEMAPHORE',
+        tddium: 'TDDIUM',
+        travis: 'TRAVIS',
+        coveralls_local: 'COVERALLS_RUN_LOCALLY',
+        generic: 'CI_NAME'
+      }.freeze
+
+      shared_examples 'a service' do |service_name|
+        let(:service_variable) { options[:service_variable] }
+
+        before do
+          allow(ENV).to receive(:[]).with(SERVICES[service_name]).and_return('1')
+          described_class.configuration
+        end
+
+        it 'sets service parameters for this service and no other' do
+          SERVICES.each_key.reject { |service| service == service_name }.each do |service|
+            expect(described_class).not_to have_received(:"define_service_params_for_#{service}")
+          end
+
+          expect(described_class).to have_received(:"define_service_params_for_#{service_name}") unless service_name == :generic
+          expect(described_class).to have_received(:define_standard_service_params_for_generic_ci)
+        end
+      end
+
       before do
-        allow(described_class).to receive(:define_service_params_for_travis)
-        allow(described_class).to receive(:define_service_params_for_circleci)
-        allow(described_class).to receive(:define_service_params_for_semaphore)
-        allow(described_class).to receive(:define_service_params_for_jenkins)
-        allow(described_class).to receive(:define_service_params_for_appveyor)
-        allow(described_class).to receive(:define_service_params_for_tddium)
-        allow(described_class).to receive(:define_service_params_for_gitlab)
-        allow(described_class).to receive(:define_service_params_for_coveralls_local)
+        SERVICES.each_key do |service|
+          allow(described_class).to receive(:"define_service_params_for_#{service}")
+        end
+
         allow(described_class).to receive(:define_standard_service_params_for_generic_ci)
       end
 
@@ -94,169 +120,40 @@ describe Coveralls::Configuration do
         end
       end
 
-      context 'when using Travis' do
-        before do
-          allow(ENV).to receive(:[]).with('TRAVIS').and_return('1')
-          described_class.configuration
-        end
-
-        it 'sets service parameters for this service and no other' do
-          expect(described_class).to have_received(:define_service_params_for_travis).with(anything, anything)
-          expect(described_class).not_to have_received(:define_service_params_for_circleci)
-          expect(described_class).not_to have_received(:define_service_params_for_semaphore)
-          expect(described_class).not_to have_received(:define_service_params_for_jenkins)
-          expect(described_class).not_to have_received(:define_service_params_for_appveyor)
-          expect(described_class).not_to have_received(:define_service_params_for_tddium)
-          expect(described_class).not_to have_received(:define_service_params_for_gitlab)
-          expect(described_class).not_to have_received(:define_service_params_for_coveralls_local)
-          expect(described_class).to have_received(:define_standard_service_params_for_generic_ci)
-        end
+      context 'when using AppVeyor' do
+        it_behaves_like 'a service', :appveyor
       end
 
       context 'when using CircleCI' do
-        before do
-          allow(ENV).to receive(:[]).with('CIRCLECI').and_return('1')
-          described_class.configuration
-        end
-
-        it 'sets service parameters for this service and no other' do
-          expect(described_class).not_to have_received(:define_service_params_for_travis)
-          expect(described_class).to have_received(:define_service_params_for_circleci)
-          expect(described_class).not_to have_received(:define_service_params_for_semaphore)
-          expect(described_class).not_to have_received(:define_service_params_for_jenkins)
-          expect(described_class).not_to have_received(:define_service_params_for_appveyor)
-          expect(described_class).not_to have_received(:define_service_params_for_tddium)
-          expect(described_class).not_to have_received(:define_service_params_for_gitlab)
-          expect(described_class).not_to have_received(:define_service_params_for_coveralls_local)
-          expect(described_class).to have_received(:define_standard_service_params_for_generic_ci)
-        end
-      end
-
-      context 'when using Semaphore' do
-        before do
-          allow(ENV).to receive(:[]).with('SEMAPHORE').and_return('1')
-          described_class.configuration
-        end
-
-        it 'sets service parameters for this service and no other' do
-          expect(described_class).not_to have_received(:define_service_params_for_travis)
-          expect(described_class).not_to have_received(:define_service_params_for_circleci)
-          expect(described_class).to have_received(:define_service_params_for_semaphore)
-          expect(described_class).not_to have_received(:define_service_params_for_jenkins)
-          expect(described_class).not_to have_received(:define_service_params_for_appveyor)
-          expect(described_class).not_to have_received(:define_service_params_for_tddium)
-          expect(described_class).not_to have_received(:define_service_params_for_gitlab)
-          expect(described_class).not_to have_received(:define_service_params_for_coveralls_local)
-          expect(described_class).to have_received(:define_standard_service_params_for_generic_ci)
-        end
-      end
-
-      context 'when using Jenkins' do
-        before do
-          allow(ENV).to receive(:[]).with('JENKINS_URL').and_return('1')
-          described_class.configuration
-        end
-
-        it 'sets service parameters for this service and no other' do
-          expect(described_class).not_to have_received(:define_service_params_for_travis)
-          expect(described_class).not_to have_received(:define_service_params_for_circleci)
-          expect(described_class).not_to have_received(:define_service_params_for_semaphore)
-          expect(described_class).to have_received(:define_service_params_for_jenkins)
-          expect(described_class).not_to have_received(:define_service_params_for_appveyor)
-          expect(described_class).not_to have_received(:define_service_params_for_tddium)
-          expect(described_class).not_to have_received(:define_service_params_for_gitlab)
-          expect(described_class).not_to have_received(:define_service_params_for_coveralls_local)
-          expect(described_class).to have_received(:define_standard_service_params_for_generic_ci)
-        end
-      end
-
-      context 'when using AppVeyor' do
-        before do
-          allow(ENV).to receive(:[]).with('APPVEYOR').and_return('1')
-          described_class.configuration
-        end
-
-        it 'sets service parameters for this service and no other' do
-          expect(described_class).not_to have_received(:define_service_params_for_travis)
-          expect(described_class).not_to have_received(:define_service_params_for_circleci)
-          expect(described_class).not_to have_received(:define_service_params_for_semaphore)
-          expect(described_class).not_to have_received(:define_service_params_for_jenkins)
-          expect(described_class).to have_received(:define_service_params_for_appveyor)
-          expect(described_class).not_to have_received(:define_service_params_for_tddium)
-          expect(described_class).not_to have_received(:define_service_params_for_gitlab)
-          expect(described_class).not_to have_received(:define_service_params_for_coveralls_local)
-          expect(described_class).to have_received(:define_standard_service_params_for_generic_ci)
-        end
-      end
-
-      context 'when using Tddium' do
-        before do
-          allow(ENV).to receive(:[]).with('TDDIUM').and_return('1')
-          described_class.configuration
-        end
-
-        it 'sets service parameters for this service and no other' do
-          expect(described_class).not_to have_received(:define_service_params_for_travis)
-          expect(described_class).not_to have_received(:define_service_params_for_circleci)
-          expect(described_class).not_to have_received(:define_service_params_for_semaphore)
-          expect(described_class).not_to have_received(:define_service_params_for_jenkins)
-          expect(described_class).not_to have_received(:define_service_params_for_appveyor)
-          expect(described_class).to have_received(:define_service_params_for_tddium)
-          expect(described_class).not_to have_received(:define_service_params_for_gitlab)
-          expect(described_class).not_to have_received(:define_service_params_for_coveralls_local)
-          expect(described_class).to have_received(:define_standard_service_params_for_generic_ci)
-        end
+        it_behaves_like 'a service', :circleci
       end
 
       context 'when using GitLab CI' do
-        before do
-          allow(ENV).to receive(:[]).with('GITLAB_CI').and_return('1')
-          described_class.configuration
-        end
+        it_behaves_like 'a service', :gitlab
+      end
 
-        it 'sets service parameters for this service and no other' do
-          expect(described_class).not_to have_received(:define_service_params_for_travis)
-          expect(described_class).not_to have_received(:define_service_params_for_circleci)
-          expect(described_class).not_to have_received(:define_service_params_for_semaphore)
-          expect(described_class).not_to have_received(:define_service_params_for_jenkins)
-          expect(described_class).not_to have_received(:define_service_params_for_appveyor)
-          expect(described_class).not_to have_received(:define_service_params_for_tddium)
-          expect(described_class).to have_received(:define_service_params_for_gitlab)
-          expect(described_class).not_to have_received(:define_service_params_for_coveralls_local)
-          expect(described_class).to have_received(:define_standard_service_params_for_generic_ci)
-        end
+      context 'when using Jenkins' do
+        it_behaves_like 'a service', :jenkins
+      end
+
+      context 'when using Semaphore' do
+        it_behaves_like 'a service', :semaphore
+      end
+
+      context 'when using Tddium' do
+        it_behaves_like 'a service', :tddium
+      end
+
+      context 'when using Travis' do
+        it_behaves_like 'a service', :travis
       end
 
       context 'when running Coveralls locally' do
-        before do
-          allow(ENV).to receive(:[]).with('COVERALLS_RUN_LOCALLY').and_return('1')
-          described_class.configuration
-        end
-
-        it 'sets service parameters for this service and no other' do
-          expect(described_class).not_to have_received(:define_service_params_for_travis)
-          expect(described_class).not_to have_received(:define_service_params_for_circleci)
-          expect(described_class).not_to have_received(:define_service_params_for_semaphore)
-          expect(described_class).not_to have_received(:define_service_params_for_jenkins)
-          expect(described_class).to have_received(:define_service_params_for_coveralls_local)
-          expect(described_class).to have_received(:define_standard_service_params_for_generic_ci)
-        end
+        it_behaves_like 'a service', :coveralls_local
       end
 
       context 'when using a generic CI' do
-        before do
-          allow(ENV).to receive(:[]).with('CI_NAME').and_return('1')
-          described_class.configuration
-        end
-
-        it 'sets service parameters for this service and no other' do
-          expect(described_class).not_to have_received(:define_service_params_for_travis)
-          expect(described_class).not_to have_received(:define_service_params_for_circleci)
-          expect(described_class).not_to have_received(:define_service_params_for_semaphore)
-          expect(described_class).not_to have_received(:define_service_params_for_jenkins)
-          expect(described_class).not_to have_received(:define_service_params_for_coveralls_local)
-          expect(described_class).to have_received(:define_standard_service_params_for_generic_ci).with(anything)
-        end
+        it_behaves_like 'a service', :generic
       end
     end
   end
