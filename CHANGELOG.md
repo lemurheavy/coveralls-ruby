@@ -9,6 +9,7 @@
 
 ### Chores
 
+- [PR #12](https://github.com/Coveralls-Community/coveralls-ruby/pull/12) Merge branch 'master' into community-master [@tagliala](https://github.com/tagliala)
 - [PR #10](https://github.com/Coveralls-Community/coveralls-ruby/pull/10) Add aggregate failures to tests [@vbrazo](https://github.com/vbrazo)
 - [PR #9](https://github.com/Coveralls-Community/coveralls-ruby/pull/9) Finish fixing rubocop violations [@vbrazo](https://github.com/vbrazo)
 - [PR #8](https://github.com/Coveralls-Community/coveralls-ruby/pull/8) Update .travis.yml [@vbrazo](https://github.com/vbrazo)
