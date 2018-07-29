@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'json'
 require 'net/https'
 require 'tempfile'
@@ -10,10 +12,10 @@ module Coveralls
     else
       API_HOST = ENV['COVERALLS_DEVELOPMENT'] ? 'localhost:3000' : 'coveralls.io'
       API_PROTOCOL = ENV['COVERALLS_DEVELOPMENT'] ? 'http' : 'https'
-      API_DOMAIN = "#{API_PROTOCOL}://#{API_HOST}".freeze
+      API_DOMAIN = "#{API_PROTOCOL}://#{API_HOST}"
     end
 
-    API_BASE = "#{API_DOMAIN}/api/v1".freeze
+    API_BASE = "#{API_DOMAIN}/api/v1"
 
     class << self
       def post_json(endpoint, hash)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'yaml'
 require 'securerandom'
 
@@ -56,10 +58,10 @@ module Coveralls
       end
 
       def define_service_params_for_travis(config, service_name)
-        config[:service_job_id] = ENV['TRAVIS_JOB_ID']
+        config[:service_job_id]       = ENV['TRAVIS_JOB_ID']
         config[:service_pull_request] = ENV['TRAVIS_PULL_REQUEST'] unless ENV['TRAVIS_PULL_REQUEST'] == 'false'
-        config[:service_name]   = service_name || 'travis-ci'
-        config[:service_branch] = ENV['TRAVIS_BRANCH']
+        config[:service_name]         = service_name || 'travis-ci'
+        config[:service_branch]       = ENV['TRAVIS_BRANCH']
       end
 
       def define_service_params_for_circleci(config)
@@ -77,19 +79,19 @@ module Coveralls
       end
 
       def define_service_params_for_jenkins(config)
-        config[:service_name]   = 'jenkins'
-        config[:service_number] = ENV['BUILD_NUMBER']
-        config[:service_branch] = ENV['BRANCH_NAME']
+        config[:service_name]         = 'jenkins'
+        config[:service_number]       = ENV['BUILD_NUMBER']
+        config[:service_branch]       = ENV['BRANCH_NAME']
         config[:service_pull_request] = ENV['ghprbPullId']
       end
 
       def define_service_params_for_appveyor(config)
-        config[:service_name]   = 'appveyor'
-        config[:service_number] = ENV['APPVEYOR_BUILD_VERSION']
-        config[:service_branch] = ENV['APPVEYOR_REPO_BRANCH']
-        config[:commit_sha] = ENV['APPVEYOR_REPO_COMMIT']
-        repo_name = ENV['APPVEYOR_REPO_NAME']
-        config[:service_build_url] = format('https://ci.appveyor.com/project/%s/build/%s', repo_name, config[:service_number])
+        config[:service_name]      = 'appveyor'
+        config[:service_number]    = ENV['APPVEYOR_BUILD_VERSION']
+        config[:service_branch]    = ENV['APPVEYOR_REPO_BRANCH']
+        config[:commit_sha]        = ENV['APPVEYOR_REPO_COMMIT']
+        repo_name                  = ENV['APPVEYOR_REPO_NAME']
+        config[:service_build_url] = format('https://ci.appveyor.com/project/%<repo_name>s/build/%<service_number>s', repo_name: repo_name, service_number: config[:service_number])
       end
 
       def define_service_params_for_tddium(config)
@@ -102,11 +104,11 @@ module Coveralls
       end
 
       def define_service_params_for_gitlab(config)
-        config[:service_name]         = 'gitlab-ci'
-        config[:service_job_number]   = ENV['CI_BUILD_NAME']
-        config[:service_job_id]       = ENV['CI_BUILD_ID']
-        config[:service_branch]       = ENV['CI_BUILD_REF_NAME']
-        config[:commit_sha]           = ENV['CI_BUILD_REF']
+        config[:service_name]       = 'gitlab-ci'
+        config[:service_job_number] = ENV['CI_BUILD_NAME']
+        config[:service_job_id]     = ENV['CI_BUILD_ID']
+        config[:service_branch]     = ENV['CI_BUILD_REF_NAME']
+        config[:commit_sha]         = ENV['CI_BUILD_REF']
       end
 
       def define_service_params_for_coveralls_local(config)

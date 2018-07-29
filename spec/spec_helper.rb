@@ -4,7 +4,7 @@ require 'simplecov'
 require 'webmock'
 require 'vcr'
 
-require 'pry' if RUBY_VERSION > '1.8.7'
+require 'pry'
 
 class InceptionFormatter
   def format(result)
@@ -40,13 +40,9 @@ RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
   config.filter_run :focus
   config.include WebMock::API
-  config.expect_with :rspec do |c|
-    c.syntax = %i[should expect]
-  end
-  config.mock_with :rspec do |c|
-    c.syntax = %i[should expect]
-  end
+
   config.after(:suite) do
+    setup_formatter
     WebMock.disable!
   end
 end
