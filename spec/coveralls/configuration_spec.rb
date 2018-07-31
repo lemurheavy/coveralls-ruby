@@ -1,291 +1,274 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Coveralls::Configuration do
   before do
-    ENV.stub(:[]).and_return(nil)
+    allow(ENV).to receive(:[]).and_return(nil)
   end
 
   describe '.configuration' do
-    it "returns a hash with the default keys" do
-      config = Coveralls::Configuration.configuration
-      config.should be_a(Hash)
-      config.keys.should include(:environment)
-      config.keys.should include(:git)
+    it 'returns a hash with the default keys' do
+      config = described_class.configuration
+      expect(config).to be_a(Hash)
+      expect(config.keys).to include(:environment)
+      expect(config.keys).to include(:git)
     end
 
-    context 'yaml_config' do
+    context 'with yaml_config' do
       let(:repo_token) { SecureRandom.hex(4) }
       let(:repo_secret_token) { SecureRandom.hex(4) }
-      let(:yaml_config) {
+      let(:yaml_config) do
         {
           'repo_token' => repo_token,
           'repo_secret_token' => repo_secret_token
         }
-      }
+      end
 
       before do
-        Coveralls::Configuration.stub(:yaml_config).and_return(yaml_config)
+        allow(described_class).to receive(:yaml_config).and_return(yaml_config)
       end
 
       it 'sets the Yaml config and associated variables if present' do
-        config = Coveralls::Configuration.configuration
-        config[:configuration].should eq(yaml_config)
-        config[:repo_token].should eq(repo_token)
+        config = described_class.configuration
+        expect(config[:configuration]).to eq(yaml_config)
+        expect(config[:repo_token]).to eq(repo_token)
       end
 
       it 'uses the repo_secret_token if the repo_token is not set' do
         yaml_config.delete('repo_token')
-        config = Coveralls::Configuration.configuration
-        config[:configuration].should eq(yaml_config)
-        config[:repo_token].should eq(repo_secret_token)
+        config = described_class.configuration
+        expect(config[:configuration]).to eq(yaml_config)
+        expect(config[:repo_token]).to eq(repo_secret_token)
       end
     end
 
-    context 'repo_token in environment' do
+    context 'when repo_token is in environment' do
       let(:repo_token) { SecureRandom.hex(4) }
 
       before do
-        ENV.stub(:[]).with('COVERALLS_REPO_TOKEN').and_return(repo_token)
+        allow(ENV).to receive(:[]).with('COVERALLS_REPO_TOKEN').and_return(repo_token)
       end
 
       it 'pulls the repo token from the environment if set' do
-        config = Coveralls::Configuration.configuration
-        config[:repo_token].should eq(repo_token)
+        config = described_class.configuration
+        expect(config[:repo_token]).to eq(repo_token)
       end
     end
 
-    context 'flag_name in environment' do
-      let(:flag_name) { 'Test Flag' }
+    context 'when parallel is in environment' do
+      before do
+        allow(ENV).to receive(:[]).with('COVERALLS_PARALLEL').and_return(true)
+      end
+
+      it 'sets parallel to true if present' do
+        config = described_class.configuration
+        expect(config[:parallel]).to be true
+      end
+    end
+
+    context 'with services' do
+      SERVICES = {
+        appveyor: 'APPVEYOR',
+        circleci: 'CIRCLECI',
+        gitlab: 'GITLAB_CI',
+        jenkins: 'JENKINS_URL',
+        semaphore: 'SEMAPHORE',
+        tddium: 'TDDIUM',
+        travis: 'TRAVIS',
+        coveralls_local: 'COVERALLS_RUN_LOCALLY',
+        generic: 'CI_NAME'
+      }.freeze
+
+      shared_examples 'a service' do |service_name|
+        let(:service_variable) { options[:service_variable] }
+
+        before do
+          allow(ENV).to receive(:[]).with(SERVICES[service_name]).and_return('1')
+          described_class.configuration
+        end
+
+        it 'sets service parameters for this service and no other' do
+          SERVICES.each_key.reject { |service| service == service_name }.each do |service|
+            expect(described_class).not_to have_received(:"define_service_params_for_#{service}")
+          end
+
+          expect(described_class).to have_received(:"define_service_params_for_#{service_name}") unless service_name == :generic
+          expect(described_class).to have_received(:define_standard_service_params_for_generic_ci)
+        end
+      end
 
       before do
-        ENV.stub(:[]).with('COVERALLS_FLAG_NAME').and_return(flag_name)
+        SERVICES.each_key do |service|
+          allow(described_class).to receive(:"define_service_params_for_#{service}")
+        end
+
+        allow(described_class).to receive(:define_standard_service_params_for_generic_ci)
       end
 
-      it 'pulls the flag name from the environment if set' do
-        config = Coveralls::Configuration.configuration
-        config[:flag_name].should eq(flag_name)
-      end
-    end
-
-    context 'Services' do
       context 'with env based service name' do
         let(:service_name) { 'travis-enterprise' }
+
         before do
-          ENV.stub(:[]).with('TRAVIS').and_return('1')
-          ENV.stub(:[]).with('COVERALLS_SERVICE_NAME').and_return(service_name)
+          allow(ENV).to receive(:[]).with('TRAVIS').and_return('1')
+          allow(ENV).to receive(:[]).with('COVERALLS_SERVICE_NAME').and_return(service_name)
         end
 
         it 'pulls the service name from the environment if set' do
-          config = Coveralls::Configuration.configuration
-          config[:service_name].should eq(service_name)
+          config = described_class.configuration
+          expect(config[:service_name]).to eq(service_name)
         end
       end
 
-      context 'on Travis' do
-        before do
-          ENV.stub(:[]).with('TRAVIS').and_return('1')
-        end
-
-        it 'should set service parameters for this service and no other' do
-          Coveralls::Configuration.should_receive(:set_service_params_for_travis).with(anything, anything)
-          Coveralls::Configuration.should_not_receive(:set_service_params_for_circleci)
-          Coveralls::Configuration.should_not_receive(:set_service_params_for_semaphore)
-          Coveralls::Configuration.should_not_receive(:set_service_params_for_jenkins)
-          Coveralls::Configuration.should_not_receive(:set_service_params_for_coveralls_local)
-          Coveralls::Configuration.should_receive(:set_standard_service_params_for_generic_ci)
-          Coveralls::Configuration.configuration
-        end
+      context 'when using AppVeyor' do
+        it_behaves_like 'a service', :appveyor
       end
 
-      context 'on CircleCI' do
-        before do
-          ENV.stub(:[]).with('CIRCLECI').and_return('1')
-        end
-
-        it 'should set service parameters for this service and no other' do
-          Coveralls::Configuration.should_not_receive(:set_service_params_for_travis)
-          Coveralls::Configuration.should_receive(:set_service_params_for_circleci)
-          Coveralls::Configuration.should_not_receive(:set_service_params_for_semaphore)
-          Coveralls::Configuration.should_not_receive(:set_service_params_for_jenkins)
-          Coveralls::Configuration.should_not_receive(:set_service_params_for_coveralls_local)
-          Coveralls::Configuration.should_receive(:set_standard_service_params_for_generic_ci)
-          Coveralls::Configuration.configuration
-        end
+      context 'when using CircleCI' do
+        it_behaves_like 'a service', :circleci
       end
 
-      context 'on Semaphore' do
-        before do
-          ENV.stub(:[]).with('SEMAPHORE').and_return('1')
-        end
-
-        it 'should set service parameters for this service and no other' do
-          Coveralls::Configuration.should_not_receive(:set_service_params_for_travis)
-          Coveralls::Configuration.should_not_receive(:set_service_params_for_circleci)
-          Coveralls::Configuration.should_receive(:set_service_params_for_semaphore)
-          Coveralls::Configuration.should_not_receive(:set_service_params_for_jenkins)
-          Coveralls::Configuration.should_not_receive(:set_service_params_for_coveralls_local)
-          Coveralls::Configuration.should_receive(:set_standard_service_params_for_generic_ci)
-          Coveralls::Configuration.configuration
-        end
+      context 'when using GitLab CI' do
+        it_behaves_like 'a service', :gitlab
       end
 
       context 'when using Jenkins' do
-        before do
-          ENV.stub(:[]).with('JENKINS_URL').and_return('1')
-        end
+        it_behaves_like 'a service', :jenkins
+      end
 
-        it 'should set service parameters for this service and no other' do
-          Coveralls::Configuration.should_not_receive(:set_service_params_for_travis)
-          Coveralls::Configuration.should_not_receive(:set_service_params_for_circleci)
-          Coveralls::Configuration.should_not_receive(:set_service_params_for_semaphore)
-          Coveralls::Configuration.should_receive(:set_service_params_for_jenkins)
-          Coveralls::Configuration.should_not_receive(:set_service_params_for_coveralls_local)
-          Coveralls::Configuration.should_receive(:set_standard_service_params_for_generic_ci)
-          Coveralls::Configuration.configuration
-        end
+      context 'when using Semaphore' do
+        it_behaves_like 'a service', :semaphore
+      end
+
+      context 'when using Tddium' do
+        it_behaves_like 'a service', :tddium
+      end
+
+      context 'when using Travis' do
+        it_behaves_like 'a service', :travis
       end
 
       context 'when running Coveralls locally' do
-        before do
-          ENV.stub(:[]).with('COVERALLS_RUN_LOCALLY').and_return('1')
-        end
-
-        it 'should set service parameters for this service and no other' do
-          Coveralls::Configuration.should_not_receive(:set_service_params_for_travis)
-          Coveralls::Configuration.should_not_receive(:set_service_params_for_circleci)
-          Coveralls::Configuration.should_not_receive(:set_service_params_for_semaphore)
-          Coveralls::Configuration.should_not_receive(:set_service_params_for_jenkins)
-          Coveralls::Configuration.should_receive(:set_service_params_for_coveralls_local)
-          Coveralls::Configuration.should_receive(:set_standard_service_params_for_generic_ci)
-          Coveralls::Configuration.configuration
-        end
+        it_behaves_like 'a service', :coveralls_local
       end
 
-      context 'for generic CI' do
-        before do
-          ENV.stub(:[]).with('CI_NAME').and_return('1')
-        end
-
-        it 'should set service parameters for this service and no other' do
-          Coveralls::Configuration.should_not_receive(:set_service_params_for_travis)
-          Coveralls::Configuration.should_not_receive(:set_service_params_for_circleci)
-          Coveralls::Configuration.should_not_receive(:set_service_params_for_semaphore)
-          Coveralls::Configuration.should_not_receive(:set_service_params_for_jenkins)
-          Coveralls::Configuration.should_not_receive(:set_service_params_for_coveralls_local)
-          Coveralls::Configuration.should_receive(:set_standard_service_params_for_generic_ci).with(anything)
-          Coveralls::Configuration.configuration
-        end
+      context 'when using a generic CI' do
+        it_behaves_like 'a service', :generic
       end
     end
   end
 
-  describe '.set_service_params_for_travis' do
+  describe '.define_service_params_for_travis' do
     let(:travis_job_id) { SecureRandom.hex(4) }
+
     before do
-      ENV.stub(:[]).with('TRAVIS_JOB_ID').and_return(travis_job_id)
+      allow(ENV).to receive(:[]).with('TRAVIS_JOB_ID').and_return(travis_job_id)
     end
 
-    it 'should set the service_job_id' do
+    it 'sets the service_job_id' do
       config = {}
-      Coveralls::Configuration.set_service_params_for_travis(config, nil)
-      config[:service_job_id].should eq(travis_job_id)
+      described_class.define_service_params_for_travis(config, nil)
+      expect(config[:service_job_id]).to eq(travis_job_id)
     end
 
-    it 'should set the service_name to travis-ci by default' do
+    it 'sets the service_name to travis-ci by default' do
       config = {}
-      Coveralls::Configuration.set_service_params_for_travis(config, nil)
-      config[:service_name].should eq('travis-ci')
+      described_class.define_service_params_for_travis(config, nil)
+      expect(config[:service_name]).to eq('travis-ci')
     end
 
-    it 'should set the service_name to a value if one is passed in' do
+    it 'sets the service_name to a value if one is passed in' do
       config = {}
       random_name = SecureRandom.hex(4)
-      Coveralls::Configuration.set_service_params_for_travis(config, random_name)
-      config[:service_name].should eq(random_name)
+      described_class.define_service_params_for_travis(config, random_name)
+      expect(config[:service_name]).to eq(random_name)
     end
   end
 
-  describe '.set_service_params_for_circleci' do
+  describe '.define_service_params_for_circleci' do
     let(:circle_build_num) { SecureRandom.hex(4) }
+
     before do
-      ENV.stub(:[]).with('CIRCLE_BUILD_NUM').and_return(circle_build_num)
+      allow(ENV).to receive(:[]).with('CIRCLE_BUILD_NUM').and_return(circle_build_num)
     end
 
-    it 'should set the expected parameters' do
+    it 'sets the expected parameters' do
       config = {}
-      Coveralls::Configuration.set_service_params_for_circleci(config)
-      config[:service_name].should eq('circleci')
-      config[:service_number].should eq(circle_build_num)
+      described_class.define_service_params_for_circleci(config)
+      expect(config[:service_name]).to eq('circleci')
+      expect(config[:service_number]).to eq(circle_build_num)
     end
   end
 
-  describe '.set_service_params_for_gitlab' do
+  describe '.define_service_params_for_gitlab' do
     let(:commit_sha) { SecureRandom.hex(32) }
-    let(:service_job_number) { "spec:one" }
+    let(:service_job_number) { 'spec:one' }
     let(:service_job_id) { 1234 }
-    let(:service_branch) { "feature" }
+    let(:service_branch) { 'feature' }
 
     before do
-      ENV.stub(:[]).with('CI_BUILD_NAME').and_return(service_job_number)
-      ENV.stub(:[]).with('CI_BUILD_ID').and_return(service_job_id)
-      ENV.stub(:[]).with('CI_BUILD_REF_NAME').and_return(service_branch)
-      ENV.stub(:[]).with('CI_BUILD_REF').and_return(commit_sha)
+      allow(ENV).to receive(:[]).with('CI_BUILD_NAME').and_return(service_job_number)
+      allow(ENV).to receive(:[]).with('CI_BUILD_ID').and_return(service_job_id)
+      allow(ENV).to receive(:[]).with('CI_BUILD_REF_NAME').and_return(service_branch)
+      allow(ENV).to receive(:[]).with('CI_BUILD_REF').and_return(commit_sha)
     end
 
-    it 'should set the expected parameters' do
+    it 'sets the expected parameters' do
       config = {}
-      Coveralls::Configuration.set_service_params_for_gitlab(config)
-      config[:service_name].should eq('gitlab-ci')
-      config[:service_job_number].should eq(service_job_number)
-      config[:service_job_id].should eq(service_job_id)
-      config[:service_branch].should eq(service_branch)
-      config[:commit_sha].should eq(commit_sha)
+      described_class.define_service_params_for_gitlab(config)
+      expect(config[:service_name]).to eq('gitlab-ci')
+      expect(config[:service_job_number]).to eq(service_job_number)
+      expect(config[:service_job_id]).to eq(service_job_id)
+      expect(config[:service_branch]).to eq(service_branch)
+      expect(config[:commit_sha]).to eq(commit_sha)
     end
   end
 
-  describe '.set_service_params_for_semaphore' do
+  describe '.define_service_params_for_semaphore' do
     let(:semaphore_build_num) { SecureRandom.hex(4) }
+
     before do
-      ENV.stub(:[]).with('SEMAPHORE_BUILD_NUMBER').and_return(semaphore_build_num)
+      allow(ENV).to receive(:[]).with('SEMAPHORE_BUILD_NUMBER').and_return(semaphore_build_num)
     end
 
-    it 'should set the expected parameters' do
+    it 'sets the expected parameters' do
       config = {}
-      Coveralls::Configuration.set_service_params_for_semaphore(config)
-      config[:service_name].should eq('semaphore')
-      config[:service_number].should eq(semaphore_build_num)
+      described_class.define_service_params_for_semaphore(config)
+      expect(config[:service_name]).to eq('semaphore')
+      expect(config[:service_number]).to eq(semaphore_build_num)
     end
   end
 
-  describe '.set_service_params_for_jenkins' do
+  describe '.define_service_params_for_jenkins' do
     let(:service_pull_request) { '1234' }
     let(:build_num) { SecureRandom.hex(4) }
+
     before do
-      ENV.stub(:[]).with('CI_PULL_REQUEST').and_return(service_pull_request)
-      ENV.stub(:[]).with('BUILD_NUMBER').and_return(build_num)
+      allow(ENV).to receive(:[]).with('CI_PULL_REQUEST').and_return(service_pull_request)
+      allow(ENV).to receive(:[]).with('BUILD_NUMBER').and_return(build_num)
     end
 
-    it 'should set the expected parameters' do
+    it 'sets the expected parameters' do
       config = {}
-      Coveralls::Configuration.set_service_params_for_jenkins(config)
-      Coveralls::Configuration.set_standard_service_params_for_generic_ci(config)
-      config[:service_name].should eq('jenkins')
-      config[:service_number].should eq(build_num)
-      config[:service_pull_request].should eq(service_pull_request)
+      described_class.define_service_params_for_jenkins(config)
+      described_class.define_standard_service_params_for_generic_ci(config)
+      expect(config[:service_name]).to eq('jenkins')
+      expect(config[:service_number]).to eq(build_num)
+      expect(config[:service_pull_request]).to eq(service_pull_request)
     end
   end
 
-  describe '.set_service_params_for_coveralls_local' do
-    it 'should set the expected parameters' do
+  describe '.define_service_params_for_coveralls_local' do
+    it 'sets the expected parameters' do
       config = {}
-      Coveralls::Configuration.set_service_params_for_coveralls_local(config)
-      config[:service_name].should eq('coveralls-ruby')
-      config[:service_job_id].should be_nil
-      config[:service_event_type].should eq('manual')
+      described_class.define_service_params_for_coveralls_local(config)
+      expect(config[:service_name]).to eq('coveralls-ruby')
+      expect(config[:service_job_id]).to be_nil
+      expect(config[:service_event_type]).to eq('manual')
     end
   end
 
-  describe '.set_service_params_for_generic_ci' do
+  describe '.define_service_params_for_generic_ci' do
     let(:service_name) { SecureRandom.hex(4) }
     let(:service_number) { SecureRandom.hex(4) }
     let(:service_build_url) { SecureRandom.hex(4) }
@@ -293,45 +276,70 @@ describe Coveralls::Configuration do
     let(:service_pull_request) { '1234' }
 
     before do
-      ENV.stub(:[]).with('CI_NAME').and_return(service_name)
-      ENV.stub(:[]).with('CI_BUILD_NUMBER').and_return(service_number)
-      ENV.stub(:[]).with('CI_BUILD_URL').and_return(service_build_url)
-      ENV.stub(:[]).with('CI_BRANCH').and_return(service_branch)
-      ENV.stub(:[]).with('CI_PULL_REQUEST').and_return(service_pull_request)
+      allow(ENV).to receive(:[]).with('CI_NAME').and_return(service_name)
+      allow(ENV).to receive(:[]).with('CI_BUILD_NUMBER').and_return(service_number)
+      allow(ENV).to receive(:[]).with('CI_BUILD_URL').and_return(service_build_url)
+      allow(ENV).to receive(:[]).with('CI_BRANCH').and_return(service_branch)
+      allow(ENV).to receive(:[]).with('CI_PULL_REQUEST').and_return(service_pull_request)
     end
 
-    it 'should set the expected parameters' do
+    it 'sets the expected parameters' do
       config = {}
-      Coveralls::Configuration.set_standard_service_params_for_generic_ci(config)
-      config[:service_name].should eq(service_name)
-      config[:service_number].should eq(service_number)
-      config[:service_build_url].should eq(service_build_url)
-      config[:service_branch].should eq(service_branch)
-      config[:service_pull_request].should eq(service_pull_request)
+      described_class.define_standard_service_params_for_generic_ci(config)
+      expect(config[:service_name]).to eq(service_name)
+      expect(config[:service_number]).to eq(service_number)
+      expect(config[:service_build_url]).to eq(service_build_url)
+      expect(config[:service_branch]).to eq(service_branch)
+      expect(config[:service_pull_request]).to eq(service_pull_request)
     end
   end
 
-  describe '.set_service_params_for_appveyor' do
+  describe '.define_service_params_for_appveyor' do
     let(:service_number) { SecureRandom.hex(4) }
     let(:service_branch) { SecureRandom.hex(4) }
     let(:commit_sha) { SecureRandom.hex(4) }
     let(:repo_name) { SecureRandom.hex(4) }
 
     before do
-      ENV.stub(:[]).with('APPVEYOR_BUILD_VERSION').and_return(service_number)
-      ENV.stub(:[]).with('APPVEYOR_REPO_BRANCH').and_return(service_branch)
-      ENV.stub(:[]).with('APPVEYOR_REPO_COMMIT').and_return(commit_sha)
-      ENV.stub(:[]).with('APPVEYOR_REPO_NAME').and_return(repo_name)
+      allow(ENV).to receive(:[]).with('APPVEYOR_BUILD_VERSION').and_return(service_number)
+      allow(ENV).to receive(:[]).with('APPVEYOR_REPO_BRANCH').and_return(service_branch)
+      allow(ENV).to receive(:[]).with('APPVEYOR_REPO_COMMIT').and_return(commit_sha)
+      allow(ENV).to receive(:[]).with('APPVEYOR_REPO_NAME').and_return(repo_name)
     end
 
-    it 'should set the expected parameters' do
+    it 'sets the expected parameters' do
       config = {}
-      Coveralls::Configuration.set_service_params_for_appveyor(config)
-      config[:service_name].should eq('appveyor')
-      config[:service_number].should eq(service_number)
-      config[:service_branch].should eq(service_branch)
-      config[:commit_sha].should eq(commit_sha)
-      config[:service_build_url].should eq('https://ci.appveyor.com/project/%s/build/%s' % [repo_name, service_number])
+      described_class.define_service_params_for_appveyor(config)
+      expect(config[:service_name]).to eq('appveyor')
+      expect(config[:service_number]).to eq(service_number)
+      expect(config[:service_branch]).to eq(service_branch)
+      expect(config[:commit_sha]).to eq(commit_sha)
+      expect(config[:service_build_url]).to eq(format('https://ci.appveyor.com/project/%<repo_name>s/build/%<service_number>s', repo_name: repo_name, service_number: service_number))
+    end
+  end
+
+  describe '.define_service_params_for_tddium' do
+    let(:service_number)       { SecureRandom.hex(4) }
+    let(:service_job_number)   { SecureRandom.hex(4) }
+    let(:service_pull_request) { SecureRandom.hex(4) }
+    let(:service_branch)       { SecureRandom.hex(4) }
+
+    before do
+      allow(ENV).to receive(:[]).with('TDDIUM_SESSION_ID').and_return(service_number)
+      allow(ENV).to receive(:[]).with('TDDIUM_TID').and_return(service_job_number)
+      allow(ENV).to receive(:[]).with('TDDIUM_PR_ID').and_return(service_pull_request)
+      allow(ENV).to receive(:[]).with('TDDIUM_CURRENT_BRANCH').and_return(service_branch)
+    end
+
+    it 'sets the expected parameters' do
+      config = {}
+      described_class.define_service_params_for_tddium(config)
+      expect(config[:service_name]).to eq('tddium')
+      expect(config[:service_number]).to eq(service_number)
+      expect(config[:service_job_number]).to eq(service_job_number)
+      expect(config[:service_pull_request]).to eq(service_pull_request)
+      expect(config[:service_branch]).to eq(service_branch)
+      expect(config[:service_build_url]).to eq(format('https://ci.solanolabs.com/reports/%<service_number>s', service_number: service_number))
     end
   end
 
@@ -355,14 +363,14 @@ describe Coveralls::Configuration do
     end
 
     it 'uses ENV vars' do
-      config = Coveralls::Configuration.git
-      config[:head][:id].should eq(git_id)
-      config[:head][:author_name].should eq(author_name)
-      config[:head][:author_email].should eq(author_email)
-      config[:head][:committer_name].should eq(committer_name)
-      config[:head][:committer_email].should eq(committer_email)
-      config[:head][:message].should eq(message)
-      config[:branch].should eq(branch)
+      config = described_class.git
+      expect(config[:head][:id]).to eq(git_id)
+      expect(config[:head][:author_name]).to eq(author_name)
+      expect(config[:head][:author_email]).to eq(author_email)
+      expect(config[:head][:committer_name]).to eq(committer_name)
+      expect(config[:head][:committer_email]).to eq(committer_email)
+      expect(config[:head][:message]).to eq(message)
+      expect(config[:branch]).to eq(branch)
     end
   end
 end
