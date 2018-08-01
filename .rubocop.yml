@@ -7,13 +7,13 @@ AllCops:
     - 'vendor/bundle/**/*'
 
 Metrics/AbcSize:
-  Max: 38.2
+  Max: 39.29
 
 Metrics/CyclomaticComplexity:
-  Max: 18
+  Max: 19
 
 Metrics/PerceivedComplexity:
-  Max: 19
+  Max: 20
 
 Metrics/BlockLength:
   Exclude:
