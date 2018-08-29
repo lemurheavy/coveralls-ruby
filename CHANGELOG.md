@@ -4,11 +4,13 @@
 
 ### Bug
 
+- [PR #16](https://github.com/Coveralls-Community/coveralls-ruby/pull/16) Fix service name overriding [@tagliala](https://github.com/tagliala)
 - [PR #3](https://github.com/Coveralls-Community/coveralls-ruby/pull/3) Remove .bundle folder info from SimpleCov reports [@vbrazo](https://github.com/vbrazo)
 - [PR #2](https://github.com/Coveralls-Community/coveralls-ruby/pull/2) Fix relative path of filenames when root path has multiple matches. [@rromanchuk](https://github.com/rromanchuk)
 
 ### Chores
 
+- [PR #17](https://github.com/Coveralls-Community/coveralls-ruby/pull/17) Reset version number to 0.1.0 [@tagliala](https://github.com/tagliala)
 - [PR #12](https://github.com/Coveralls-Community/coveralls-ruby/pull/12) Merge branch 'master' into community-master [@tagliala](https://github.com/tagliala)
 - [PR #10](https://github.com/Coveralls-Community/coveralls-ruby/pull/10) Add aggregate failures to tests [@vbrazo](https://github.com/vbrazo)
 - [PR #9](https://github.com/Coveralls-Community/coveralls-ruby/pull/9) Finish fixing rubocop violations [@vbrazo](https://github.com/vbrazo)
@@ -18,7 +20,8 @@
 
 ### Documentation
 
-- [PR #6](https://github.com/Coveralls-Community/coveralls-ruby/pull/5) Add contributing.md [@vbrazo](https://github.com/vbrazo)
+- [PR #14](https://github.com/Coveralls-Community/coveralls-ruby/pull/14) Fix badges [@tagliala](https://github.com/tagliala)
+- [PR #6](https://github.com/Coveralls-Community/coveralls-ruby/pull/6) Add contributing.md [@vbrazo](https://github.com/vbrazo)
 - [PR #5](https://github.com/Coveralls-Community/coveralls-ruby/pull/5) Add changelog [@vbrazo](https://github.com/vbrazo)
 
 ### Feature Request/Enhancement
