@@ -20,7 +20,7 @@ describe Coveralls::Configuration do
       let(:repo_secret_token) { SecureRandom.hex(4) }
       let(:yaml_config) do
         {
-          'repo_token' => repo_token,
+          'repo_token'        => repo_token,
           'repo_secret_token' => repo_secret_token
         }
       end
@@ -69,15 +69,15 @@ describe Coveralls::Configuration do
 
     context 'with services' do
       SERVICES = {
-        appveyor: 'APPVEYOR',
-        circleci: 'CIRCLECI',
-        gitlab: 'GITLAB_CI',
-        jenkins: 'JENKINS_URL',
-        semaphore: 'SEMAPHORE',
-        tddium: 'TDDIUM',
-        travis: 'TRAVIS',
+        appveyor:        'APPVEYOR',
+        circleci:        'CIRCLECI',
+        gitlab:          'GITLAB_CI',
+        jenkins:         'JENKINS_URL',
+        semaphore:       'SEMAPHORE',
+        tddium:          'TDDIUM',
+        travis:          'TRAVIS',
         coveralls_local: 'COVERALLS_RUN_LOCALLY',
-        generic: 'CI_NAME'
+        generic:         'CI_NAME'
       }.freeze
 
       shared_examples 'a service' do |service_name|

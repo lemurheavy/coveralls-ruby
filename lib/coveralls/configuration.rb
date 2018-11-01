@@ -9,7 +9,7 @@ module Coveralls
       def configuration
         config = {
           environment: relevant_env,
-          git: git
+          git:         git
         }
 
         yml = yaml_config
@@ -165,12 +165,12 @@ module Coveralls
 
         Dir.chdir(root) do
           hash[:head] = {
-            id: ENV.fetch('GIT_ID', `git log -1 --pretty=format:'%H'`),
-            author_name: ENV.fetch('GIT_AUTHOR_NAME', `git log -1 --pretty=format:'%aN'`),
-            author_email: ENV.fetch('GIT_AUTHOR_EMAIL', `git log -1 --pretty=format:'%ae'`),
-            committer_name: ENV.fetch('GIT_COMMITTER_NAME', `git log -1 --pretty=format:'%cN'`),
+            id:              ENV.fetch('GIT_ID', `git log -1 --pretty=format:'%H'`),
+            author_name:     ENV.fetch('GIT_AUTHOR_NAME', `git log -1 --pretty=format:'%aN'`),
+            author_email:    ENV.fetch('GIT_AUTHOR_EMAIL', `git log -1 --pretty=format:'%ae'`),
+            committer_name:  ENV.fetch('GIT_COMMITTER_NAME', `git log -1 --pretty=format:'%cN'`),
             committer_email: ENV.fetch('GIT_COMMITTER_EMAIL', `git log -1 --pretty=format:'%ce'`),
-            message: ENV.fetch('GIT_MESSAGE', `git log -1 --pretty=format:'%s'`)
+            message:         ENV.fetch('GIT_MESSAGE', `git log -1 --pretty=format:'%s'`)
           }
 
           # Branch
@@ -200,10 +200,10 @@ module Coveralls
 
       def relevant_env
         hash = {
-          pwd: pwd,
-          rails_root: rails_root,
+          pwd:            pwd,
+          rails_root:     rails_root,
           simplecov_root: simplecov_root,
-          gem_version: VERSION
+          gem_version:    VERSION
         }
 
         hash.merge! begin
@@ -228,8 +228,8 @@ module Coveralls
       def circleci_env_hash
         {
           circleci_build_num: ENV['CIRCLE_BUILD_NUM'],
-          branch: ENV['CIRCLE_BRANCH'],
-          commit_sha: ENV['CIRCLE_SHA1']
+          branch:             ENV['CIRCLE_BRANCH'],
+          commit_sha:         ENV['CIRCLE_SHA1']
         }
       end
 
@@ -237,23 +237,23 @@ module Coveralls
         {
           jenkins_build_num: ENV['BUILD_NUMBER'],
           jenkins_build_url: ENV['BUILD_URL'],
-          branch: ENV['GIT_BRANCH'],
-          commit_sha: ENV['GIT_COMMIT']
+          branch:            ENV['GIT_BRANCH'],
+          commit_sha:        ENV['GIT_COMMIT']
         }
       end
 
       def semaphore_env_hash
         {
-          branch: ENV['BRANCH_NAME'],
+          branch:     ENV['BRANCH_NAME'],
           commit_sha: ENV['REVISION']
         }
       end
 
       def travis_env_hash
         {
-          travis_job_id: ENV['TRAVIS_JOB_ID'],
+          travis_job_id:       ENV['TRAVIS_JOB_ID'],
           travis_pull_request: ENV['TRAVIS_PULL_REQUEST'],
-          branch: ENV['TRAVIS_BRANCH']
+          branch:              ENV['TRAVIS_BRANCH']
         }
       end
     end

@@ -6,6 +6,10 @@ AllCops:
     - 'spec/coveralls/fixtures/**/*'
     - 'vendor/bundle/**/*'
 
+Layout/AlignHash:
+  EnforcedColonStyle: table
+  EnforcedHashRocketStyle: table
+
 Metrics/AbcSize:
   Max: 39.29
 
