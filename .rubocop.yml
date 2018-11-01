@@ -33,6 +33,9 @@ Metrics/ModuleLength:
 RSpec/ExampleLength:
   Max: 8
 
+Style/IfUnlessModifier:
+  Enabled: false
+
 RSpec/MultipleExpectations:
   Enabled: false
 
