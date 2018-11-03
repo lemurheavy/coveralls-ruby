@@ -37,9 +37,6 @@ Metrics/ModuleLength:
 RSpec/ExampleLength:
   Max: 8
 
-Style/IfUnlessModifier:
-  Enabled: false
-
 RSpec/MultipleExpectations:
   Enabled: false
 
@@ -50,4 +47,7 @@ RSpec/NestedGroups:
   Max: 4
 
 Style/Documentation:
+  Enabled: false
+
+Style/IfUnlessModifier:
   Enabled: false
