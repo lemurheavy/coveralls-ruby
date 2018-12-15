@@ -17,7 +17,7 @@ end
 group :development do
   gem 'rake', '~> 12.3'
   gem 'rspec', '~> 3.8'
-  gem 'rubocop', '~> 0.60.0'
+  gem 'rubocop', '~> 0.61.1'
   gem 'rubocop-rspec', '~> 1.30'
   gem 'truthy', '~> 1.0'
   gem 'vcr', '~> 4.0'
@@ -25,5 +25,5 @@ group :development do
 end
 
 group :test do
-  gem 'pry', '~> 0.11.3'
+  gem 'pry', '~> 0.12.2'
 end
