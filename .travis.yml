@@ -20,10 +20,10 @@ rvm:
   - 2.4.5
   - 2.5.3
   - ruby-head
-  - jruby-9.2.0.0
+  - jruby-9.2.5.0
 
 matrix:
   allow_failures:
     - rvm: ruby-head
-    - rvm: jruby-9.2.0.0
+    - rvm: jruby-9.2.5.0
   fast_finish: true
