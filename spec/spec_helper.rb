@@ -22,8 +22,8 @@ def setup_formatter
   SimpleCov.start do
     add_filter do |source_file|
       source_file.filename =~ /spec/ && source_file.filename !~ /fixture/
-      source_file.filename =~ /.bundle/
     end
+    add_filter %r{/.bundle/}
   end
 end
 
