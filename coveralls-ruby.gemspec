@@ -29,5 +29,5 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'thor', '~> 0.20.0'
   gem.add_dependency 'tins', '~> 1.16'
 
-  gem.add_development_dependency 'bundler', '~> 1.16'
+  gem.add_development_dependency 'bundler', '>= 1.16', '< 3'
 end
