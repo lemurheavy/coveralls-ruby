@@ -67,6 +67,17 @@ describe Coveralls::Configuration do
       end
     end
 
+    context 'when flag_name is in environment' do
+      before do
+        allow(ENV).to receive(:[]).with('COVERALLS_FLAG_NAME').and_return(true)
+      end
+
+      it 'sets flag_name to true if present' do
+        config = described_class.configuration
+        expect(config[:flag_name]).to be true
+      end
+    end
+
     context 'with services' do
       SERVICES = {
         appveyor:        'APPVEYOR',
