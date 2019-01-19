@@ -26,7 +26,8 @@ describe Coveralls::Configuration do
       end
 
       before do
-        allow(described_class).to receive(:yaml_config).and_return(yaml_config)
+        allow(File).to receive(:exist?).with(described_class.configuration_path).and_return(true)
+        allow(YAML).to receive(:load_file).with(described_class.configuration_path).and_return(yaml_config)
       end
 
       it 'sets the Yaml config and associated variables if present' do
@@ -64,6 +65,17 @@ describe Coveralls::Configuration do
       it 'sets parallel to true if present' do
         config = described_class.configuration
         expect(config[:parallel]).to be true
+      end
+    end
+
+    context 'when flag_name is in environment' do
+      before do
+        allow(ENV).to receive(:[]).with('COVERALLS_FLAG_NAME').and_return(true)
+      end
+
+      it 'sets flag_name to true if present' do
+        config = described_class.configuration
+        expect(config[:flag_name]).to be true
       end
     end
 
