@@ -17,8 +17,8 @@ end
 group :development do
   gem 'rake', '~> 12.3'
   gem 'rspec', '~> 3.8'
-  gem 'rubocop', '~> 0.63.0'
-  gem 'rubocop-rspec', '~> 1.31'
+  gem 'rubocop', '~> 0.65.0'
+  gem 'rubocop-rspec', '~> 1.32'
   gem 'truthy', '~> 1.0'
   gem 'vcr', '~> 4.0'
   gem 'webmock', '~> 3.5'
