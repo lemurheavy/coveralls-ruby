@@ -78,5 +78,27 @@ describe Coveralls::SimpleCov::Formatter do
         expect(source_file[:coverage]).to eq [nil, 1, 1, 1, nil, 0, 1, 1, nil, nil, nil, nil, nil]
       end
     end
+
+    describe '#short_filename' do
+      subject { described_class.new.short_filename(filename) }
+
+      let(:filename) { '/app/app/controllers/application_controller.rb' }
+
+      before do
+        allow(SimpleCov).to receive(:root).and_return(root_path)
+      end
+
+      context 'with nil root path' do
+        let(:root_path) { nil }
+
+        it { is_expected.to eql filename }
+      end
+
+      context 'with multiple matches of root path' do
+        let(:root_path) { '/app' }
+
+        it { is_expected.to eql 'app/controllers/application_controller.rb' }
+      end
+    end
   end
 end

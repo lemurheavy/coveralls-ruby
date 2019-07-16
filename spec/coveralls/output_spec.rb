@@ -11,6 +11,7 @@ describe Coveralls::Output do
     out = StringIO.new
     allow(described_class).to receive(:output).and_return(out)
     described_class.puts 'this is a test'
+
     expect(out.string).to eq "this is a test\n"
   end
 
@@ -18,6 +19,7 @@ describe Coveralls::Output do
     it 'accepts an IO injection' do
       out = StringIO.new
       described_class.puts 'this is a test', output: out
+
       expect(out.string).to eq "this is a test\n"
     end
   end
@@ -26,6 +28,7 @@ describe Coveralls::Output do
     it 'accepts an IO injection' do
       out = StringIO.new
       described_class.print 'this is a test', output: out
+
       expect(out.string).to eq 'this is a test'
     end
   end
@@ -33,7 +36,7 @@ describe Coveralls::Output do
   describe 'when silenced' do
     before { described_class.silent = true }
 
-    it 'does not puts' do
+    it 'does not put' do
       expect { described_class.puts 'foo' }.not_to output("foo\n").to_stdout
     end
 
@@ -50,7 +53,7 @@ describe Coveralls::Output do
       expect(described_class.format(string, color: 'red')).to eq(ansi_color_string)
     end
 
-    it 'also accepts no color arguments' do
+    it 'accepts no color arguments' do
       unformatted_string = 'Hi Doggie!'
       expect(described_class.format(unformatted_string)).to eq(unformatted_string)
     end
@@ -71,8 +74,7 @@ describe Coveralls::Output do
 
       it 'does not add color to string' do
         unformatted_string = 'Hi Doggie!'
-        expect(described_class.format(unformatted_string, color: 'red'))
-          .to eq(unformatted_string)
+        expect(described_class.format(unformatted_string, color: 'red')).to eq(unformatted_string)
       end
     end
   end

@@ -1,22 +1,23 @@
 require: rubocop-rspec
 
 AllCops:
-  TargetRubyVersion: 2.2
+  TargetRubyVersion: 2.3
   Exclude:
     - 'spec/coveralls/fixtures/**/*'
     - 'vendor/bundle/**/*'
 
-Lint/HandleExceptions:
-  Enabled: false
+Layout/AlignHash:
+  EnforcedColonStyle: table
+  EnforcedHashRocketStyle: table
 
 Metrics/AbcSize:
-  Max: 37
+  Max: 39.29
 
 Metrics/CyclomaticComplexity:
-  Max: 18
+  Max: 19
 
 Metrics/PerceivedComplexity:
-  Max: 19
+  Max: 20
 
 Metrics/BlockLength:
   Exclude:
@@ -33,10 +34,6 @@ Metrics/ModuleLength:
     - 'lib/coveralls/configuration.rb'
     - 'spec/**/*'
 
-Naming/AccessorMethodName:
-  Exclude:
-    - 'lib/coveralls/configuration.rb'
-
 RSpec/ExampleLength:
   Max: 8
 
@@ -52,7 +49,5 @@ RSpec/NestedGroups:
 Style/Documentation:
   Enabled: false
 
-# TODO: Remove when targeting Ruby 2.3 because it is already enabled.
-Style/FrozenStringLiteralComment:
-  Enabled: true
-  EnforcedStyle: always
+Style/IfUnlessModifier:
+  Enabled: false

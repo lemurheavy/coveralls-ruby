@@ -19,11 +19,11 @@ def setup_formatter
                           SimpleCov::Formatter::HTMLFormatter
                         end
 
-  # SimpleCov.start 'test_frameworks'
   SimpleCov.start do
     add_filter do |source_file|
       source_file.filename =~ /spec/ && source_file.filename !~ /fixture/
     end
+    add_filter %r{/.bundle/}
   end
 end
 
@@ -40,6 +40,7 @@ RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
   config.filter_run :focus
   config.include WebMock::API
+
   config.after(:suite) do
     setup_formatter
     WebMock.disable!
@@ -50,11 +51,11 @@ def stub_api_post
   body = '{"message":"","url":""}'
   stub_request(:post, Coveralls::API::API_BASE + '/jobs').with(
     headers: {
-      'Accept' => '*/*; q=0.5, application/xml',
+      'Accept'          => '*/*; q=0.5, application/xml',
       'Accept-Encoding' => 'gzip, deflate',
-      'Content-Length' => /.+/,
-      'Content-Type' => /.+/,
-      'User-Agent' => 'Ruby'
+      'Content-Length'  => /.+/,
+      'Content-Type'    => /.+/,
+      'User-Agent'      => 'Ruby'
     }
   ).to_return(status: 200, body: body, headers: {})
 end
@@ -67,13 +68,12 @@ def silence
   end
 end
 
-module Kernel
-  def silence_stream(stream)
-    old_stream = stream.dup
-    stream.reopen(RUBY_PLATFORM =~ /mswin/ ? 'NUL:' : '/dev/null')
-    stream.sync = true
-    yield
-  ensure
-    stream.reopen(old_stream)
-  end
+def silence_stream(stream)
+  old_stream = stream.dup
+  stream.reopen(IO::NULL)
+  stream.sync = true
+  yield
+ensure
+  stream.reopen(old_stream)
+  old_stream.close
 end

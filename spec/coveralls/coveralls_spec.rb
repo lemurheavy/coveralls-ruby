@@ -75,7 +75,6 @@ describe Coveralls do
         end
       end
 
-      expect(::SimpleCov).to have_received(:start).with 'rails'
       expect(::SimpleCov.formatter).to be Coveralls::NilFormatter
     end
   end
