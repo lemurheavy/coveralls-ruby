@@ -44,6 +44,7 @@ module Coveralls
       begin
         require 'simplecov'
         @adapter = :simplecov if defined?(::SimpleCov)
+      rescue LoadError # rubocop:disable Lint/HandleExceptions
       rescue StandardError => e
         # TODO: Add error action
         puts e.message

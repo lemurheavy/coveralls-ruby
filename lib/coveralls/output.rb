@@ -65,11 +65,14 @@ module Coveralls
     # Returns the formatted string.
     def format(string, options = {})
       unless no_color?
-        require 'term/ansicolor'
-        options[:color]&.split(/\s/)&.reverse_each do |color|
-          next unless Term::ANSIColor.respond_to?(color.to_sym)
+        begin
+          require 'term/ansicolor'
+          options[:color]&.split(/\s/)&.reverse_each do |color|
+            next unless Term::ANSIColor.respond_to?(color.to_sym)
 
-          string = Term::ANSIColor.send(color.to_sym, string)
+            string = Term::ANSIColor.send(color.to_sym, string)
+          end
+        rescue LoadError # rubocop:disable Lint/HandleExceptions
         end
       end
       string
