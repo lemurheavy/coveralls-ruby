@@ -13,6 +13,7 @@ group :development do
   gem 'rake', '~> 12.3'
   gem 'rspec', '~> 3.8'
   gem 'rubocop', '~> 0.73.0'
+  gem 'rubocop-performance', '~> 1.4'
   gem 'rubocop-rspec', '~> 1.33'
   gem 'truthy', '~> 1.0'
   gem 'vcr', '~> 5.0'
