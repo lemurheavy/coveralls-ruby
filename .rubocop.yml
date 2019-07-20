@@ -40,9 +40,6 @@ RSpec/ExampleLength:
 RSpec/MultipleExpectations:
   Enabled: false
 
-RSpec/NamedSubject:
-  Enabled: false
-
 RSpec/NestedGroups:
   Max: 4
 

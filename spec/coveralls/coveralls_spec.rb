@@ -41,7 +41,7 @@ describe Coveralls do
   describe '#wear!' do
     it 'receives block' do
       silence do
-        subject.wear! do
+        described_class.wear! do
           add_filter 's'
         end
       end
@@ -51,7 +51,7 @@ describe Coveralls do
 
     it 'uses string' do
       silence do
-        subject.wear! 'test_frameworks'
+        described_class.wear! 'test_frameworks'
       end
 
       expect(::SimpleCov).to have_received(:start).with 'test_frameworks'
@@ -59,7 +59,7 @@ describe Coveralls do
 
     it 'uses default' do
       silence do
-        subject.wear!
+        described_class.wear!
       end
 
       expect(::SimpleCov).to have_received(:start).with no_args
@@ -70,7 +70,7 @@ describe Coveralls do
   describe '#wear_merged!' do
     it 'sets formatter to NilFormatter' do
       silence do
-        subject.wear_merged! 'rails' do
+        described_class.wear_merged! 'rails' do
           add_filter '/spec/'
         end
       end
@@ -83,7 +83,7 @@ describe Coveralls do
     it 'sends existing test results' do
       result = false
       silence do
-        result = subject.push!
+        result = described_class.push!
       end
       expect(result).to be_truthy
     end
@@ -93,7 +93,7 @@ describe Coveralls do
     it 'sets SimpleCov adapter' do
       SimpleCovTmp = SimpleCov
       Object.send :remove_const, :SimpleCov
-      silence { subject.setup! }
+      silence { described_class.setup! }
       SimpleCov = SimpleCovTmp
     end
   end
