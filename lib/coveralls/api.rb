@@ -97,7 +97,7 @@ module Coveralls
         boundary = rand(1_000_000).to_s
 
         request.body         = build_request_body(hash, boundary)
-        request.content_type = "multipart/form-data, boundary=#{boundary}"
+        request.content_type = "multipart/form-data; boundary=#{boundary}"
 
         request
       end
