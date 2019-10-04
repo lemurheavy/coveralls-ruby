@@ -80,28 +80,30 @@ describe Coveralls::Configuration do
     end
 
     context 'with services' do
-      SERVICES = {
-        appveyor:        'APPVEYOR',
-        circleci:        'CIRCLECI',
-        gitlab:          'GITLAB_CI',
-        jenkins:         'JENKINS_URL',
-        semaphore:       'SEMAPHORE',
-        tddium:          'TDDIUM',
-        travis:          'TRAVIS',
-        coveralls_local: 'COVERALLS_RUN_LOCALLY',
-        generic:         'CI_NAME'
-      }.freeze
+      def services
+        {
+          appveyor:        'APPVEYOR',
+          circleci:        'CIRCLECI',
+          gitlab:          'GITLAB_CI',
+          jenkins:         'JENKINS_URL',
+          semaphore:       'SEMAPHORE',
+          tddium:          'TDDIUM',
+          travis:          'TRAVIS',
+          coveralls_local: 'COVERALLS_RUN_LOCALLY',
+          generic:         'CI_NAME'
+        }
+      end
 
       shared_examples 'a service' do |service_name|
         let(:service_variable) { options[:service_variable] }
 
         before do
-          allow(ENV).to receive(:[]).with(SERVICES[service_name]).and_return('1')
+          allow(ENV).to receive(:[]).with(services[service_name]).and_return('1')
           described_class.configuration
         end
 
         it 'sets service parameters for this service and no other' do
-          SERVICES.each_key.reject { |service| service == service_name }.each do |service|
+          services.each_key.reject { |service| service == service_name }.each do |service|
             expect(described_class).not_to have_received(:"define_service_params_for_#{service}")
           end
 
@@ -111,7 +113,7 @@ describe Coveralls::Configuration do
       end
 
       before do
-        SERVICES.each_key do |service|
+        services.each_key do |service|
           allow(described_class).to receive(:"define_service_params_for_#{service}")
         end
 

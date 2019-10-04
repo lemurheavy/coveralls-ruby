@@ -91,10 +91,12 @@ describe Coveralls do
 
   describe '#setup!' do
     it 'sets SimpleCov adapter' do
+      # rubocop:disable RSpec/LeakyConstantDeclaration
       SimpleCovTmp = SimpleCov
       Object.send :remove_const, :SimpleCov
       silence { described_class.setup! }
       SimpleCov = SimpleCovTmp
+      # rubocop:enable RSpec/LeakyConstantDeclaration
     end
   end
 end
