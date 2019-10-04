@@ -10,16 +10,18 @@ platforms :jruby do
 end
 
 group :development do
-  gem 'rake', '~> 12.3'
+  gem 'rake', '~> 13.0'
   gem 'rspec', '~> 3.8'
-  gem 'rubocop', '~> 0.73.0'
+  gem 'rubocop', '~> 0.75.0'
   gem 'rubocop-performance', '~> 1.4'
-  gem 'rubocop-rspec', '~> 1.33'
+  gem 'rubocop-rspec', '~> 1.36'
   gem 'truthy', '~> 1.0'
   gem 'vcr', '~> 5.0'
-  gem 'webmock', '~> 3.5'
+  gem 'webmock', '~> 3.7'
 end
 
-group :test do
+group :development, :test do
+  gem 'byebug', '~> 11.0'
   gem 'pry', '~> 0.12.2'
+  gem 'pry-byebug', '~> 3.7'
 end
