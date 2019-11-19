@@ -9,6 +9,14 @@ Gem::Specification.new do |gem|
   gem.summary       = "A Ruby implementation of the Coveralls API."
   gem.homepage      = "https://coveralls.io"
   gem.license       = "MIT"
+  gem.metadata = {
+    "bug_tracker_uri"   => "https://github.com/lemurheavy/coveralls-ruby/issues",
+    "changelog_uri"     => "https://github.com/lemurheavy/coveralls-ruby/releases",
+    "documentation_uri" => "https://docs.coveralls.io/ruby-on-rails",
+    "homepage_uri"      => "https://coveralls.io",
+    "mailing_list_uri"  => "https://groups.example.com/bestgemever",
+    "source_code_uri"   => "https://github.com/lemurheavy/coveralls-ruby"
+  }
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
