@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.13.4 / 2019-12-05
+
+* [ENHANCEMENT] Test against latest JRuby version
+* [ENHANCEMENT] Update dependencies
+
 ## 0.13.3 / 2019-10-13
 
 * [FIX] Do not rescue from LoadError with required gems
