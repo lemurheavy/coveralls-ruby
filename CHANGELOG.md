@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.14.0 / 2019-12-15
+
+* [ENHANCEMENT] Allow Thor 1.0
+
 ## 0.13.4 / 2019-12-05
 
 * [ENHANCEMENT] Test against latest JRuby version
