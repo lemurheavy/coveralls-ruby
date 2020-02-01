@@ -6,7 +6,7 @@ source 'https://rubygems.org'
 gemspec
 
 platforms :jruby do
-  gem 'jruby-openssl', '~> 0.10.1'
+  gem 'jruby-openssl', '~> 0.10.2'
 end
 
 group :development do
