@@ -74,7 +74,6 @@ describe Coveralls::SimpleCov::Formatter do
 
       it 'nils the skipped lines' do
         source_file = source_files.first
-        expect(source_file[:coverage]).not_to eq result.files.first.coverage
         expect(source_file[:coverage]).to eq [nil, 1, 1, 1, nil, 0, 1, 1, nil, nil, nil, nil, nil]
       end
     end

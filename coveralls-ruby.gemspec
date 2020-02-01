@@ -21,10 +21,10 @@ Gem::Specification.new do |gem|
   gem.metadata = {
     'source_code_uri' => 'https://github.com/tagliala/coveralls-ruby-reborn'
   }
-  gem.required_ruby_version = '>= 2.3'
+  gem.required_ruby_version = '>= 2.4'
 
   gem.add_dependency 'json', '~> 2.1'
-  gem.add_dependency 'simplecov', '~> 0.17.1'
+  gem.add_dependency 'simplecov', '~> 0.18.1'
   gem.add_dependency 'term-ansicolor', '~> 1.6'
   gem.add_dependency 'thor', '>= 0.20.3', '< 2.0'
   gem.add_dependency 'tins', '~> 1.16'

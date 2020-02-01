@@ -6,7 +6,7 @@ source 'https://rubygems.org'
 gemspec
 
 platforms :jruby do
-  gem 'jruby-openssl', '~> 0.10.1'
+  gem 'jruby-openssl', '~> 0.10.2'
 end
 
 group :development do
@@ -21,7 +21,7 @@ group :development do
 end
 
 group :development, :test do
-  gem 'byebug', '~> 11.0', platforms: %i[mri mingw x64_mingw]
+  gem 'byebug', '~> 11.1', platforms: %i[mri mingw x64_mingw]
   gem 'pry', '~> 0.12.2'
-  gem 'pry-byebug', '~> 3.7', platforms: %i[mri mingw x64_mingw]
+  gem 'pry-byebug', '~> 3.8', platforms: %i[mri mingw x64_mingw]
 end

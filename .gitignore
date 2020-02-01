@@ -18,3 +18,5 @@ tmp
 
 .DS_Store
 /vendor/
+
+.byebug_history

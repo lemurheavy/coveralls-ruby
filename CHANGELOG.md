@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.15.0 / 2020-02-01
+
+* [FEATURE] Add SimpleCov 0.18.1 compatibility
+* [FEATURE] Drop Ruby 2.3 Support
+* [ENHANCEMENT] Update dependencies
+
 ## 0.14.0 / 2019-12-15
 
 * [ENHANCEMENT] Allow Thor 1.0
