@@ -68,7 +68,7 @@ module Coveralls
 
     def self.set_service_params_for_semaphore(config)
       config[:service_name]         = 'semaphore'
-      config[:service_number]       = ENV['SEMAPHORE_WORKFLOW_NUMBER']
+      config[:service_number]       = ENV['SEMAPHORE_JOB_ID']
       config[:service_pull_request] = ENV['SEMAPHORE_GIT_PR_NUMBER']
     end
 
