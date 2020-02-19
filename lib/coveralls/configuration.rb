@@ -223,7 +223,7 @@ module Coveralls
             :commit_sha => ENV['GIT_COMMIT']
           }
         elsif ENV['SEMAPHORE']
-          if ENV.has_key?('SEMAPHORE_GIT_PR_BRANCH')
+          if ENV['SEMAPHORE_GIT_PR_BRANCH']
             {
               :branch => ENV['SEMAPHORE_GIT_PR_BRANCH'],
               :commit_sha => ENV['SEMAPHORE_GIT_PR_SHA']
