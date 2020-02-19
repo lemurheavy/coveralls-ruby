@@ -218,8 +218,8 @@ module Coveralls
           }
         elsif ENV['SEMAPHORE']
           {
-            :branch => ENV['BRANCH_NAME'],
-            :commit_sha => ENV['REVISION']
+            :branch => ENV['SEMAPHORE_GIT_PR_BRANCH'],
+            :commit_sha => ENV['SEMAPHORE_GIT_PR_SHA']
           }
         else
           {}
