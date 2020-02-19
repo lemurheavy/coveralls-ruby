@@ -68,8 +68,14 @@ module Coveralls
 
     def self.set_service_params_for_semaphore(config)
       config[:service_name]         = 'semaphore'
-      config[:service_number]       = ENV['SEMAPHORE_JOB_ID']
-      config[:service_pull_request] = ENV['SEMAPHORE_GIT_PR_NUMBER']
+
+      if ENV["SEMAPHORE_JOB_ID"]
+        config[:service_number]       = ENV['SEMAPHORE_JOB_ID']
+        config[:service_pull_request] = ENV['SEMAPHORE_GIT_PR_NUMBER']
+      else
+        config[:service_number]       = ENV['SEMAPHORE_BUILD_NUMBER']
+        config[:service_pull_request] = ENV['PULL_REQUEST_NUMBER']
+      end
     end
 
     def self.set_service_params_for_jenkins(config)
@@ -217,10 +223,17 @@ module Coveralls
             :commit_sha => ENV['GIT_COMMIT']
           }
         elsif ENV['SEMAPHORE']
-          {
-            :branch => ENV['SEMAPHORE_GIT_PR_BRANCH'],
-            :commit_sha => ENV['SEMAPHORE_GIT_PR_SHA']
-          }
+          if ENV.has_key?('SEMAPHORE_GIT_PR_BRANCH')
+            {
+              :branch => ENV['SEMAPHORE_GIT_PR_BRANCH'],
+              :commit_sha => ENV['SEMAPHORE_GIT_PR_SHA']
+            }
+          else
+            {
+              :branch => ENV['BRANCH_NAME'],
+              :commit_sha => ENV['REVISION']
+            }
+          end
         else
           {}
         end

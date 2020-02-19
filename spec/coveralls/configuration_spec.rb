@@ -245,15 +245,31 @@ describe Coveralls::Configuration do
 
   describe '.set_service_params_for_semaphore' do
     let(:semaphore_build_num) { SecureRandom.hex(4) }
-    before do
-      ENV.stub(:[]).with('SEMAPHORE_BUILD_NUMBER').and_return(semaphore_build_num)
+
+    context "on semaphore 1.0" do
+      before do
+        ENV.stub(:[]).with('SEMAPHORE_BUILD_NUMBER').and_return(semaphore_build_num)
+      end
+
+      it 'should set the expected parameters' do
+        config = {}
+        Coveralls::Configuration.set_service_params_for_semaphore(config)
+        config[:service_name].should eq('semaphore')
+        config[:service_number].should eq(semaphore_build_num)
+      end
     end
 
-    it 'should set the expected parameters' do
-      config = {}
-      Coveralls::Configuration.set_service_params_for_semaphore(config)
-      config[:service_name].should eq('semaphore')
-      config[:service_number].should eq(semaphore_build_num)
+    context "on semaphore 2.0" do
+      before do
+        ENV.stub(:[]).with('SEMAPHORE_JOB_ID').and_return(semaphore_build_num)
+      end
+
+      it 'should set the expected parameters' do
+        config = {}
+        Coveralls::Configuration.set_service_params_for_semaphore(config)
+        config[:service_name].should eq('semaphore')
+        config[:service_number].should eq(semaphore_build_num)
+      end
     end
   end
 
