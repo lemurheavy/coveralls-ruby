@@ -30,7 +30,7 @@ staleLabel: marked-for-closure
 markComment: >
   This issue has been automatically marked for closure because it has not had
   recent activity. It will be closed if no further activity occurs.
-  If your issue is still active please reply and we’ll review as soon as we can.
+  If your issue is still active please add a comment and we’ll review as soon as we can.
   Thank you for your contributions.
 
 # Comment to post when removing the stale label.
