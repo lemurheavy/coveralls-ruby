@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.15.1 / 2020-04-17
+
+* [ENHANCEMENT] Test against latest Ruby versions
+* [ENHANCEMENT] Update dependencies
+
 ## 0.15.0 / 2020-02-01
 
 * [FEATURE] Add SimpleCov 0.18.1 compatibility
