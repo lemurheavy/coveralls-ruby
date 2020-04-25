@@ -1,3 +1,5 @@
+os: linux
+dist: bionic
 language: ruby
 
 cache: bundler
@@ -17,7 +19,7 @@ rvm:
   - ruby-head
   - jruby-9.2.11.1
 
-matrix:
+jobs:
   allow_failures:
     - rvm: ruby-head
     - rvm: jruby-9.2.11.1
