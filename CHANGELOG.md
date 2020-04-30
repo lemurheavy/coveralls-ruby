@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.16.0 / 2020-04-30
+
+* [FEATURE] Remove dependency on json gem [#4](https://github.com/tagliala/coveralls-ruby-reborn/pull/4)
+* [ENHANCEMENT] Update dependencies
+
 ## 0.15.1 / 2020-04-17
 
 * [ENHANCEMENT] Test against latest Ruby versions
