@@ -55,7 +55,7 @@ module Coveralls
 
           allow = WebMock::Config.instance.allow || []
           WebMock::Config.instance.allow = [*allow].push API_HOST
-        rescue LoadError # rubocop:disable Lint/SuppressedException
+        rescue LoadError
         rescue StandardError => e
           # TODO: Add error action
           puts e.message
@@ -67,7 +67,7 @@ module Coveralls
           VCR.send(VCR.version.major < 2 ? :config : :configure) do |c|
             c.ignore_hosts API_HOST
           end
-        rescue LoadError # rubocop:disable Lint/SuppressedException
+        rescue LoadError
         rescue StandardError => e
           # TODO: Add error action
           puts e.message
