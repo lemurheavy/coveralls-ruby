@@ -12,9 +12,9 @@ end
 group :development do
   gem 'rake', '~> 13.0'
   gem 'rspec', '~> 3.9'
-  gem 'rubocop', '~> 0.85.1'
-  gem 'rubocop-performance', '~> 1.6'
-  gem 'rubocop-rspec', '~> 1.40'
+  gem 'rubocop', '~> 0.87.0'
+  gem 'rubocop-performance', '~> 1.7'
+  gem 'rubocop-rspec', '~> 1.41'
   gem 'truthy', '~> 1.0'
   gem 'vcr', '~> 6.0'
   gem 'webmock', '~> 3.8'
