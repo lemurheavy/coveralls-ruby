@@ -17,7 +17,7 @@ Layout/LineLength:
   Enabled: false
 
 Metrics/AbcSize:
-  Max: 39.29
+  Max: 44.11
 
 Metrics/CyclomaticComplexity:
   Max: 19

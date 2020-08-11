@@ -49,7 +49,7 @@ end
 
 def stub_api_post
   body = '{"message":"","url":""}'
-  stub_request(:post, Coveralls::API::API_BASE + '/jobs').with(
+  stub_request(:post, "#{Coveralls::API::API_BASE}/jobs").with(
     headers: {
       'Accept'          => '*/*; q=0.5, application/xml',
       'Accept-Encoding' => 'gzip, deflate',
@@ -60,12 +60,10 @@ def stub_api_post
   ).to_return(status: 200, body: body, headers: {})
 end
 
-def silence
+def silence(&block)
   return yield if ENV['silence'] == 'false'
 
-  silence_stream(STDOUT) do
-    yield
-  end
+  silence_stream($stdout, &block)
 end
 
 def silence_stream(stream)

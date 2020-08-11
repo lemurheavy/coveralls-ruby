@@ -53,8 +53,8 @@ module Coveralls
         begin
           require 'webmock'
 
-          allow = WebMock::Config.instance.allow || []
-          WebMock::Config.instance.allow = [*allow].push API_HOST
+          allow = Array(WebMock::Config.instance.allow)
+          WebMock::Config.instance.allow = allow.push API_HOST
         rescue LoadError
         rescue StandardError => e
           # TODO: Add error action
