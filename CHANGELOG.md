@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.17.0 / 2020-08-26
+
+* [FEATURE] Add SimpleCov 0.19.0 compatibility
+* [ENHANCEMENT] Update dependencies
+
 ## 0.16.0 / 2020-04-30
 
 * [FEATURE] Remove dependency on json gem [#4](https://github.com/tagliala/coveralls-ruby-reborn/pull/4)
