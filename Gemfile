@@ -14,7 +14,7 @@ group :development do
   gem 'rspec', '~> 3.9'
   gem 'rubocop', '~> 0.89.1'
   gem 'rubocop-performance', '~> 1.7'
-  gem 'rubocop-rspec', '~> 1.41'
+  gem 'rubocop-rspec', '~> 1.43'
   gem 'truthy', '~> 1.0'
   gem 'vcr', '~> 6.0'
   gem 'webmock', '~> 3.8'
