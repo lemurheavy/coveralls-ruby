@@ -17,10 +17,10 @@ rvm:
   - 2.6.6
   - 2.7.1
   - ruby-head
-  - jruby-9.2.11.1
+  - jruby-9.2.13.0
 
 jobs:
   allow_failures:
     - rvm: ruby-head
-    - rvm: jruby-9.2.11.1
+    - rvm: jruby-9.2.13.0
   fast_finish: true
