@@ -87,7 +87,7 @@ module Coveralls
           Net::HTTP.ssl_context_accessor('ssl_version')
         end
 
-        client.ssl_version = 'TLSv1'
+        client.ssl_version = 'SSLv23'
 
         client
       end
