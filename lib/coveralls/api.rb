@@ -80,15 +80,7 @@ module Coveralls
 
       def build_client(uri)
         client = Net::HTTP.new(uri.host, uri.port)
-        client.use_ssl = true if uri.port == 443
-        client.verify_mode = OpenSSL::SSL::VERIFY_NONE
-
-        unless client.respond_to?(:ssl_version=)
-          Net::HTTP.ssl_context_accessor('ssl_version')
-        end
-
-        client.ssl_version = 'SSLv23'
-
+        client.use_ssl = uri.port == 443
         client
       end
 
