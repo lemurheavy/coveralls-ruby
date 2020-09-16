@@ -13,10 +13,10 @@ module Coveralls
 
       if File.exist?('.travis.yml')
         cmds = begin
-                 YAML.load_file('.travis.yml')['script'] || cmds
-               rescue StandardError
-                 cmds
-               end
+          YAML.load_file('.travis.yml')['script'] || cmds
+        rescue StandardError
+          cmds
+        end
       end
 
       cmds.each { |cmd| system cmd }
