@@ -95,10 +95,10 @@ module Coveralls
 
       def output_message(result)
         "Coverage is at #{begin
-                            result.covered_percent.round(2)
-                          rescue StandardError
-                            result.covered_percent.round
-                          end}%.\nCoverage report sent to Coveralls."
+          result.covered_percent.round(2)
+        rescue StandardError
+          result.covered_percent.round
+        end}%.\nCoverage report sent to Coveralls."
       end
 
       def short_filename(filename)
