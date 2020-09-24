@@ -12,7 +12,7 @@ end
 group :development do
   gem 'rake', '~> 13.0'
   gem 'rspec', '~> 3.9'
-  gem 'rubocop', '~> 0.91.0'
+  gem 'rubocop', '~> 0.91.1'
   gem 'rubocop-performance', '~> 1.8'
   gem 'rubocop-rspec', '~> 1.43'
   gem 'truthy', '~> 1.0'
