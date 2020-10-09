@@ -199,14 +199,14 @@ module Coveralls
       end
 
       def relevant_env
-        hash = {
+        base_env = {
           pwd:            pwd,
           rails_root:     rails_root,
           simplecov_root: simplecov_root,
           gem_version:    VERSION
         }
 
-        hash.merge! begin
+        service_env =
           if ENV['TRAVIS']
             travis_env_hash
           elsif ENV['CIRCLECI']
@@ -218,9 +218,8 @@ module Coveralls
           else
             {}
           end
-        end
 
-        hash
+        base_env.merge service_env
       end
 
       private
