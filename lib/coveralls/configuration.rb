@@ -219,7 +219,7 @@ module Coveralls
             {}
           end
 
-        base_env.merge service_env
+        base_env.merge! service_env
       end
 
       private
