@@ -180,7 +180,7 @@ module Coveralls
           remotes = nil
           begin
             remotes = `git remote -v`.split(/\n/).map do |remote|
-              splits = remote.split(' ').compact
+              splits = remote.split.compact
               { name: splits[0], url: splits[1] }
             end.uniq
           rescue StandardError => e
