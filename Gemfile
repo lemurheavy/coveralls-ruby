@@ -15,10 +15,10 @@ group :development do
   gem 'rubocop', '~> 1.5'
   gem 'rubocop-performance', '~> 1.9'
   gem 'rubocop-rake', '~> 0.5.1'
-  gem 'rubocop-rspec', '~> 2.0'
+  gem 'rubocop-rspec', '~> 2.1'
   gem 'truthy', '~> 1.0'
   gem 'vcr', '~> 6.0'
-  gem 'webmock', '~> 3.10'
+  gem 'webmock', '~> 3.11'
 end
 
 group :development, :test do
