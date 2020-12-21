@@ -12,13 +12,17 @@ describe Coveralls::SimpleCov::Formatter do
   end
 
   let(:result) do
-    SimpleCov::Result.new(source_fixture('app/controllers/sample.rb') => [nil, 1, 1, 1, nil, 0, 1, 1, nil, nil],
-                          source_fixture('app/models/airplane.rb')    => [0, 0, 0, 0, 0],
-                          source_fixture('app/models/dog.rb')         => [1, 1, 1, 1, 1],
-                          source_fixture('app/models/house.rb')       => [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil],
-                          source_fixture('app/models/robot.rb')       => [1, 1, 1, 1, nil, nil, 1, 0, nil, nil],
-                          source_fixture('app/models/user.rb')        => [nil, 1, 1, 1, 1, 0, 1, 0, nil, nil],
-                          source_fixture('sample.rb')                 => [nil, 1, 1, 1, nil, 0, 1, 1, nil, nil])
+    options = {
+      source_fixture('app/controllers/sample.rb') => [nil, 1, 1, 1, nil, 0, 1, 1, nil, nil],
+      source_fixture('app/models/airplane.rb')    => [0, 0, 0, 0, 0],
+      source_fixture('app/models/dog.rb')         => [1, 1, 1, 1, 1],
+      source_fixture('app/models/house.rb')       => [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil],
+      source_fixture('app/models/robot.rb')       => [1, 1, 1, 1, nil, nil, 1, 0, nil, nil],
+      source_fixture('app/models/user.rb')        => [nil, 1, 1, 1, 1, 0, 1, 0, nil, nil],
+      source_fixture('sample.rb')                 => [nil, 1, 1, 1, nil, 0, 1, 1, nil, nil]
+    }
+
+    SimpleCov::Result.new(options)
   end
 
   describe '#format' do
