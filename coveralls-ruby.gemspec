@@ -25,7 +25,7 @@ Gem::Specification.new do |gem|
 
   gem.required_ruby_version = '>= 2.4'
 
-  gem.add_dependency 'simplecov', '>= 0.18.1', '< 0.21.0'
+  gem.add_dependency 'simplecov', '>= 0.18.1', '< 0.22.0'
   gem.add_dependency 'term-ansicolor', '~> 1.6'
   gem.add_dependency 'thor', '>= 0.20.3', '< 2.0'
   gem.add_dependency 'tins', '~> 1.16'
