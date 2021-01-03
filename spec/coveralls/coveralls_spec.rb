@@ -80,6 +80,14 @@ describe Coveralls do
   end
 
   describe '#push!' do
+    let(:coverage_hash) do
+      { 'file.rb'=>{ 'lines'=>[nil] } }
+    end
+
+    before do
+      allow(SimpleCov::ResultMerger).to receive(:merge_valid_results).and_return([['RSpec'], coverage_hash])
+    end
+
     it 'sends existing test results' do
       result = false
       silence do
