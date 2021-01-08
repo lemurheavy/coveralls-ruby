@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.20.0 / 2021-01-09
+
+* [FEATURE] Add Ruby 3 compatibility
+* [FEATURE] Add SimpleCov 0.21.0 compatibility
+* [ENHANCEMENT] Update dependencies
+
 ## 0.19.0 / 2020-12-02
 
 * [FEATURE] Add SimpleCov 0.20.0 compatibility
