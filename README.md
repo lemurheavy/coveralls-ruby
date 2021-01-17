@@ -1,4 +1,4 @@
-# [Coveralls Reborn](https://coveralls.io) for Ruby [![Coverage Status](https://coveralls.io/repos/github/tagliala/coveralls-ruby-reborn/badge.svg?branch=master)](https://coveralls.io/github/tagliala/coveralls-ruby-reborn?branch=master) [![Build Status](https://secure.travis-ci.org/tagliala/coveralls-ruby-reborn.svg?branch=master)](https://travis-ci.org/tagliala/coveralls-ruby-reborn) [![Gem Version](https://badge.fury.io/rb/coveralls_reborn.svg)](https://badge.fury.io/rb/coveralls_reborn)
+# [Coveralls Reborn](https://coveralls.io) for Ruby [![Coverage Status](https://coveralls.io/repos/github/tagliala/coveralls-ruby-reborn/badge.svg?branch=main)](https://coveralls.io/github/tagliala/coveralls-ruby-reborn?branch=main) [![Build Status](https://secure.travis-ci.org/tagliala/coveralls-ruby-reborn.svg?branch=main)](https://travis-ci.org/tagliala/coveralls-ruby-reborn) [![Gem Version](https://badge.fury.io/rb/coveralls_reborn.svg)](https://badge.fury.io/rb/coveralls_reborn)
 
 ### [Read the docs &rarr;](https://docs.coveralls.io/ruby-on-rails)
 

@@ -20,7 +20,7 @@ Gem::Specification.new do |gem|
   gem.version       = Coveralls::VERSION
 
   gem.metadata['bug_tracker_uri'] = 'https://github.com/tagliala/coveralls-ruby-reborn/issues'
-  gem.metadata['changelog_uri'] = 'https://github.com/tagliala/coveralls-ruby-reborn/blob/master/CHANGELOG.md'
+  gem.metadata['changelog_uri'] = 'https://github.com/tagliala/coveralls-ruby-reborn/blob/main/CHANGELOG.md'
   gem.metadata['source_code_uri'] = 'https://github.com/tagliala/coveralls-ruby-reborn'
 
   gem.required_ruby_version = '>= 2.4'
