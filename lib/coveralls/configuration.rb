@@ -37,6 +37,8 @@ module Coveralls
         set_service_params_for_tddium(config)
       elsif ENV['GITLAB_CI']
         set_service_params_for_gitlab(config)
+      elsif ENV['BUILDKITE']
+        set_service_params_for_buildkite(config)
       elsif ENV['COVERALLS_RUN_LOCALLY'] || Coveralls.testing
         set_service_params_for_coveralls_local(config)
       end
@@ -103,6 +105,40 @@ module Coveralls
       config[:service_job_id]       = ENV['CI_BUILD_ID']
       config[:service_branch]       = ENV['CI_BUILD_REF_NAME']
       config[:commit_sha]           = ENV['CI_BUILD_REF']
+    end
+
+    def self.set_service_params_for_buildkite(config)
+      config[:git]                  = apply_fallback_git_context_for_buildkite(config)
+      config[:service_name]         = 'buildkite'
+      config[:service_number]       = ENV['BUILDKITE_BUILD_NUMBER']
+      config[:service_build_url]    = ENV['BUILDKITE_BUILD_URL']
+      config[:service_branch]       = ENV['BUILDKITE_BRANCH']
+      config[:service_pull_request] = ENV['BUILDKITE_PULL_REQUEST']
+      config[:commit_sha]           = ENV['BUILDKITE_COMMIT']
+    end
+
+    def self.apply_fallback_git_context_for_buildkite(config)
+      git_fallback = {
+        :branch => ENV['BUILDKITE_BRANCH'],
+        :head   => {
+          :id           => ENV['BUILDKITE_COMMIT'],
+          :author_name  => ENV['BUILDKITE_BUILD_AUTHOR'],
+          :author_email => ENV['BUILDKITE_BUILD_AUTHOR_EMAIL'],
+          :message      => ENV['BUILDKITE_MESSAGE']
+        }
+      }
+
+      deep_merge_ignoring_nil_or_empty_values(git_fallback, config[:git])
+    end
+
+    def self.deep_merge_ignoring_nil_or_empty_values(old, new)
+      old.merge(new) do |_key, old_value, new_value|
+        if old_value.is_a?(Hash) && new_value.is_a?(Hash)
+          deep_merge_ignoring_nil_or_empty_values(old_value, new_value)
+        else
+          (new_value.nil? || new_value.empty?) ? old_value : new_value
+        end
+      end
     end
 
     def self.set_service_params_for_coveralls_local(config)
@@ -220,6 +256,11 @@ module Coveralls
           {
             :branch => ENV['BRANCH_NAME'],
             :commit_sha => ENV['REVISION']
+          }
+        elsif ENV['BUILDKITE']
+          {
+            :branch => ENV['BUILDKITE_BRANCH'],
+            :commit_sha => ENV['BUILDKITE_COMMIT']
           }
         else
           {}
