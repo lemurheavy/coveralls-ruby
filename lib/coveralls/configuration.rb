@@ -107,6 +107,7 @@ module Coveralls
 
       def define_service_params_for_gitlab(config)
         config[:service_name]       = 'gitlab-ci'
+        config[:service_number]     = ENV['CI_PIPELINE_ID']
         config[:service_job_number] = ENV['CI_BUILD_NAME']
         config[:service_job_id]     = ENV['CI_BUILD_ID']
         config[:service_branch]     = ENV['CI_BUILD_REF_NAME']
