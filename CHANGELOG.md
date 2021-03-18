@@ -3,6 +3,7 @@
 ## 0.21.0 / 2021-03-18
 
 * [FEATURE] Allow GitLab parallel builds [#20](https://github.com/tagliala/coveralls-ruby-reborn/pull/20)
+* [ENHANCEMENT] Test against JRuby 9.2.16.0
 
 ## 0.20.0 / 2021-01-09
 

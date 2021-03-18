@@ -18,10 +18,10 @@ rvm:
   - 2.7.2
   - 3.0.0
   - ruby-head
-  - jruby-9.2.15.0
+  - jruby-9.2.16.0
 
 jobs:
   allow_failures:
     - rvm: ruby-head
-    - rvm: jruby-9.2.15.0
+    - rvm: jruby-9.2.16.0
   fast_finish: true
