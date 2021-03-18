@@ -1,5 +1,9 @@
 # Changelog
 
+## main / unreleased
+
+* [FEATURE] Allow GitLab parallel builds [#20](https://github.com/tagliala/coveralls-ruby-reborn/pull/20)
+
 ## 0.20.0 / 2021-01-09
 
 * [FEATURE] Add Ruby 3 compatibility

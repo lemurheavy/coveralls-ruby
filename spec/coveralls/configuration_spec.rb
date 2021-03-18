@@ -219,9 +219,11 @@ describe Coveralls::Configuration do
     let(:service_job_number) { 'spec:one' }
     let(:service_job_id) { 1234 }
     let(:service_branch) { 'feature' }
+    let(:service_number) { 5678 }
 
     before do
       allow(ENV).to receive(:[]).with('CI_BUILD_NAME').and_return(service_job_number)
+      allow(ENV).to receive(:[]).with('CI_PIPELINE_ID').and_return(service_number)
       allow(ENV).to receive(:[]).with('CI_BUILD_ID').and_return(service_job_id)
       allow(ENV).to receive(:[]).with('CI_BUILD_REF_NAME').and_return(service_branch)
       allow(ENV).to receive(:[]).with('CI_BUILD_REF').and_return(commit_sha)
@@ -231,6 +233,7 @@ describe Coveralls::Configuration do
       config = {}
       described_class.define_service_params_for_gitlab(config)
       expect(config[:service_name]).to eq('gitlab-ci')
+      expect(config[:service_number]).to eq(service_number)
       expect(config[:service_job_number]).to eq(service_job_number)
       expect(config[:service_job_id]).to eq(service_job_id)
       expect(config[:service_branch]).to eq(service_branch)
