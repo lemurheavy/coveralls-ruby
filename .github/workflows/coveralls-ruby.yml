@@ -7,13 +7,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby-version: [2.3, 2.4, 2.5, head, jruby]
+        ruby-version: [2.3, 2.4, 2.5]
     steps:
       - uses: actions/checkout@master
       - uses: ruby/setup-ruby@master
         with:
           ruby-version: ${{ matrix.ruby-version }}
-          bundler-cache: true
       - run: bundle exec rake
       - name: Coveralls
         uses: coverallsapp/github-action@v1.1.0
