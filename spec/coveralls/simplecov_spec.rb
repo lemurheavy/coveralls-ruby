@@ -28,6 +28,7 @@ describe Coveralls::SimpleCov::Formatter do
       before do
         Coveralls.testing = true
         Coveralls.noisy = false
+        puts "RUBY_VERSION: #{RUBY_VERSION}"
       end
 
       it "posts json", :if => RUBY_VERSION >= "1.9" do
