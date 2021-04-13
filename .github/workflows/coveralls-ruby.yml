@@ -22,7 +22,7 @@ jobs:
         with:
           github-token: ${{ secrets.github_token }}
           parallel: true
-          flag-name: run-${{ matrix.test_number }}
+          flag-name: run-${{ matrix.ruby-version }}
 
   finish-coverage:
     needs: build-and-test-with-coverage
