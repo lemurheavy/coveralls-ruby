@@ -1,0 +1,35 @@
+on: ["push","pull_request"]
+
+name: coveralls-ruby
+
+jobs:
+  build-and-test-with-coverage:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby-version: [2.3, 2.4, 2.5, 2.6, 2.7, 3.0, head, jruby]
+    steps:
+      - uses: actions/checkout@master
+      - uses: ruby/setup-ruby@master
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true
+      - run: bundle exec rake
+      - name: Coveralls
+        uses: coverallsapp/github-action@v1.1.0
+        env:
+          NODE_COVERALLS_DEBUG: 1
+        with:
+          github-token: ${{ secrets.github_token }}
+          parallel: true
+          flag-name: run-${{ matrix.test_number }}
+
+  finish-coverage:
+    needs: build-and-test-with-coverage
+    runs-on: ubuntu-latest
+    steps:
+      - name: Coveralls Finished
+        uses: coverallsapp/github-action@v1.1.0
+        with:
+          github-token: ${{ secrets.github_token }}
+          parallel-finished: true
