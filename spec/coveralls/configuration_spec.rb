@@ -207,8 +207,11 @@ describe Coveralls::Configuration do
 
   describe '.set_service_params_for_circleci' do
     let(:circle_build_num) { SecureRandom.hex(4) }
+    let(:circle_workflow_id) { nil }
+
     before do
       ENV.stub(:[]).with('CIRCLE_BUILD_NUM').and_return(circle_build_num)
+      ENV.stub(:[]).with('CIRCLE_WORKFLOW_ID').and_return(circle_workflow_id)
     end
 
     it 'should set the expected parameters' do
@@ -217,6 +220,17 @@ describe Coveralls::Configuration do
       config[:service_name].should eq('circleci')
       config[:service_number].should eq(circle_build_num)
     end
+
+    context 'when workflow_id is available' do
+      let(:circle_workflow_id) { SecureRandom.hex(4) }
+
+      it 'should use workflow ID' do
+        config = {}
+        Coveralls::Configuration.set_service_params_for_circleci(config)
+        config[:service_name].should eq('circleci')
+        config[:service_number].should eq(circle_workflow_id)
+      end
+    end
   end
 
   describe '.set_service_params_for_gitlab' do
@@ -224,9 +238,11 @@ describe Coveralls::Configuration do
     let(:service_job_number) { "spec:one" }
     let(:service_job_id) { 1234 }
     let(:service_branch) { "feature" }
+    let(:service_number) { 5678 }
 
     before do
       ENV.stub(:[]).with('CI_BUILD_NAME').and_return(service_job_number)
+      ENV.stub(:[]).with('CI_PIPELINE_ID').and_return(service_number)
       ENV.stub(:[]).with('CI_BUILD_ID').and_return(service_job_id)
       ENV.stub(:[]).with('CI_BUILD_REF_NAME').and_return(service_branch)
       ENV.stub(:[]).with('CI_BUILD_REF').and_return(commit_sha)
@@ -236,6 +252,7 @@ describe Coveralls::Configuration do
       config = {}
       Coveralls::Configuration.set_service_params_for_gitlab(config)
       config[:service_name].should eq('gitlab-ci')
+      config[:service_number].should eq(service_number)
       config[:service_job_number].should eq(service_job_number)
       config[:service_job_id].should eq(service_job_id)
       config[:service_branch].should eq(service_branch)
