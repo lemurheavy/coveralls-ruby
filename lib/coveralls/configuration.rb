@@ -102,6 +102,7 @@ module Coveralls
       config[:service_job_number]   = ENV['CI_BUILD_NAME']
       config[:service_job_id]       = ENV['CI_BUILD_ID']
       config[:service_branch]       = ENV['CI_BUILD_REF_NAME']
+      config[:service_pull_request] = ENV['CI_MERGE_REQUEST_IID']
       config[:commit_sha]           = ENV['CI_BUILD_REF']
     end
 

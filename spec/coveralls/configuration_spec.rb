@@ -224,11 +224,13 @@ describe Coveralls::Configuration do
     let(:service_job_number) { "spec:one" }
     let(:service_job_id) { 1234 }
     let(:service_branch) { "feature" }
+    let(:service_pull_request) { "1" }
 
     before do
       ENV.stub(:[]).with('CI_BUILD_NAME').and_return(service_job_number)
       ENV.stub(:[]).with('CI_BUILD_ID').and_return(service_job_id)
       ENV.stub(:[]).with('CI_BUILD_REF_NAME').and_return(service_branch)
+      ENV.stub(:[]).with('CI_MERGE_REQUEST_IID').and_return(service_pull_request)
       ENV.stub(:[]).with('CI_BUILD_REF').and_return(commit_sha)
     end
 
@@ -239,6 +241,7 @@ describe Coveralls::Configuration do
       config[:service_job_number].should eq(service_job_number)
       config[:service_job_id].should eq(service_job_id)
       config[:service_branch].should eq(service_branch)
+      config[:service_pull_request].should eq(service_pull_request)
       config[:commit_sha].should eq(commit_sha)
     end
   end
