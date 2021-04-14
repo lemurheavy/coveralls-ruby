@@ -6,14 +6,12 @@ require 'pry' if RUBY_VERSION > "1.8.7"
 
 class InceptionFormatter
   def format(result)
-    # Coveralls::SimpleCov::Formatter.new.format(result)
-    SimpleCov::Formatter::LcovFormatter.config.report_with_single_file = true
-    SimpleCov::Formatter::LcovFormatter.new.format(result)
+    Coveralls::SimpleCov::Formatter.new.format(result)
   end
 end
 
 def setup_formatter
-  SimpleCov.formatter = if ENV['TRAVIS'] || ENV['COVERALLS_REPO_TOKEN']
+  SimpleCov.formatter = if ENV['GITHUB_WORKFLOW'] || ENV['COVERALLS_REPO_TOKEN']
     InceptionFormatter
   else
     SimpleCov::Formatter::HTMLFormatter

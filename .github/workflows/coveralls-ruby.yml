@@ -3,6 +3,10 @@ on: ["push","pull_request"]
 jobs:
   build-and-test-with-coverage:
     runs-on: ubuntu-latest
+    env:
+      COVERALLS_PARALLEL: true
+      COVERALLS_FLAG_NAME: run-${{ matrix.ruby }}
+      COVERALLS_REPO_TOKEN: ndtJXNcp7hKpvcXmdJfCKKgy01qsvrhNk
     strategy:
       matrix:
         ruby: [2.3]
@@ -13,21 +17,13 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
       - run: bundle exec rake
-      - name: Coveralls
-        uses: coverallsapp/github-action@v1.1.0
-        env:
-          NODE_COVERALLS_DEBUG: 1
-        with:
-          github-token: ${{ secrets.github_token }}
-          parallel: true
-          flag-name: run-${{ matrix.ruby }}
 
   finish-coverage:
     needs: build-and-test-with-coverage
     runs-on: ubuntu-latest
+    env:
+      COVERALLS_PARALLEL: true
+      COVERALLS_REPO_TOKEN: ndtJXNcp7hKpvcXmdJfCKKgy01qsvrhNk
     steps:
       - name: Coveralls Finished
-        uses: coverallsapp/github-action@v1.1.0
-        with:
-          github-token: ${{ secrets.github_token }}
-          parallel-finished: true
+        run: curl -k https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN -d "payload[build_num]=$GITHUB_RUN_ID&payload[status]=done"
