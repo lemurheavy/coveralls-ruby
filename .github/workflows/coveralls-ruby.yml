@@ -8,6 +8,7 @@ jobs:
       COVERALLS_PARALLEL: true
       COVERALLS_FLAG_NAME: run-${{ matrix.ruby }}
       COVERALLS_REPO_TOKEN: ndtJXNcp7hKpvcXmdJfCKKgy01qsvrhNk
+      COVERALLS_NOISY: true
     strategy:
       matrix:
         ruby: [2.3]
@@ -26,6 +27,7 @@ jobs:
       ACTIONS_STEP_DEBUG: true
       COVERALLS_PARALLEL: true
       COVERALLS_REPO_TOKEN: ndtJXNcp7hKpvcXmdJfCKKgy01qsvrhNk
+      COVERALLS_NOISY: true
     steps:
       - name: Coveralls Finished
         run: curl -k https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN -d "payload[build_num]=$GITHUB_RUN_ID&payload[status]=done"
