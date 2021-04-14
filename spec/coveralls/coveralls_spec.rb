@@ -83,6 +83,7 @@ describe Coveralls do
 
   describe "#push!" do
     puts "RUBY_VERSION: #{RUBY_VERSION}"
+    puts "ENV['silence']: #{ENV['silence']}"
     it "sends existing test results", :if => RUBY_VERSION >= "1.9" do
       result = false
       silence do
