@@ -4,6 +4,7 @@ jobs:
   build-and-test-with-coverage:
     runs-on: ubuntu-latest
     env:
+      ACTIONS_STEP_DEBUG: true
       COVERALLS_PARALLEL: true
       COVERALLS_FLAG_NAME: run-${{ matrix.ruby }}
       COVERALLS_REPO_TOKEN: ndtJXNcp7hKpvcXmdJfCKKgy01qsvrhNk
@@ -22,6 +23,7 @@ jobs:
     needs: build-and-test-with-coverage
     runs-on: ubuntu-latest
     env:
+      ACTIONS_STEP_DEBUG: true
       COVERALLS_PARALLEL: true
       COVERALLS_REPO_TOKEN: ndtJXNcp7hKpvcXmdJfCKKgy01qsvrhNk
     steps:
