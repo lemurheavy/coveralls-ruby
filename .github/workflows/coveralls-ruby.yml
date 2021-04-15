@@ -5,6 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ACTIONS_STEP_DEBUG: true
+      GITHUB_PR_NUMBER: ${{ github.event.pull_request.number }}
       COVERALLS_PARALLEL: true
       COVERALLS_FLAG_NAME: run-${{ matrix.ruby }}
       COVERALLS_REPO_TOKEN: ndtJXNcp7hKpvcXmdJfCKKgy01qsvrhNk
