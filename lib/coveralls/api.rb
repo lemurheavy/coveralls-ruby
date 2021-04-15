@@ -40,9 +40,9 @@ module Coveralls
 
       case response
       when Net::HTTPServiceUnavailable
-        Coveralls::Output.puts("[Coveralls] API timeout occured, but data should still be processed", :color => "red")
+        Coveralls::Output.puts("[Coveralls] API timeout occurred, but data should still be processed", :color => "red")
       when Net::HTTPInternalServerError
-        Coveralls::Output.puts("[Coveralls] API internal error occured, we're on it!", :color => "red")
+        Coveralls::Output.puts("[Coveralls] API internal error occurred, we're on it!", :color => "red")
       end
     end
 
