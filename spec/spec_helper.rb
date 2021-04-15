@@ -47,6 +47,7 @@ RSpec.configure do |config|
   config.after(:suite) do
     WebMock.disable!
   end
+  config.formatter = :documentation
 end
 
 def stub_api_post
