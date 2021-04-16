@@ -5,10 +5,14 @@ on: ["push","pull_request"]
 jobs:
   build-and-test-with-coverage:
     runs-on: ubuntu-latest
-    continue-on-error: run-head
+    continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
-        ruby: [2.3, 2.4, 2.5, head, jruby]
+        ruby: [2.3, 2.4, 2.5, jruby]
+        experimental: [false]
+        include:
+          - ruby: head
+            experimental: true
     steps:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1
