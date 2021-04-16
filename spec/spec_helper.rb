@@ -1,4 +1,5 @@
 require 'simplecov'
+require 'simplecov-lcov'
 require 'webmock'
 require 'vcr'
 
@@ -6,14 +7,18 @@ require 'pry' if RUBY_VERSION > "1.8.7"
 
 class InceptionFormatter
   def format(result)
+    puts "Using InceptionFormatter..."
     # Coveralls::SimpleCov::Formatter.new.format(result)
-    SimpleCov::Formatter::LcovFormatter.config.report_with_single_file = true
+    SimpleCov::Formatter::LcovFormatter.config do |config|
+      config.report_with_single_file = true
+      config.single_report_path = "coverage/lcov.info"
+    end
     SimpleCov::Formatter::LcovFormatter.new.format(result)
   end
 end
 
 def setup_formatter
-  SimpleCov.formatter = if ENV['TRAVIS'] || ENV['COVERALLS_REPO_TOKEN']
+  SimpleCov.formatter = if ENV['GITHUB_WORKFLOW'] || ENV['COVERALLS_REPO_TOKEN']
     InceptionFormatter
   else
     SimpleCov::Formatter::HTMLFormatter
@@ -49,6 +54,7 @@ RSpec.configure do |config|
   config.after(:suite) do
     WebMock.disable!
   end
+  config.formatter = :documentation
 end
 
 def stub_api_post
