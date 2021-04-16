@@ -8,10 +8,12 @@ jobs:
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
-        ruby: [2.3, 2.4, 2.5, jruby]
+        ruby: [2.3, 2.4, 2.5]
         experimental: [false]
         include:
           - ruby: head
+            experimental: true
+          - ruby: jruby
             experimental: true
     steps:
       - uses: actions/checkout@v2
