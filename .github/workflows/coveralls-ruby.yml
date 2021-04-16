@@ -1,11 +1,13 @@
 name: coveralls-ruby
+
 on: ["push","pull_request"]
+
 jobs:
   build-and-test-with-coverage:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby: [2.3]
+        ruby: [2.3, 2.4, 2.5, head, jruby]
     steps:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1
