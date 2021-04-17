@@ -8,7 +8,7 @@ describe Coveralls do
   end
 
   describe "#will_run?" do
-    it "checks CI environemnt variables" do
+    it "checks CI environment variables" do
       Coveralls.will_run?.should be_truthy
     end
 
@@ -82,8 +82,6 @@ describe Coveralls do
   end
 
   describe "#push!" do
-    puts "RUBY_VERSION: #{RUBY_VERSION}"
-    puts "ENV['silence']: #{ENV['silence']}"
     it "sends existing test results", :if => RUBY_VERSION >= "1.9" do
       result = false
       silence do
