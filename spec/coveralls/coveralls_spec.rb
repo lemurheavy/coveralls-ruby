@@ -84,9 +84,10 @@ describe Coveralls do
   describe "#push!" do
     it "sends existing test results", :if => RUBY_VERSION >= "1.9" do
       result = false
-      silence do
-        result = subject.push!
-      end
+      # silence do
+      #   result = subject.push!
+      # end
+      result = subject.push!
       result.should be_truthy
     end
   end
