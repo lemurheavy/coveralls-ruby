@@ -8,7 +8,7 @@ jobs:
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
-        ruby: [2.3, 2.4, 2.5]
+        ruby: [2.4, 2.5]
         experimental: [false]
         include:
           - ruby: head
