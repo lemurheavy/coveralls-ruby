@@ -24,4 +24,11 @@ jobs:
   allow_failures:
     - rvm: ruby-head
     - rvm: jruby-9.2.17.0
+  include:
+    - rvm: 2.4.10
+      gemfile: Gemfile
+      script: bundle exec rake rubocop
+      name: RuboCop
   fast_finish: true
+
+script: bundle exec rake spec
