@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.22.0 / 2021-04-26
+## 0.22.0 / 2021-04-30
 
 * [FEATURE] Drop Ruby 2.4 support
 * [ENHANCEMENT] Test against latest Ruby versions
