@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.22.0 / 2021-04-26
+
+* [FEATURE] Drop Ruby 2.4 support
+* [ENHANCEMENT] Test against latest Ruby versions
+
 ## 0.21.0 / 2021-03-18
 
 * [FEATURE] Allow GitLab parallel builds [#20](https://github.com/tagliala/coveralls-ruby-reborn/pull/20)
