@@ -31,4 +31,5 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'tins', '~> 1.16'
 
   gem.add_development_dependency 'bundler', '>= 1.16', '< 3'
+  gem.add_development_dependency 'simplecov-lcov', '~> 0.8.0'
 end

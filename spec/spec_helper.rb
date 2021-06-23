@@ -13,11 +13,25 @@ class InceptionFormatter
 end
 
 def setup_formatter
-  SimpleCov.formatter = if ENV['TRAVIS'] || ENV['COVERALLS_REPO_TOKEN']
-                          InceptionFormatter
-                        else
-                          SimpleCov::Formatter::HTMLFormatter
-                        end
+  if ENV['GITHUB_ACTIONS']
+    require 'simplecov-lcov'
+
+    SimpleCov::Formatter::LcovFormatter.config do |c|
+      c.report_with_single_file = true
+      c.single_report_path = 'coverage/lcov.info'
+    end
+  end
+
+  SimpleCov.formatter =
+    if ENV['CI'] || ENV['COVERALLS_REPO_TOKEN']
+      if ENV['GITHUB_ACTIONS']
+        SimpleCov::Formatter::MultiFormatter.new([InceptionFormatter, SimpleCov::Formatter::LcovFormatter])
+      else
+        InceptionFormatter
+      end
+    else
+      SimpleCov::Formatter::HTMLFormatter
+    end
 
   SimpleCov.start do
     add_filter do |source_file|

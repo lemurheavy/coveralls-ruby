@@ -2,7 +2,6 @@
 
 require 'bundler/gem_tasks'
 
-# Travis!
 require 'rubygems'
 require 'rake'
 require 'rspec/core/rake_task'
