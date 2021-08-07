@@ -1,8 +1,7 @@
+require 'pry'
 require 'simplecov'
 require 'webmock'
 require 'vcr'
-
-require 'pry' if RUBY_VERSION > "1.8.7"
 
 class InceptionFormatter
   def format(result)
