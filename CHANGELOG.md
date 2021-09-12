@@ -1,5 +1,9 @@
 # Changelog
 
+## main / unreleased
+
+* [FEATURE] Send branches coverage [#27](https://github.com/tagliala/coveralls-ruby-reborn/pull/27/files)
+
 ## 0.22.0 / 2021-04-30
 
 * [FEATURE] Drop Ruby 2.4 support

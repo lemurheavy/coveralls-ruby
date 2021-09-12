@@ -7,4 +7,10 @@ class Foo
   def bar
     @foo
   end
+
+  def foo
+    if @foo
+      'bar'
+    end
+  end
 end

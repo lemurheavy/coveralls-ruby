@@ -45,6 +45,7 @@ module Coveralls
 
           # Get the coverage
           properties[:coverage] = file.coverage_data['lines']
+          properties[:branches] = branches(file.coverage_data['branches']) if file.coverage_data['branches']
 
           # Skip nocov lines
           file.lines.each_with_index do |line, i|
@@ -55,6 +56,19 @@ module Coveralls
         end
 
         source_files
+      end
+
+      def branches(simplecov_branches)
+        branches_properties = []
+        simplecov_branches.each do |branch_data, data|
+          branch_number = 0
+          line_number = branch_data.split(', ')[2].to_i
+          data.each_value do |hits|
+            branch_number += 1
+            branches_properties.concat([line_number, 0, branch_number, hits])
+          end
+        end
+        branches_properties
       end
 
       def format(result)
