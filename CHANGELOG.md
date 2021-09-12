@@ -1,6 +1,6 @@
 # Changelog
 
-## main / unreleased
+## 0.23.0 / 2021-09-12
 
 * [FEATURE] Send branches coverage [#27](https://github.com/tagliala/coveralls-ruby-reborn/pull/27/files)
 
