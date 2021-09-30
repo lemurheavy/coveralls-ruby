@@ -91,6 +91,7 @@ describe Coveralls::Configuration do
           Coveralls::Configuration.should_not_receive(:set_service_params_for_circleci)
           Coveralls::Configuration.should_not_receive(:set_service_params_for_semaphore)
           Coveralls::Configuration.should_not_receive(:set_service_params_for_jenkins)
+          Coveralls::Configuration.should_not_receive(:set_service_params_for_jenkinsx)
           Coveralls::Configuration.should_not_receive(:set_service_params_for_coveralls_local)
           Coveralls::Configuration.should_receive(:set_standard_service_params_for_generic_ci)
           Coveralls::Configuration.configuration
@@ -107,6 +108,7 @@ describe Coveralls::Configuration do
           Coveralls::Configuration.should_receive(:set_service_params_for_circleci)
           Coveralls::Configuration.should_not_receive(:set_service_params_for_semaphore)
           Coveralls::Configuration.should_not_receive(:set_service_params_for_jenkins)
+          Coveralls::Configuration.should_not_receive(:set_service_params_for_jenkinsx)
           Coveralls::Configuration.should_not_receive(:set_service_params_for_coveralls_local)
           Coveralls::Configuration.should_receive(:set_standard_service_params_for_generic_ci)
           Coveralls::Configuration.configuration
@@ -123,6 +125,7 @@ describe Coveralls::Configuration do
           Coveralls::Configuration.should_not_receive(:set_service_params_for_circleci)
           Coveralls::Configuration.should_receive(:set_service_params_for_semaphore)
           Coveralls::Configuration.should_not_receive(:set_service_params_for_jenkins)
+          Coveralls::Configuration.should_not_receive(:set_service_params_for_jenkinsx)
           Coveralls::Configuration.should_not_receive(:set_service_params_for_coveralls_local)
           Coveralls::Configuration.should_receive(:set_standard_service_params_for_generic_ci)
           Coveralls::Configuration.configuration
@@ -139,6 +142,24 @@ describe Coveralls::Configuration do
           Coveralls::Configuration.should_not_receive(:set_service_params_for_circleci)
           Coveralls::Configuration.should_not_receive(:set_service_params_for_semaphore)
           Coveralls::Configuration.should_receive(:set_service_params_for_jenkins)
+          Coveralls::Configuration.should_not_receive(:set_service_params_for_jenkinsx)
+          Coveralls::Configuration.should_not_receive(:set_service_params_for_coveralls_local)
+          Coveralls::Configuration.should_receive(:set_standard_service_params_for_generic_ci)
+          Coveralls::Configuration.configuration
+        end
+      end
+
+      context 'when using JenkinsX' do
+        before do
+          ENV.stub(:[]).with('JENKINS_X_URL').and_return('1')
+        end
+
+        it 'should set service parameters for this service and no other' do
+          Coveralls::Configuration.should_not_receive(:set_service_params_for_travis)
+          Coveralls::Configuration.should_not_receive(:set_service_params_for_circleci)
+          Coveralls::Configuration.should_not_receive(:set_service_params_for_semaphore)
+          Coveralls::Configuration.should_not_receive(:set_service_params_for_jenkins)
+          Coveralls::Configuration.should_receive(:set_service_params_for_jenkinsx)
           Coveralls::Configuration.should_not_receive(:set_service_params_for_coveralls_local)
           Coveralls::Configuration.should_receive(:set_standard_service_params_for_generic_ci)
           Coveralls::Configuration.configuration
@@ -155,6 +176,7 @@ describe Coveralls::Configuration do
           Coveralls::Configuration.should_not_receive(:set_service_params_for_circleci)
           Coveralls::Configuration.should_not_receive(:set_service_params_for_semaphore)
           Coveralls::Configuration.should_not_receive(:set_service_params_for_jenkins)
+          Coveralls::Configuration.should_not_receive(:set_service_params_for_jenkinsx)
           Coveralls::Configuration.should_receive(:set_service_params_for_coveralls_local)
           Coveralls::Configuration.should_receive(:set_standard_service_params_for_generic_ci)
           Coveralls::Configuration.configuration
@@ -171,6 +193,7 @@ describe Coveralls::Configuration do
           Coveralls::Configuration.should_not_receive(:set_service_params_for_circleci)
           Coveralls::Configuration.should_not_receive(:set_service_params_for_semaphore)
           Coveralls::Configuration.should_not_receive(:set_service_params_for_jenkins)
+          Coveralls::Configuration.should_not_receive(:set_service_params_for_jenkinsx)
           Coveralls::Configuration.should_not_receive(:set_service_params_for_coveralls_local)
           Coveralls::Configuration.should_receive(:set_standard_service_params_for_generic_ci).with(anything)
           Coveralls::Configuration.configuration
@@ -292,6 +315,24 @@ describe Coveralls::Configuration do
       config[:service_name].should eq('jenkins')
       config[:service_number].should eq(build_num)
       config[:service_pull_request].should eq(service_pull_request)
+    end
+  end
+
+  describe '.set_service_params_for_jenkinsx' do
+    let(:service_pull_request) { 'PR-1234' }
+    let(:service_branch) { 'test-jx-branch' }
+    before do
+      ENV.stub(:[]).with('PR_HEAD_REF').and_return(service_pull_request)
+      ENV.stub(:[]).with('BRANCH_NAME').and_return(build_num)
+    end
+
+    it 'should set the expected parameters' do
+      config = {}
+      Coveralls::Configuration.set_service_params_for_jenkinsx(config)
+      Coveralls::Configuration.set_standard_service_params_for_generic_ci(config)
+      config[:service_name].should eq('jenkinsX')
+      config[:service_pull_request].should eq(service_pull_request)
+      config[:service_branch].should eq(service_branch)
     end
   end
 

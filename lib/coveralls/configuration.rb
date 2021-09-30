@@ -37,6 +37,8 @@ module Coveralls
         set_service_params_for_tddium(config)
       elsif ENV['GITLAB_CI']
         set_service_params_for_gitlab(config)
+      elsif ENV['JENKINS_X_URL']
+        set_service_params_for_jenkinsx(config)
       elsif ENV['COVERALLS_RUN_LOCALLY'] || Coveralls.testing
         set_service_params_for_coveralls_local(config)
       end
@@ -105,6 +107,13 @@ module Coveralls
       config[:service_branch]       = ENV['CI_BUILD_REF_NAME']
       config[:service_pull_request] = ENV['CI_MERGE_REQUEST_IID']
       config[:commit_sha]           = ENV['CI_BUILD_REF']
+    end
+
+    def self.set_service_params_for_jenkinsx(config)
+      config[:service_name]         = 'jenkinsX'
+      config[:service_branch]       = ENV['PR_HEAD_REF']
+      config[:service_pull_request] = ENV['BRANCH_NAME']
+      config[:commit_sha]           = ENV['PULL_PULL_SHA']
     end
 
     def self.set_service_params_for_coveralls_local(config)
@@ -222,6 +231,11 @@ module Coveralls
           {
             :branch => ENV['BRANCH_NAME'],
             :commit_sha => ENV['REVISION']
+          }
+        elsif ENV['JENKINS_X_URL']
+          {
+            :branch => ENV['PR_HEAD_REF'],
+            :commit_sha => ENV['PULL_PULL_SHA']
           }
         else
           {}
