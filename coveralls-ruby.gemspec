@@ -19,6 +19,8 @@ Gem::Specification.new do |gem|
   gem.require_paths = ['lib']
   gem.version       = Coveralls::VERSION
 
+  gem.metadata['rubygems_mfa_required'] = 'true'
+
   gem.metadata['bug_tracker_uri'] = 'https://github.com/tagliala/coveralls-ruby-reborn/issues'
   gem.metadata['changelog_uri'] = 'https://github.com/tagliala/coveralls-ruby-reborn/blob/main/CHANGELOG.md'
   gem.metadata['source_code_uri'] = 'https://github.com/tagliala/coveralls-ruby-reborn'
