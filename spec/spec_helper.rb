@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'coveralls'
 require 'simplecov'
 require 'webmock'
 require 'vcr'
@@ -32,18 +33,16 @@ def setup_formatter
     else
       SimpleCov::Formatter::HTMLFormatter
     end
-
-  SimpleCov.start do
-    add_filter do |source_file|
-      source_file.filename.include?('spec') && !source_file.filename.include?('fixture')
-    end
-    add_filter %r{/.bundle/}
-  end
 end
 
 setup_formatter
 
-require 'coveralls'
+SimpleCov.start do
+  add_filter do |source_file|
+    source_file.filename.include?('spec') && !source_file.filename.include?('fixture')
+  end
+  add_filter %r{/.bundle/}
+end
 
 VCR.configure do |c|
   c.cassette_library_dir = 'fixtures/vcr_cassettes'
