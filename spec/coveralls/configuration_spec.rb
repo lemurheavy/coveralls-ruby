@@ -200,17 +200,31 @@ describe Coveralls::Configuration do
   end
 
   describe '.define_service_params_for_circleci' do
+    let(:circle_workflow_id) { 1234 }
+    let(:ci_pull_request) { 'repo/pull/12' }
     let(:circle_build_num) { SecureRandom.hex(4) }
+    let(:circle_sha1) { SecureRandom.hex(32) }
+    let(:circle_branch) { SecureRandom.hex(4) }
 
     before do
+      allow(ENV).to receive(:[]).with('CIRCLE_WORKFLOW_ID').and_return(circle_workflow_id)
+      allow(ENV).to receive(:[]).with('CI_PULL_REQUEST').and_return(ci_pull_request)
       allow(ENV).to receive(:[]).with('CIRCLE_BUILD_NUM').and_return(circle_build_num)
+      allow(ENV).to receive(:[]).with('CIRCLE_SHA1').and_return(circle_sha1)
+      allow(ENV).to receive(:[]).with('CIRCLE_BRANCH').and_return(circle_branch)
     end
 
     it 'sets the expected parameters' do
       config = {}
       described_class.define_service_params_for_circleci(config)
-      expect(config[:service_name]).to eq('circleci')
-      expect(config[:service_number]).to eq(circle_build_num)
+      expect(config).to include(
+        service_name:         'circleci',
+        service_number:       circle_workflow_id,
+        service_pull_request: '12',
+        service_job_number:   circle_build_num,
+        git_commit:           circle_sha1,
+        git_branch:           circle_branch
+      )
     end
   end
 
