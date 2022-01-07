@@ -4,8 +4,6 @@ require 'simplecov'
 require 'webmock'
 require 'vcr'
 
-require 'pry'
-
 class InceptionFormatter
   def format(result)
     Coveralls::SimpleCov::Formatter.new.format(result)
