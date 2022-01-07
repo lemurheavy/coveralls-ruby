@@ -4,8 +4,6 @@ require 'simplecov'
 require 'webmock'
 require 'vcr'
 
-require 'pry'
-
 class InceptionFormatter
   def format(result)
     Coveralls::SimpleCov::Formatter.new.format(result)
@@ -32,17 +30,18 @@ def setup_formatter
     else
       SimpleCov::Formatter::HTMLFormatter
     end
-
-  SimpleCov.start do
-    add_filter do |source_file|
-      source_file.filename.include?('spec') && !source_file.filename.include?('fixture')
-    end
-    add_filter %r{/.bundle/}
-  end
 end
 
 setup_formatter
 
+SimpleCov.start do
+  add_filter do |source_file|
+    source_file.filename.include?('spec') && !source_file.filename.include?('fixture')
+  end
+  add_filter %r{/.bundle/}
+end
+
+# Leave this require after SimpleCov.start
 require 'coveralls'
 
 VCR.configure do |c|
