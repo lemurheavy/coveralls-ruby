@@ -232,12 +232,14 @@ describe Coveralls::Configuration do
     it 'sets the expected parameters' do
       config = {}
       described_class.define_service_params_for_gitlab(config)
-      expect(config[:service_name]).to eq('gitlab-ci')
-      expect(config[:service_number]).to eq(service_number)
-      expect(config[:service_job_number]).to eq(service_job_number)
-      expect(config[:service_job_id]).to eq(service_job_id)
-      expect(config[:service_branch]).to eq(service_branch)
-      expect(config[:commit_sha]).to eq(commit_sha)
+      expect(config).to include(
+        service_name:       'gitlab-ci',
+        service_number:     service_number,
+        service_job_number: service_job_number,
+        service_job_id:     service_job_id,
+        service_branch:     service_branch,
+        commit_sha:         commit_sha
+      )
     end
   end
 
@@ -251,8 +253,10 @@ describe Coveralls::Configuration do
     it 'sets the expected parameters' do
       config = {}
       described_class.define_service_params_for_semaphore(config)
-      expect(config[:service_name]).to eq('semaphore')
-      expect(config[:service_number]).to eq(semaphore_build_num)
+      expect(config).to include(
+        service_name:   'semaphore',
+        service_number: semaphore_build_num
+      )
     end
   end
 
@@ -267,11 +271,13 @@ describe Coveralls::Configuration do
 
     it 'sets the expected parameters' do
       config = {}
-      described_class.define_service_params_for_jenkins(config)
-      described_class.define_standard_service_params_for_generic_ci(config)
-      expect(config[:service_name]).to eq('jenkins')
-      expect(config[:service_number]).to eq(build_num)
-      expect(config[:service_pull_request]).to eq(service_pull_request)
+      described_class.define_service_params_for_jenkins config
+      described_class.define_standard_service_params_for_generic_ci config
+      expect(config).to include(
+        service_name:         'jenkins',
+        service_number:       build_num,
+        service_pull_request: service_pull_request
+      )
     end
   end
 
@@ -279,9 +285,11 @@ describe Coveralls::Configuration do
     it 'sets the expected parameters' do
       config = {}
       described_class.define_service_params_for_coveralls_local(config)
-      expect(config[:service_name]).to eq('coveralls-ruby')
-      expect(config[:service_job_id]).to be_nil
-      expect(config[:service_event_type]).to eq('manual')
+      expect(config).to include(
+        service_name:       'coveralls-ruby',
+        service_job_id:     nil,
+        service_event_type: 'manual'
+      )
     end
   end
 
@@ -303,11 +311,13 @@ describe Coveralls::Configuration do
     it 'sets the expected parameters' do
       config = {}
       described_class.define_standard_service_params_for_generic_ci(config)
-      expect(config[:service_name]).to eq(service_name)
-      expect(config[:service_number]).to eq(service_number)
-      expect(config[:service_build_url]).to eq(service_build_url)
-      expect(config[:service_branch]).to eq(service_branch)
-      expect(config[:service_pull_request]).to eq(service_pull_request)
+      expect(config).to include(
+        service_name:         service_name,
+        service_number:       service_number,
+        service_build_url:    service_build_url,
+        service_branch:       service_branch,
+        service_pull_request: service_pull_request
+      )
     end
   end
 
@@ -327,11 +337,13 @@ describe Coveralls::Configuration do
     it 'sets the expected parameters' do
       config = {}
       described_class.define_service_params_for_appveyor(config)
-      expect(config[:service_name]).to eq('appveyor')
-      expect(config[:service_number]).to eq(service_number)
-      expect(config[:service_branch]).to eq(service_branch)
-      expect(config[:commit_sha]).to eq(commit_sha)
-      expect(config[:service_build_url]).to eq(format('https://ci.appveyor.com/project/%<repo_name>s/build/%<service_number>s', repo_name: repo_name, service_number: service_number))
+      expect(config).to include(
+        service_name:      'appveyor',
+        service_number:    service_number,
+        service_branch:    service_branch,
+        commit_sha:        commit_sha,
+        service_build_url: format('https://ci.appveyor.com/project/%<repo_name>s/build/%<service_number>s', repo_name: repo_name, service_number: service_number)
+      )
     end
   end
 
@@ -351,12 +363,14 @@ describe Coveralls::Configuration do
     it 'sets the expected parameters' do
       config = {}
       described_class.define_service_params_for_tddium(config)
-      expect(config[:service_name]).to eq('tddium')
-      expect(config[:service_number]).to eq(service_number)
-      expect(config[:service_job_number]).to eq(service_job_number)
-      expect(config[:service_pull_request]).to eq(service_pull_request)
-      expect(config[:service_branch]).to eq(service_branch)
-      expect(config[:service_build_url]).to eq(format('https://ci.solanolabs.com/reports/%<service_number>s', service_number: service_number))
+      expect(config).to include(
+        service_name:         'tddium',
+        service_number:       service_number,
+        service_job_number:   service_job_number,
+        service_pull_request: service_pull_request,
+        service_branch:       service_branch,
+        service_build_url:    format('https://ci.solanolabs.com/reports/%<service_number>s', service_number: service_number)
+      )
     end
   end
 
@@ -381,13 +395,15 @@ describe Coveralls::Configuration do
 
     it 'uses ENV vars' do
       config = described_class.git
-      expect(config[:head][:id]).to eq(git_id)
-      expect(config[:head][:author_name]).to eq(author_name)
-      expect(config[:head][:author_email]).to eq(author_email)
-      expect(config[:head][:committer_name]).to eq(committer_name)
-      expect(config[:head][:committer_email]).to eq(committer_email)
-      expect(config[:head][:message]).to eq(message)
       expect(config[:branch]).to eq(branch)
+      expect(config[:head]).to include(
+        id:              git_id,
+        author_name:     author_name,
+        author_email:    author_email,
+        committer_name:  committer_name,
+        committer_email: committer_email,
+        message:         message
+      )
     end
   end
 end

@@ -38,7 +38,7 @@ Metrics/ModuleLength:
     - 'spec/**/*'
 
 RSpec/ExampleLength:
-  Max: 8
+  Max: 10
 
 RSpec/MultipleExpectations:
   Enabled: false
