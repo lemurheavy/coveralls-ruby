@@ -1,6 +1,6 @@
 # Changelog
 
-## main / unreleased
+## 0.24.0 / 2022-03-11
 
 * [ENHANCEMENT] Test against Ruby 3.1
 * [BUGFIX] Fix Circle CI configuration [#30](https://github.com/tagliala/coveralls-ruby-reborn/issues/30)
