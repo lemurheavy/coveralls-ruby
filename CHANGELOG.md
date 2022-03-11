@@ -4,6 +4,7 @@
 
 * [ENHANCEMENT] Test against Ruby 3.1
 * [BUGFIX] Fix Circle CI configuration [#30](https://github.com/tagliala/coveralls-ruby-reborn/issues/30)
+* [BUGFIX] Fix Semaphore CI configuration [#34](https://github.com/tagliala/coveralls-ruby-reborn/pull/34)
 
 ## 0.23.1 / 2021-11-15
 
