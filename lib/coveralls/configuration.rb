@@ -68,10 +68,11 @@ module Coveralls
 
       def define_service_params_for_circleci(config)
         config[:service_name]         = 'circleci'
-        config[:service_number]       = ENV['CIRCLE_BUILD_NUM']
-        config[:service_pull_request] = (ENV['CI_PULL_REQUEST'] || '')[/(\d+)$/, 1]
-        config[:parallel]             = ENV['CIRCLE_NODE_TOTAL'].to_i > 1
-        config[:service_job_number]   = ENV['CIRCLE_NODE_INDEX']
+        config[:service_number]       = ENV['CIRCLE_WORKFLOW_ID']
+        config[:service_pull_request] = ENV['CI_PULL_REQUEST'].split('/pull/')[1] unless ENV['CI_PULL_REQUEST'].nil?
+        config[:service_job_number]   = ENV['CIRCLE_BUILD_NUM']
+        config[:git_commit]           = ENV['CIRCLE_SHA1']
+        config[:git_branch]           = ENV['CIRCLE_BRANCH']
       end
 
       def define_service_params_for_semaphore(config)
