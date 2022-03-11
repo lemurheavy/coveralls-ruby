@@ -1,5 +1,10 @@
 # Changelog
 
+## main / unreleased
+
+* [ENHANCEMENT] Test against Ruby 3.1
+* [BUGFIX] Fix Circle CI configuration [#30](https://github.com/tagliala/coveralls-ruby-reborn/issues/30)
+
 ## 0.23.1 / 2021-11-15
 
 * [ENHANCEMENT] Require MFA to publish gems
@@ -7,7 +12,7 @@
 
 ## 0.23.0 / 2021-09-12
 
-* [FEATURE] Send branches coverage [#27](https://github.com/tagliala/coveralls-ruby-reborn/pull/27/files)
+* [FEATURE] Send branches coverage [#27](https://github.com/tagliala/coveralls-ruby-reborn/pull/27)
 
 ## 0.22.0 / 2021-04-30
 
