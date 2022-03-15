@@ -16,5 +16,5 @@ gem 'rubocop-performance', '~> 1.13'
 gem 'rubocop-rake', '~> 0.6.0'
 gem 'rubocop-rspec', '~> 2.9'
 gem 'truthy', '~> 1.0'
-gem 'vcr', '~> 6.0', github: 'vcr/vcr', ref: '9bb8d2c6f81a6720082a6db86ee11f4b82685d63' # TODO: revert to stable when Ruby 3.1 will be supported
+gem 'vcr', '~> 6.0'
 gem 'webmock', '~> 3.14'
