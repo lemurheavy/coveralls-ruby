@@ -18,7 +18,7 @@ jobs:
         include:
           - ruby-version: 'head'
             experimental: true
-          - ruby-version: 'jruby-9.2'
+          - ruby-version: 'jruby-9.3'
             experimental: true
 
     continue-on-error: ${{ matrix.experimental }}
