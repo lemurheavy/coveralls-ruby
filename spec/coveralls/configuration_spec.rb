@@ -259,11 +259,11 @@ describe Coveralls::Configuration do
 
   describe '.define_service_params_for_semaphore' do
     let(:semaphore_workflow_id) { 1234 }
-    let(:semaphore_git_branch) { 'a-branch' }
+    let(:semaphore_git_working_branch) { 'pr-branch' }
 
     before do
       allow(ENV).to receive(:[]).with('SEMAPHORE_WORKFLOW_ID').and_return(semaphore_workflow_id)
-      allow(ENV).to receive(:[]).with('SEMAPHORE_GIT_BRANCH').and_return(semaphore_git_branch)
+      allow(ENV).to receive(:[]).with('SEMAPHORE_GIT_WORKING_BRANCH').and_return(semaphore_git_working_branch)
     end
 
     it 'sets the expected parameters' do
@@ -272,7 +272,7 @@ describe Coveralls::Configuration do
       expect(config).to include(
         service_name:   'semaphore',
         service_number: semaphore_workflow_id,
-        service_branch: semaphore_git_branch
+        service_branch: semaphore_git_working_branch
       )
     end
   end
