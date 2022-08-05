@@ -5,6 +5,7 @@ require:
 
 AllCops:
   NewCops: enable
+  TargetRubyVersion: 2.5
   Exclude:
     - 'spec/coveralls/fixtures/**/*'
     - 'vendor/bundle/**/*'
@@ -50,6 +51,9 @@ RSpec/NestedGroups:
   Max: 4
 
 Style/Documentation:
+  Enabled: false
+
+Style/FetchEnvVar:
   Enabled: false
 
 Style/IfUnlessModifier:

@@ -6,7 +6,7 @@ source 'https://rubygems.org'
 gemspec
 
 platforms :jruby do
-  gem 'jruby-openssl', '~> 0.12.2'
+  gem 'jruby-openssl', '~> 0.14.0'
 end
 
 gem 'rake', '~> 13.0'
