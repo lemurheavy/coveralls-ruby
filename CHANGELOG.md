@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.25.0 / 2022-08-05
+
+* [ENHANCEMENT] Bump `jruby-openssl` requirement to `0.14.0` [#39](https://github.com/tagliala/coveralls-ruby-reborn/pull/39)
+* [ENHANCEMENT] Improve Semaphore CI support [#37](https://github.com/tagliala/coveralls-ruby-reborn/pull/37) [#38](https://github.com/tagliala/coveralls-ruby-reborn/pull/38)
+* [ENHANCEMENT] Test against JRuby 9.3 [#36](https://github.com/tagliala/coveralls-ruby-reborn/pull/36)
+
 ## 0.24.0 / 2022-03-11
 
 * [ENHANCEMENT] Test against Ruby 3.1

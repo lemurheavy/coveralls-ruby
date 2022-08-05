@@ -7,7 +7,7 @@ An up-to-date fork of [lemurheavy/coveralls-ruby](https://github.com/lemurheavy/
 Add to your `Gemfile`:
 
 ```rb
-gem 'coveralls_reborn', '~> 0.24.0', require: false
+gem 'coveralls_reborn', '~> 0.25.0', require: false
 ```
 
 ### GitHub Actions
