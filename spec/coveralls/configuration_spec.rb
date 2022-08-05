@@ -259,20 +259,29 @@ describe Coveralls::Configuration do
 
   describe '.define_service_params_for_semaphore' do
     let(:semaphore_workflow_id) { 1234 }
+    let(:semaphore_git_pr_number) { 10 }
     let(:semaphore_git_working_branch) { 'pr-branch' }
+    let(:semaphore_job_id) { 5678 }
+    let(:semaphore_organization_url) { 'an-organization' }
 
     before do
       allow(ENV).to receive(:[]).with('SEMAPHORE_WORKFLOW_ID').and_return(semaphore_workflow_id)
+      allow(ENV).to receive(:[]).with('SEMAPHORE_GIT_PR_NUMBER').and_return(semaphore_git_pr_number)
       allow(ENV).to receive(:[]).with('SEMAPHORE_GIT_WORKING_BRANCH').and_return(semaphore_git_working_branch)
+      allow(ENV).to receive(:[]).with('SEMAPHORE_JOB_ID').and_return(semaphore_job_id)
+      allow(ENV).to receive(:[]).with('SEMAPHORE_ORGANIZATION_URL').and_return(semaphore_organization_url)
     end
 
     it 'sets the expected parameters' do
       config = {}
       described_class.define_service_params_for_semaphore(config)
       expect(config).to include(
-        service_name:   'semaphore',
-        service_number: semaphore_workflow_id,
-        service_branch: semaphore_git_working_branch
+        service_name:         'semaphore',
+        service_number:       semaphore_workflow_id,
+        service_job_id:       semaphore_job_id,
+        service_build_url:    "#{semaphore_organization_url}/jobs/#{semaphore_job_id}",
+        service_branch:       semaphore_git_working_branch,
+        service_pull_request: semaphore_git_pr_number
       )
     end
   end

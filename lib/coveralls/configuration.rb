@@ -78,7 +78,10 @@ module Coveralls
       def define_service_params_for_semaphore(config)
         config[:service_name]         = 'semaphore'
         config[:service_number]       = ENV['SEMAPHORE_WORKFLOW_ID']
+        config[:service_job_id]       = ENV['SEMAPHORE_JOB_ID']
+        config[:service_build_url]    = "#{ENV['SEMAPHORE_ORGANIZATION_URL']}/jobs/#{ENV['SEMAPHORE_JOB_ID']}"
         config[:service_branch]       = ENV['SEMAPHORE_GIT_WORKING_BRANCH']
+        config[:service_pull_request] = ENV['SEMAPHORE_GIT_PR_NUMBER']
       end
 
       def define_service_params_for_jenkins(config)
