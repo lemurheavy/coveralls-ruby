@@ -86,24 +86,13 @@ module Coveralls
     end
 
     def self.build_request(path, hash)
-      request  = Net::HTTP::Post.new(path)
-      boundary = rand(1_000_000).to_s
-
-      request.body         = build_request_body(hash, boundary)
-      request.content_type = "multipart/form-data, boundary=#{boundary}"
-
-      request
-    end
-
-    def self.build_request_body(hash, boundary)
       hash = apified_hash(hash)
       file = hash_to_file(hash)
 
-      "--#{boundary}\r\n" \
-      "Content-Disposition: form-data; name=\"json_file\"; filename=\"#{File.basename(file.path)}\"\r\n" \
-      "Content-Type: text/plain\r\n\r\n" +
-      File.read(file.path) +
-      "\r\n--#{boundary}--\r\n"
+      request  = Net::HTTP::Post.new(path)
+      form_data = [['json_file', File.open(file.path)]]
+      request.set_form form_data, 'multipart/form-data'
+      request 
     end
 
     def self.hash_to_file(hash)
